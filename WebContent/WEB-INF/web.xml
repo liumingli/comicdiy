@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">	
+	<filter>
+		<filter-name>character</filter-name>
+		<filter-class> com.comic.utils.CharacterEncodingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>character</filter-name>
+		<servlet-name>WebEntrance</servlet-name>
+	</filter-mapping> 
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	<!-- File upload path configuration -->
+	<context-param>
+		<param-name>filepath</param-name>
+		<param-value>
+			/WEB-INF/uploadFile
+		</param-value>
+	</context-param>
+	<context-param>
+		<param-name>temppath</param-name>
+		<param-value>
+			/WEB-INF/temp
+		</param-value>
+	</context-param>		
+	<!-- Spring configuration file declaration -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/app-config.xml
+		</param-value>
+	</context-param>	
+	<!-- Server status listener to init upload path -->
+	<listener>
+		<listener-class>
+			com.comic.facade.ServerListener
+		</listener-class>
+	</listener>
+	<!-- Spring Bean configuration loader-->
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	
+	<!-- unified external visit interface -->
+    <servlet>
+    	<description>统一外部接口</description>
+    	<display-name>WebEntrance</display-name>
+    	<servlet-name>WebEntrance</servlet-name>
+    	<servlet-class>com.comic.facade.WebEntrance</servlet-class>
+    	<init-param>
+	    	<param-name>targetBean</param-name>
+	    	<!-- 这是个bean实例id，在app-config.xml中定义 -->
+	    	<param-value>appStarter</param-value>
+	    </init-param>
+    </servlet>
+    <servlet>
+    	<description>此类用于测试文件上传并保存</description>
+    	<display-name>ImageUploader</display-name>
+    	<servlet-name>ImageUploader</servlet-name>
+    	<servlet-class>com.pintu.tools.ImageUploader</servlet-class>
+    	<init-param> 
+            <param-name>filepath</param-name> 
+            <param-value>/WEB-INF/uploadFile</param-value> 
+        </init-param> 
+        <init-param> 
+            <param-name>tempzippath</param-name> 
+            <param-value>/WEB-INF/temp</param-value> 
+        </init-param>    	
+    </servlet>  
+    <!-- servlet mapping declaration -->	    
+    <servlet-mapping>
+    	<servlet-name>WebEntrance</servlet-name>
+    	<url-pattern>/comicapi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+    	<servlet-name>ImageUploader</servlet-name>
+    	<url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+    
+<!-- <servlet>   -->
+<!--     <servlet-name>downloadServer</servlet-name>   -->
+<!--     <servlet-class>com.pintu.ads.facade.AdDownloadServlet</servlet-class>   -->
+<!--     <init-param>  -->
+<!--             <param-name>miniadpath</param-name>  -->
+<!--             <param-value>/WEB-INF/miniadplugin</param-value>  -->
+<!--     </init-param>  -->
+<!--     <init-param>  -->
+<!--         <param-name>tempzippath</param-name>  -->
+<!--         <param-value>/WEB-INF/temp</param-value>  -->
+<!--     </init-param>  -->
+<!-- </servlet>   -->
+<!-- <servlet-mapping>   -->
+<!--     <servlet-name>downloadServer</servlet-name>   -->
+<!--     <url-pattern>/download_center.do</url-pattern>   -->
+<!-- </servlet-mapping>   -->
+    
+</web-app>
