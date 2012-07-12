@@ -161,7 +161,6 @@ public class DBAccessImplement  implements DBAccessInterface {
 				Map<String, Object> map = (Map<String, Object>) rows.get(i);
 				asset.setId(map.get("a_id").toString());
 				asset.setCategory(map.get("c_name").toString());
-//				asset.setLabel(map.get("a_label").toString());
 				asset.setHoliday(map.get("a_holiday").toString());
 				asset.setName(map.get("a_name").toString());
 				asset.setType(map.get("a_type").toString());

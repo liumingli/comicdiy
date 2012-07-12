@@ -6,7 +6,18 @@ body{
   text-align: center;
 }
 
-/* *{border:0px; margin:0px; padding:0px; text-align:center;} */
+ #legend{
+ 	 text-align: center;
+	 display: block;
+	 width: 100%;
+	 padding: 0;
+	 margin-bottom: 27px;
+	 font-size: 17.5px;
+	 line-height: 36px;
+	 color: #333333;
+	 border: 0;
+	 border-bottom: 1px solid #eee;
+ }
 
 table{
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
@@ -34,14 +45,6 @@ tbody tr:hover td{
 	background: #d0dafd;
 }
 
-input,textarea {
-	margin: 0;
-	padding: 0;
-	font-size: 12px;
-	font-family: Arial,Helvetica,sans-serif,"宋体";
-	outline: none;
-	color: #333;
-}
 a {
 	text-decoration: none;
 }
@@ -58,11 +61,42 @@ a: hover {
 	color: #390;
 }
 
+img{
+	vertical-align:middle;
+}
+
+ul {
+	list-style: none;
+}
+
+li {
+	display: list-item;
+	padding:6px;
+}
+
+span{
+	vertical-align:middle;
+}
+
 #content {
+	width:380px;
+	border: 1px solid #69c;
+	padding: 5px;
+	margin: 20px auto;
 	text-align: left;
 }
 
-img{
-	vertical-align:bottom;
+
+.help-block {
+  margin-bottom: 0;
+  color: #999999;
 }
+
+input[type="file"] {
+	-webkit-box-align: baseline;
+	color: inherit;
+	text-align: start;
+	width:150px;
+}
+
 

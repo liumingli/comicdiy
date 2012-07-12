@@ -9,6 +9,7 @@
 		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 		<meta http-equiv="description" content="This is my page">
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/style.css" />
 		</head>
 		<script type="text/javascript" language="javascript">
 	function CheckFileType() {		 
@@ -60,22 +61,23 @@
 	}
 	
 </script>
-		<body>
-		
-	<form name="uploadForm" id="uploadForm" 
-	onsubmit="return checkBlank();" onreset="clearMsg();"
-	action="comicapi" method="post" enctype="multipart/form-data">
-	<div id="msg"></div>
-		<input type="hidden" name ="method"  value="uploadLocalImage"/><br/>
-		用户 <input type="text" name="userId" value="admin"><br/>
-<!-- 		名称 <input type="text" name="name" ><br/> -->
-<!-- 		xm内容 <input type="text" name="content"><br/> -->
-	
-	上传文件：
-	<input type="file" name="file1" id="file1" size="30" onchange="CheckFileType();"/><br />
-
-	<input type="submit" name="submit" value="上传">
-	<input type="reset" name="reset" value="重置"><br />
-
-</form>
+<body>
+	<div id="legend">素材上传</div>
+	<div id="content" >
+		<form name="uploadForm" id="uploadForm" 
+		onsubmit="return checkBlank();" onreset="clearMsg();"
+		action="comicapi" method="post" enctype="multipart/form-data">
+		<ul>
+			<li><input type="hidden" name ="method"  value="uploadLocalImage"/></li>
+			
+			<li>用户 <input type="text" name="userId" value="admin"></li>
+	<!-- 		名称 <input type="text" name="name" ><br/> -->
+	<!-- 		xm内容 <input type="text" name="content"><br/> -->
+			<li>上传文件<input type="file" name="file1" id="file1" size="30" onchange="CheckFileType();"/></li>
+			<li><div id="msg"></div></li>
+			<li><input type="submit" name="submit" value="上传">
+			<input type="reset" name="reset" value="重置"><br /></li>
+		</ul>
+		</form>
+	</div>
 </html>

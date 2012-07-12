@@ -29,7 +29,7 @@ body{
 	 float: left;
 	 height: 400px;
 	 width: 300px;
-	 border: 1px solid #999;
+	 border: 1px solid #69c;
 	 padding:12px;
 }
 
@@ -37,7 +37,7 @@ body{
 	 float: right;
 	 height: 400px;
 	 width: 300px;
-	 border: 1px solid #999;
+	 border: 1px solid #69c;
 	 padding:12px;
 }
 
@@ -48,5 +48,4 @@ img{
 span{
 	cursor:pointer;
 }
-
 

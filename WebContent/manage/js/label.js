@@ -10,7 +10,7 @@ function initParentLabel(){
 		$('#parentLabel').append('<a href="javascript:addLabel'+parent+'"><img src="imgs/add.png"></a>');
 		if(result.length > 0){
 			for( key in result ){
-				var para = "('"+result[key].id+"','"+result[key].parent+"')";
+				var para = "('"+result[key].id+"')";
 				$('#parentLabel').append('<div><span onclick="initChildLabel'+para+'">'+result[key].name+'</span><a href="javascript:deleteLabel'+para+'"><img src="imgs/delete.png"></a></div>');
 			}
 	    }

@@ -177,7 +177,7 @@ function initLabel(){
 			for(key in result){
 				var parent ="('"+result[key].id+"','"+key+"')";
 				if(key == 0){
-					$('#parentLable').append('<a href = "javascript:initChildLable'+parent+'"  id="'+key+'class="current" >'+result[key].name+'</a>');
+					$('#parentLable').append('<a href = "javascript:initChildLable'+parent+'"  id="'+key+'" class="current" >'+result[key].name+'</a>');
 					initChildLable(result[key].id,key);
 				}else{
 					$('#parentLable').append('<a href = "javascript:initChildLable'+parent+'"  id="'+key+'">'+result[key].name+'</a>');
@@ -202,12 +202,7 @@ function initChildLable(parent,num){
 	function (result) {
 		if(result.length > 0){
 			for(key in result){
-				if(key == 0){
-					$('#childLabel').append('<a href = "javascript:;"  id="'+num+key+'" value="'+result[key].id+'class="current">'+result[key].name+'</a>');
-				}else{
-					$('#childLabel').append('<a href = "javascript:;"  id="'+num+key+'" value="'+result[key].id+'">'+result[key].name+'</a>');
-				}
-				
+				$('#childLabel').append('<a href = "javascript:;"  id="'+num+key+'" value="'+result[key].id+'">'+result[key].name+'</a>');
 				//加载子标签完成后，为其添加click事件
 				chooseLable(num,key);
 			}
