@@ -15,7 +15,7 @@ function uploadAssets(){
 //获取所有可用素材
 function getAllAssets(){
 	$("#assetsList").html("");
-	$.post('/comic/comicapi', {
+	$.post('/comicdiy/comicapi', {
 		'method'  : 'getAllAssets'
 	}, 
 	//回调函数
@@ -80,12 +80,12 @@ function generateImgTd(thumbnail,path,key){
 	var a = document.createElement("a");
 	para.appendChild(a);
 	var img = document.createElement("img");
-	var local = '/comic/comicapi?method=getThumbnail&relativePath=';
+	var local = '/comicdiy/comicapi?method=getThumbnail&relativePath=';
 	img.setAttribute("src",local+thumbnail);
 	img.setAttribute("height",36);
 	a.appendChild(img);
-	//var swf =  '/comic/comicapi?method=getAssetFile&relativePath=';
-	var swf =  '/comic/comicapi?method=getAssetFile&relativePath=';
+	//var swf =  '/comicdiy/comicapi?method=getAssetFile&relativePath=';
+	var swf =  '/comicdiy/comicapi?method=getAssetFile&relativePath=';
 	a.setAttribute("href",swf+path);
 	tr.appendChild(para);
 }
@@ -112,7 +112,7 @@ function generateOperate(id,key){
 function getAssetById(key){
 	var assetId=$("#assetId"+key).attr("value");
 	//根据id查出广告详情并填充newAd用于修改
-	$.post('/comic/comicapi', {
+	$.post('/comicdiy/comicapi', {
 		'method'  : 'getAssetById',
 		'assetId' : assetId
 	}, 
@@ -146,7 +146,7 @@ function confirmDel(){
 function deleteAssetById(key){
 	if(confirmDel()){
 		var assetId=$("#assetId"+key).attr("value");
-		$.post('/comic/comicapi', {
+		$.post('/comicdiy/comicapi', {
 			'method'  : 'deleteAssetById',
 			'assetId' : assetId
 		}, 
@@ -168,7 +168,7 @@ function updateAsset(){
 	var price=$("#price").attr("value");
 	var holiday=$("#holiday").attr("value");
 	//根据id查出广告详情并填充newAd用于修改
-	$.post('/comic/comicapi', {
+	$.post('/comicdiy/comicapi', {
 		'method'  : 'updateAssetById',
 		'assetId' : assetId,
 		'name' : name,
@@ -197,7 +197,7 @@ function searchAssets(){
 	$("#assetsList").html("");
 	var keys = $('#keys').val();
 	if(keys != "" && keys != null){
-		$.post('/comic/comicapi', {
+		$.post('/comicdiy/comicapi', {
 			'method'  : 'searchByLabel',
 			'keys' : keys
 		}, 

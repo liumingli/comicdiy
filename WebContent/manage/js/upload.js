@@ -6,7 +6,7 @@ window.onload = function(){
 //获取所有分类
 function getAllCategory(){
 	console.log("get all category");
-	$.post('/comic/comicapi', {
+	$.post('/comicdiy/comicapi', {
 		'method'  : 'getAllCategory'
 	}, 
 	//回调函数
@@ -28,7 +28,7 @@ function selfDefination(){
 function createCategory(){
 	var val = $('#selfCategory').val();
 	if(val != null && val != ""){
-		$.post('/comic/comicapi', {
+		$.post('/comicdiy/comicapi', {
 			'method'  : 'createCategory',
 			'name': val
 		}, 
@@ -92,7 +92,7 @@ function createAsset(){
 		var holiday =  $("#holiday").val();
 		var assetPath =  $("#assetPath").val();
 		var thumbnailPath =  $("#thumbnailPath").val();
-		$.post('/comic/comicapi', {
+		$.post('/comicdiy/comicapi', {
 			'method'  : 'createAsset',
 			'name' : name,
 			'type' : type,
@@ -141,7 +141,7 @@ function operateLabel(){
 
 function initLabel(){
 	$('#parentLable').children().remove();
-	$.post('/comic/comicapi', {
+	$.post('/comicdiy/comicapi', {
 		'method'  : 'getAllParentLabel'
 	}, 
 	function (result) {
@@ -158,6 +158,8 @@ function initLabel(){
 			alert("获取标签有误");
 		}
 	},"json");
+	
+	
 }
 
 function initChildLable(parent,num){
@@ -165,7 +167,7 @@ function initChildLable(parent,num){
 	$('#parentLable').children().attr("class","");
 	$('#'+num).attr("class","current");
 	$('#childLabel').children().remove();
-	$.post('/comic/comicapi', {
+	$.post('/comicdiy/comicapi', {
 		'method'  : 'getLabelByParent',
 		'parentId' : parent
 	}, 
@@ -173,10 +175,11 @@ function initChildLable(parent,num){
 		if(result.length > 0){
 			for(key in result){
 				if(key == 0){
-					$('#childLabel').append('<a href = "javascript:;"  id="'+num+key+'" value="'+result[key].id+'">'+result[key].name+'</a>');
+					$('#childLabel').append('<a href = "javascript:;"  id="'+num+key+'" value="'+result[key].id+'class="current">'+result[key].name+'</a>');
 				}else{
 					$('#childLabel').append('<a href = "javascript:;"  id="'+num+key+'" value="'+result[key].id+'">'+result[key].name+'</a>');
 				}
+				
 				//加载子标签完成后，为其添加click事件
 				chooseLable(num,key);
 			}

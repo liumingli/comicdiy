@@ -1,7 +1,7 @@
 function initParentLabel(){
 	$('#parentLabel').children().remove();
 	//获取所有父级Label
-	$.post('/comic/comicapi', {
+	$.post('/comicdiy/comicapi', {
 		'method'  : 'getAllParentLabel'
 	}, 
 	//回调函数
@@ -20,7 +20,7 @@ function initParentLabel(){
 function initChildLabel(parentId){
 	$('#childLabel').children().remove();
 	//根据父标签id获取所有子标签
-	$.post('/comic/comicapi', {
+	$.post('/comicdiy/comicapi', {
 		'method'  : 'getLabelByParent',
 		'parentId' : parentId
 	}, 
@@ -51,7 +51,7 @@ function createLabel(){
 	disablePopup();
 	
 	if(name != null && name !=""){
-		$.post('/comic/comicapi', {
+		$.post('/comicdiy/comicapi', {
 			'method'  : 'createLabel',
 			'name' : name ,
 			'parent' : parent
@@ -75,7 +75,7 @@ function createLabel(){
 
 function deleteLabel(labelId,parent){
 	if(confirmDel()){
-		$.post('/comic/comicapi', {
+		$.post('/comicdiy/comicapi', {
 			'method'  : 'deleteLabel',
 			'labelId' : labelId
 		}, 
@@ -110,7 +110,7 @@ function operateParent(parentId){
 	$('#childLabel').children().remove();
 	
 	//删除该父标签的下挂子标签
-	$.post('/comic/comicapi', {
+	$.post('/comicdiy/comicapi', {
 		'method'  : 'deleteLabelByParent',
 		'parentId' : parentId
 	}, 

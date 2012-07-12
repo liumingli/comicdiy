@@ -15,13 +15,14 @@
 	background: #F3F3F3;
 	z-index: 999;
 	line-height: 16px;
+	padding:2px;
 }
 
 .tips_tab .tipTab_sorts a.current {
 	height: 29px;
 	background: white;
 /* 	border: solid 1px #E8E8E8; */
-	border-top: solid 1px #E8E8E8;
+	border-top: solid 1px #999;
 	border-left: solid 1px #E8E8E8;
 	border-right: solid 1px #E8E8E8;
 }
