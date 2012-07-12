@@ -103,7 +103,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 
 	@Override
-	public int createLabRell(final List<Map<String, String>> list) {
+	public int createLabRel(final List<Map<String, String>> list) {
 		String sql = "insert into t_astlab_rel(alr_id,alr_label,alr_assets,alr_memo) values(?, ?, ?, ?)";
 		int[] res = jdbcTemplate.batchUpdate(sql,
 				new BatchPreparedStatementSetter() {

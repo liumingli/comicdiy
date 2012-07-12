@@ -109,9 +109,28 @@ function createAsset(){
 			}else{
 				$('#prompt').show().html('<font color="red" size="2">上传成功</font>');
 				console.log("new asset complete");
+				//清空表单
+				emptyForm();
 			}
 		});
 	}
+}
+
+function emptyForm(){
+	 $("#name").val("");
+	 $("#type").val("element");
+	 $("#price").val("0");
+	 $("#category").val("");
+	 $("#labelSpan").children().remove();
+	 $("#label").val("");
+	 $("#holiday").val("");
+	 $("#assetPath").val("");
+	 $("#thumbnailPath").val("");
+	 $('#assetUpload').removeAttr('disabled');
+	 $('#thumbnailUpload').removeAttr('disabled');
+	 $('#assetInfo').hide();
+	 $('#thumbnailInfo').hide();
+	 closePopup();
 }
 
 function themeClick(){
@@ -128,6 +147,15 @@ function checkNum(){
 	if(isNaN(val)){
 		 $('#priceInfo').show().html('<font color="red" size="2">请输入数字</font>');
 	}
+}
+
+function cancelInfo(){
+	$("#price").val("");
+	$('#priceInfo').hide();
+}
+
+function cancelPrompt(){
+	$('#prompt').hide();
 }
 
 function operateLabel(){
@@ -149,7 +177,8 @@ function initLabel(){
 			for(key in result){
 				var parent ="('"+result[key].id+"','"+key+"')";
 				if(key == 0){
-					$('#parentLable').append('<a href = "javascript:initChildLable'+parent+'"  id="'+key+'"class="current" >'+result[key].name+'</a>');
+					$('#parentLable').append('<a href = "javascript:initChildLable'+parent+'"  id="'+key+'class="current" >'+result[key].name+'</a>');
+					initChildLable(result[key].id,key);
 				}else{
 					$('#parentLable').append('<a href = "javascript:initChildLable'+parent+'"  id="'+key+'">'+result[key].name+'</a>');
 				}
@@ -163,7 +192,6 @@ function initLabel(){
 }
 
 function initChildLable(parent,num){
-	
 	$('#parentLable').children().attr("class","");
 	$('#'+num).attr("class","current");
 	$('#childLabel').children().remove();

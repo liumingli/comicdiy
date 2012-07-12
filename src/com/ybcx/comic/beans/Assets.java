@@ -1,7 +1,5 @@
 package com.ybcx.comic.beans;
 
-import org.apache.commons.fileupload.FileItem;
-
 public class Assets {
 
 	private String id;
@@ -16,15 +14,6 @@ public class Assets {
 	private String uploadTime;
 	private int heat;
 	private int enable;
-	
-	private FileItem sourceData;
-	
-	public FileItem getSourceData() {
-		return sourceData;
-	}
-	public void setSourceData(FileItem sourceData) {
-		this.sourceData = sourceData;
-	}
 	
 	public String getId() {
 		return id;

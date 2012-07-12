@@ -165,7 +165,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 				 labelAsset.put(labelId, assetId);
 				 list.add(labelAsset);
 			 }
-			 rows = dbVisitor.createLabRell(list);
+			 rows = dbVisitor.createLabRel(list);
 		}
 		return rows;
 	}

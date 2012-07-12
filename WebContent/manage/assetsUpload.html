@@ -18,16 +18,16 @@
 
 </head>
 <body>
-<div id="content">
+<div id="content" >
 	<label>名称</label>
-	<input type="text" id="name">
+	<input type="text" id="name" onfocus="cancelPrompt();">
 	<br>
 	<label>类型</label>
 	<input type="radio" name="radiobutton" id="type" value="element"  checked onclick="elementClick();">元件
 	<input type="radio" name="radiobutton" id="type" value="theme" onclick="themeClick();"> 主题
 	<br>
 	<label>价格</label>
-	<input type="text" id="price" value="0" onblur="checkNum();">
+	<input type="text" id="price" value="0" onblur="checkNum();" onfocus="cancelInfo();">
 	<span  style="display: none;" id="priceInfo"></span>
 	<br>
 	<label>分类</label>
@@ -90,7 +90,7 @@
 	<!-- <input type="button" id="fileUpload" value="上传"> -->
 	<br>
 	<label>素材缩略图</label>
-	<input type="file" id="thumbnailUpload" data-url="/comicdiy/fileupload">
+	<input type="file" id="thumbnailUpload" data-url="/comicdiy/fileupload" accept="image/jpeg,image/png,image/gif">
 	<input type="hidden" id="thumbnailPath">
 	<span  style="display: none;" id="thumbnailInfo"></span>
 	<!-- <input type="button" id="thubnailUpload" value="上传"> -->

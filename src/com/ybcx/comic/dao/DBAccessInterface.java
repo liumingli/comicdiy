@@ -19,7 +19,7 @@ public interface DBAccessInterface {
 		
 		public int createAstcatRel(String id, String assetId, String category);
 
-		public int createLabRell(List<Map<String, String>> list);
+		public int createLabRel(List<Map<String, String>> list);
 		
 		public int updateCategoryHeat(String category);
 		
