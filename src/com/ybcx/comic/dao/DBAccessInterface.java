@@ -59,4 +59,7 @@ public interface DBAccessInterface {
 
 		public List<Label> getAssetLabelsById(String assetId);
 
+		public int createLocalImage(String id, String userId, String path,
+				String uploadTime);
+
 }

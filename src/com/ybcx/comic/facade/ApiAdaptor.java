@@ -195,14 +195,21 @@ public class ApiAdaptor {
 	
 	public String createLocalImage(List<FileItem> fileItems) {
 		FileItem imgData = null;
+		String userId = "";
 		for (int i = 0; i < fileItems.size(); i++) {
 			FileItem item = fileItems.get(i);
 			if (!item.isFormField()) {
 				//图片数据
 				imgData = item;
 			}
+			
+			if (item.isFormField()) {
+				if (item.getFieldName().equals("userId")) {
+					userId = item.getString();
+				}
+			}
 		}
-		String imgPath = comicService.createLocalImage(imgData);
+		String imgPath = comicService.createLocalImage(userId,imgData);
 		return imgPath;
 	}
 	

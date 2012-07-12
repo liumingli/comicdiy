@@ -449,4 +449,12 @@ public class DBAccessImplement  implements DBAccessInterface {
 		return resList;
 	}
 
+	@Override
+	public int createLocalImage(String id, String userId, String path,
+			String uploadTime) {
+		String sql = "insert into t_images (i_id,i_path,i_uploadTime,i_owner,i_memo) values('"+id+"', '"+path+"', '"+uploadTime+"', '"+userId+"', '')";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
 }

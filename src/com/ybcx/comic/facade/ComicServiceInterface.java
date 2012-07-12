@@ -54,7 +54,7 @@ public interface ComicServiceInterface {
 
 	public List<Cartoon> getAnimationsOf(String userId);
 
-	public String createLocalImage(FileItem imgData);
+	public String createLocalImage(String userId, FileItem imgData);
 
 	public String createAnimation(FileItem shotData, String userId, String name, String content);
 

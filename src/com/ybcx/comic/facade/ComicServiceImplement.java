@@ -478,7 +478,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 
 	@Override
-	public String createLocalImage(FileItem imgData) {
+	public String createLocalImage(String userId, FileItem imgData) {
 		String fileName = imgData.getName();
 
 		String path = imagePath + File.separator + "asset" + File.separator + fileName;
@@ -491,12 +491,27 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			e.printStackTrace();
 		}
 		
+		//插入到数据库
+		boolean flag = this.localImageToDB(userId,path);
+		
 		//上传成功
-		if (new File(path).exists()) {
+		if (new File(path).exists() && flag) {
 			return path;
+		}else{
+			return String.valueOf(flag);
 		}
 	
-		return "false";
+	}
+
+	private boolean localImageToDB(String userId, String path) {
+		boolean flag = true;
+		String id = ComicUtils.generateUID();
+		String uploadTime = ComicUtils.getFormatNowTime();
+		int rows = dbVisitor.createLocalImage(id,userId,path,uploadTime);
+		if(rows < 1){
+			flag = false;
+		}
+		return flag;
 	}
 
 	@Override
