@@ -253,6 +253,11 @@ public class ApiAdaptor {
 		
 	}
 	
+	public String modifyAnim(String animId, String content) {
+		String result = comicService.modifyAnimation(animId,content);
+		return result;
+	}
+	
 	
 
 

@@ -73,6 +73,9 @@ public interface ExtVisitorInterface {
 	
 	//动画保存
 	public static final String SAVEANIM = "saveAnim";
+	
+	//动画修改
+	public static final String MODIFYANIM = "modifyAnim";
     
     //--------接微博相关方法
     

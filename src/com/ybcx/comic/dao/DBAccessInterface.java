@@ -62,4 +62,6 @@ public interface DBAccessInterface {
 		public int createLocalImage(String id, String userId, String path,
 				String uploadTime);
 
+		public int updateAnimation(String animId, String content);
+
 }

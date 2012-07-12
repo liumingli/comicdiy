@@ -58,5 +58,7 @@ public interface ComicServiceInterface {
 
 	public String createAnimation(FileItem shotData, String userId, String name, String content);
 
+	public String modifyAnimation(String animId, String content);
+
 	
 }

@@ -526,9 +526,12 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		int rows = dbVisitor.saveAnimation(cartoon);
 		if(rows < 1){
 			flag = false;
+			return String.valueOf(flag);
+		}else{
+			return cartoon.getId();
 		}
-		return String.valueOf(flag);
 	}
+		
 	
 	private Cartoon generateCartoon(String userId, String name, String content,
 			String thumbnail){
@@ -552,6 +555,16 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			e.printStackTrace();
 		}
 		return filePath;
+	}
+
+	@Override
+	public String modifyAnimation(String animId, String content) {
+		boolean flag = true;
+		int rows = dbVisitor.updateAnimation(animId,content);
+		if(rows < 1){
+			flag = false;
+		}
+		return String.valueOf(flag);
 	}
 
 

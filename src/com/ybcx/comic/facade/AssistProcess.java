@@ -190,7 +190,16 @@ public class AssistProcess {
 			log.debug(result);
 			pw.print(result);
 			pw.close();
-			
+		
+		}else if (action.equals(AppStarter.MODIFYANIM)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String animId = req.getParameter("animId");
+			String content = req.getParameter("content");
+			String result= apiAdaptor.modifyAnim(animId,content);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
 			
 		}else{
 			

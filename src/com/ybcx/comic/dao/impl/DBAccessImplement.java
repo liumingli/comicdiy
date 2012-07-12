@@ -457,4 +457,11 @@ public class DBAccessImplement  implements DBAccessInterface {
 		return rows;
 	}
 
+	@Override
+	public int updateAnimation(String animId, String content) {
+		String sql = "update t_cartoon set c_content ='"+content+"' where c_id='"+animId+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
 }
