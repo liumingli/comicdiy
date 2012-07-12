@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>素材上传</title>
+<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/popup.css" />
+<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/tab.css" />
+<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/style.css" />
+<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/jquery.ui.widget.js"
+	charset="utf-8"></script>
+<script type="text/javascript" src="js/jquery.iframe-transport.js"
+	charset="utf-8"></script>
+<script type="text/javascript" src="js/jquery.fileupload.js"
+	charset="utf-8"></script>
+<script type="text/javascript" src="js/upload.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/popup.js" charset="utf-8"></script>
+
+</head>
+<body>
+<div id="content">
+	<label>名称</label>
+	<input type="text" id="name">
+	<br>
+	<label>类型</label>
+	<input type="radio" name="radiobutton" id="type" value="element"  checked onclick="elementClick();">元件
+	<input type="radio" name="radiobutton" id="type" value="theme" onclick="themeClick();"> 主题
+	<br>
+	<label>价格</label>
+	<input type="text" id="price" value="0" onblur="checkNum();">
+	<span  style="display: none;" id="priceInfo"></span>
+	<br>
+	<label>分类</label>
+	<select id="category">
+	</select>
+	<span id="self" style="display: visible"> <a
+		href="javascript:selfDefination();">+自定义</a> </span>
+	<span id="def" style="display: none"> 
+		<input type="text"	id="selfCategory"> 
+		<input type="button" value="创建" onclick="createCategory();">
+		<a href="javascript:definationCancel();">取消</a> 
+	</span>
+	<br>
+	<label>标签</label>
+	<span id="labelSpan" style="display:block; width:130px; height:20px; border:1px solid #999;" onclick="operateLabel();"></span>
+	<input type="hidden" id="label">
+	
+	 <div id="tag_wrap" style="display: none;" class="tips_tab">  
+		<div class ="tipTab_sorts">
+			<span class="tip_win">
+				<a href="javascript:closePopup();">
+					<img src="imgs/close.gif">
+				</a>
+			</span>
+		<div id="parentLable"></div>
+		
+		<div class="tipTab_content" id="childLabel">
+		</div>
+		</div>
+	</div> 
+
+	<br>
+	<label>关联节假日</label>
+	<select id="holiday">
+		<option value="Neujahr">元旦</option>
+		<option value="Spring">春节</option>
+		<option value="Lantern">元宵节</option>
+		<option value="Valentine">情人节</option>
+		<option value="Women">妇女节</option>
+		<option value="Tomb-sweeping">清明节</option>
+		<option value="Labour">劳动节</option>
+		<option value="Youth">青年节</option>
+		<option value="Mother">母亲节</option>
+		<option value="Father">父亲节</option>
+		<option value="Doanngo">端午节</option>
+		<option value="Double-seventh">七夕节</option>
+		<option value="Teacher">教师节</option>
+		<option value="Mid-autumn">中秋节</option>
+		<option value="National">国庆节</option>
+		<option value="Halloween">万圣节</option>
+		<option value="Christmas-eve">平安夜</option>
+		<option value="Christmas">圣诞节</option>
+		<option value="others">其他</option>
+	</select>
+	<br>
+	<label>素材原文件</label>
+	<input type="file" id="assetUpload" data-url="/comic/fileupload">
+	<input type="hidden" id="assetPath">
+	<span  style="display: none;" id="assetInfo"></span>
+	<!-- <input type="button" id="fileUpload" value="上传"> -->
+	<br>
+	<label>素材缩略图</label>
+	<input type="file" id="thumbnailUpload" data-url="/comic/fileupload">
+	<input type="hidden" id="thumbnailPath">
+	<span  style="display: none;" id="thumbnailInfo"></span>
+	<!-- <input type="button" id="thubnailUpload" value="上传"> -->
+	<br>
+	<input type="button" id="submit" value="提交" onclick="createAsset();">
+	<input type="button" id="cancel" value="取消">
+	<span  style="display: none;" id="prompt"></span>
+</div>
+	
+
+
+<div id="floatBoxBg" style="display: none"></div>
+
+ 
+
+
+<script>
+	$('#assetUpload').fileupload(
+			{
+				add : function(e, data) {
+					var jqXHR = data.submit().success(
+							function(result, textStatus, jqXHR) {
+								console.log(result);
+								$('#assetPath').val(result);
+							    $('#assetInfo').show().html('<img src="imgs/ok.png">');
+							    $('#assetUpload').attr('disabled','disabled');
+							}).error(
+							function(jqXHR, textStatus, errorThrown) {
+								console.log("error");
+								 $('#assetInfo').show().html('<img src="imgs/no.png">');
+							}).complete(
+							function(result, textStatus, jqXHR) {
+								console.log(result);
+							});
+				}
+			});
+
+	
+	$('#thumbnailUpload').fileupload(
+			{
+				add : function(e, data) {
+					var jqXHR = data.submit().success(
+							function(result, textStatus, jqXHR) {
+								console.log(result);
+								$('#thumbnailPath').val(result);
+								$('#thumbnailInfo').show().html('<img src="imgs/ok.png">');
+								$('#thumbnailUpload').attr('disabled','disabled');
+							}).error(
+							function(jqXHR, textStatus, errorThrown) {
+								console.log("error");
+								$('#thumbnailInfo').show().html('<img src="imgs/no.png">');
+							}).complete(
+							function(result, textStatus, jqXHR) {
+								console.log(result);
+							});
+				}
+			});
+</script>
+</body>
+</html>

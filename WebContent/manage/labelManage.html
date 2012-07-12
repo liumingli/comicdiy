@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>标签管理</title>
+<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/popup.css" />
+<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/label.css" />
+<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/label.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/popup.js" charset="utf-8"></script>
+</head>
+
+<body onload = "initParentLabel();">
+<div id="legend">标签管理后台</div>
+<div id="content">
+	<div id="leftPanel">
+		<b>父标签</b>
+		<div id="parentLabel">
+		
+		</div>
+	</div>
+	
+	<div id="rightPanel">
+		<b>子标签</b>
+		<div id="childLabel">
+		
+		</div>
+	</div>	
+</div>
+
+ <div id="popupContact" style="display:none">  
+ 	<h2>新增标签</h2>
+	<a id="popupContactClose" href="javascript:disablePopup();"><img src="imgs/close.png" alt="关闭"/></a>  
+	<div>
+		<input type="hidden" id="parent">
+		<label>名称</label>
+			<input type="text" id="name">
+			<input type="button" id="submit" value="确定" onclick="createLabel();">
+	</div>
+</div>  
+
+<div id="backgroundPopup" onclick="disablePopup();"></div> 
+</body>
+</html>

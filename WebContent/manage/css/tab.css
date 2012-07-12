@@ -1,0 +1,43 @@
+#floatBoxBg {
+	width: 100%;
+	height: 100%;
+	background: #ffffff;
+	filter: alpha(opacity =     50);
+	opacity: 0.5;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.tips_tab {
+	border: solid 1px #CDCDCD;
+	width: 280px;
+	background: #F3F3F3;
+	z-index: 999;
+	line-height: 16px;
+}
+
+.tips_tab .tipTab_sorts a.current {
+	height: 29px;
+	background: white;
+/* 	border: solid 1px #E8E8E8; */
+	border-top: solid 1px #E8E8E8;
+	border-left: solid 1px #E8E8E8;
+	border-right: solid 1px #E8E8E8;
+}
+
+.tips_tab .tipTab_sorts a {
+	height: 29px;
+	padding: 3px 5px;
+}
+
+.tips_tab .tip_win {
+	display: block;
+	float: right;
+	margin-right: 3px;
+}
+
+.tips_tab .tipTab_content {
+	background: white;
+	padding: 3px 5px;
+}

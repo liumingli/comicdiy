@@ -68,8 +68,10 @@
 	onsubmit="return checkBlank();" onreset="clearMsg();"
 	action="comicapi" method="post" enctype="multipart/form-data">
 	<div id="msg"></div>
-		<input type="hidden" name ="method"  value="upload"/><br/>
-	<input type="hidden" name ="user"  value="lml"/><br/>
+		<input type="hidden" name ="method"  value="saveAnim"/><br/>
+		用户 <input type="text" name="userId"><br/>
+		名称 <input type="text" name="name"><br/>
+		xm内容 <input type="text" name="content"><br/>
 	
 	上传文件：
 	<input type="file" name="file1" id="file1" size="30" onchange="CheckFileType();"/><br />

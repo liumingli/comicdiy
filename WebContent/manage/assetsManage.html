@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>素材管理</title>
+<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/popup.css" />
+<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/style.css" />
+<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/manage.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/popup.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/holiday.js" charset="utf-8"></script>
+
+</head>
+<body onload="getAllAssets();">
+<input type="text" id="keys"  placeholder="以空格分隔多个关键字" />
+<input type="button" id="search" value="搜索" onclick="searchAssets();">
+<input type="button" id="create" value="上传新素材" onclick="uploadAssets();">
+<input type="button" id="all" value="显示全部素材" onclick="getAllAssets();">
+<table id="mytable">
+	<thead>
+		<tr>
+		<td>序号</td><td>名称</td><td>缩略图</td><td>价格</td>
+	<td>上传时间</td><td>类型</td><td>分类</td><td>标签</td>
+		<td>节假日</td>	<td>编辑</td><td>删除</td>
+		</tr>
+	</thead>
+	<tbody id="assetsList">
+	</tbody>
+</table>
+
+
+ <div id="popupContact" style="display:none">  
+ 	<h2>编辑素材</h2>
+	<a id="popupContactClose" href="javascript:disablePopup();"><img src="imgs/close.png" alt="关闭"/></a>  
+	<div>
+		<input type="hidden" id="assetId">
+		<label>名称</label>
+			<input type="text" id="name"><br>
+		<label>价格</label>
+			<input type="text" id="price"><br>
+		<label>关联节假日</label>
+		<select id="holiday">
+			<option value="Neujahr">元旦</option>
+			<option value="Spring">春节</option>
+			<option value="Lantern">元宵节</option>
+			<option value="Valentine">情人节</option>
+			<option value="Women">妇女节</option>
+			<option value="Tomb-sweeping">清明节</option>
+			<option value="Labour">劳动节</option>
+			<option value="Youth">青年节</option>
+			<option value="Mother">母亲节</option>
+			<option value="Father">父亲节</option>
+			<option value="Doanngo">端午节</option>
+			<option value="Double-seventh">七夕节</option>
+			<option value="Teacher">教师节</option>
+			<option value="Mid-autumn">中秋节</option>
+			<option value="National">国庆节</option>
+			<option value="Halloween">万圣节</option>
+			<option value="Christmas-eve">平安夜</option>
+			<option value="Christmas">圣诞节</option>
+			<option value="others">其他</option>
+		</select>
+		<br>
+		<input type="button" id="submit" value="提交" onclick="updateAsset();">
+	</div>
+</div>  
+
+<div id="backgroundPopup" onclick="disablePopup();"></div> 
+</body>
+</html>

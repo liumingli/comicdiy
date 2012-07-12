@@ -26,21 +26,26 @@
 
 	<!-- WebEntrance servlet调用，负责处理客户端请求参数并启动任务 -->
 
-	<bean id="appStarter" class="com.comic.facade.AppStarter">
+	<bean id="appStarter" class="com.ybcx.comic.facade.AppStarter">
+		<property name="apiAdaptor" ref="apiAdaptor" />
+		<property name="assistProcess" ref="assistProcess" />
+	</bean>
+	
+	<bean id="assistProcess" class="com.ybcx.comic.facade.AssistProcess">
 		<property name="apiAdaptor" ref="apiAdaptor" />
 	</bean>
 	
-	<bean id="apiAdaptor" class="com.comic.facade.ApiAdaptor">
+	<bean id="apiAdaptor" class="com.ybcx.comic.facade.ApiAdaptor">
 		<property name="comicService" ref="comicService" />
 	</bean>
 	
-	<bean id="comicService" class="com.comic.facade.ComicServiceImplement">
+	<bean id="comicService" class="com.ybcx.comic.facade.ComicServiceImplement">
 		<property name="dbVisitor" ref="dbAcess" />
-<!-- 		<property name="systemConfigurer" ref="systemConfigurer" /> -->
+		<property name="systemConfigurer" ref="systemConfigurer" />
 	</bean>
 
 	<!--将共享的DataSource实例注入到DAO中，JdbcTemplate实例在DataSource的setter方法中被创建 -->
-	<bean id="dbAcess" class="com.comic.dao.impl.DBAccessImplement">
+	<bean id="dbAcess" class="com.ybcx.comic.dao.impl.DBAccessImplement">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	

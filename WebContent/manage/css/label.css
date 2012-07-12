@@ -1,0 +1,42 @@
+body {padding: 0; margin: 0;}
+body,html{height: 100%;}
+
+ #legend{
+ 	 text-align: center;
+	 display: block;
+	 width: 100%;
+	 padding: 0;
+	 margin-bottom: 27px;
+	 font-size: 17.5px;
+	 line-height: 36px;
+	 color: #333333;
+	 border: 0;
+	 border-bottom: 1px solid #eee;
+ }
+ 
+#content{
+	margin :0px 340px 300px 400px;
+     float: left;
+	 height: auto;
+	 width: auto;
+	 /*border: 1px solid #FF0000;*/
+}
+
+#leftPanel{
+	 float: left;
+	 height: 400px;
+	 width: 300px;
+	 border: 1px solid #00FF00;
+}
+
+#rightPanel{
+	 float: right;
+	 height: 400px;
+	 width: 300px;
+	 border: 1px solid #0000FF;
+}
+
+img{
+	vertical-align:bottom;
+}
+
