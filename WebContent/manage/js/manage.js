@@ -163,7 +163,7 @@ function deleteAssetById(key){
 }
 
 function updateAsset(){
-	var assetId=$("#assetId"+key).attr("value");
+	var assetId=$("#assetId").attr("value");
 	var name=$("#name").attr("value");
 	var price=$("#price").attr("value");
 	var holiday=$("#holiday").attr("value");
