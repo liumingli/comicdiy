@@ -22,6 +22,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 
+import com.pintu.socket.ServerFlex;
+
 /**
  * 真正处理客户端传参到服务端的逻辑，与适配器打交道，适配器再与服务打交道；
  * 
@@ -236,9 +238,9 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 				}
 			}
 			
-//			//为flash增加843的socket端口 socketFlash.jar
-//			ServerFlex serverFlex = new ServerFlex();
-//			serverFlex.runServerFlex();
+			//为flash增加843的socket端口 socketFlash.jar
+			ServerFlex serverFlex = new ServerFlex();
+			serverFlex.runServerFlex();
 
 		}
 

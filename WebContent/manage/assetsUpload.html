@@ -18,7 +18,7 @@
 
 </head>
 <body>
-<div id="legend">素材上传</div>
+<!-- <div id="legend">素材上传</div> -->
 <div id="content" >
 <ul>
 	<li>
@@ -93,7 +93,7 @@
 	</li>
 	<li>
 		<label>素材原文件</label>
-		<input type="file" id="assetUpload" data-url="/comicdiy/fileupload" >
+		<input type="file" id="assetUpload" data-url="/comicdiy/fileupload"  name="asset">
 		<span  style="display: none;" id="assetInfo"></span>
 		<span class="help-block">支持swf文件</span>
 		<input type="hidden" id="assetPath">
@@ -131,9 +131,13 @@
 					var jqXHR = data.submit().success(
 							function(result, textStatus, jqXHR) {
 								console.log(result);
-								$('#assetPath').val(result);
-							    $('#assetInfo').show().html('<img src="imgs/ok.png">');
-							    $('#assetUpload').attr('disabled','disabled');
+								if(result == "reject"){
+								    $('#assetInfo').show().html('<img src="imgs/no.png">');
+								}else{
+									$('#assetPath').val(result);
+								    $('#assetInfo').show().html('<img src="imgs/ok.png">');
+								    $('#assetUpload').attr('disabled','disabled');
+								}
 							}).error(
 							function(jqXHR, textStatus, errorThrown) {
 								console.log("error");
@@ -152,9 +156,13 @@
 					var jqXHR = data.submit().success(
 							function(result, textStatus, jqXHR) {
 								console.log(result);
-								$('#thumbnailPath').val(result);
-								$('#thumbnailInfo').show().html('<img src="imgs/ok.png">');
-								$('#thumbnailUpload').attr('disabled','disabled');
+								if(result == "reject"){
+								    $('#assetInfo').show().html('<img src="imgs/no.png">');
+								}else{
+									$('#thumbnailPath').val(result);
+									$('#thumbnailInfo').show().html('<img src="imgs/ok.png">');
+									$('#thumbnailUpload').attr('disabled','disabled');
+								}
 							}).error(
 							function(jqXHR, textStatus, errorThrown) {
 								console.log("error");

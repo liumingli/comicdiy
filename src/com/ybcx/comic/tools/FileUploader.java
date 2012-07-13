@@ -115,10 +115,11 @@ public class FileUploader extends HttpServlet {
 			//文件类型
 			String fileType = fileName.substring(dotPos+1);
 			
-			if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("swf")){
+			if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("jpeg") || fileType.equals("gif") || fileType.equals("swf")){
 				log.debug(">>>The current file type is:"+fileType);
 			}else{
-				pw.print(">>> The current file is not a picture file, not to generate!");
+				// 返回客户端信息
+				pw.print("reject");
 				return;			
 			}
 
