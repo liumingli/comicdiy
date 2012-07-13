@@ -98,4 +98,8 @@ input[type="file"] {
 	width:150px;
 }
 
+input#selfCategory{
+	 width: 100px;
+}
+
 
