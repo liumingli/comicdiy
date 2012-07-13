@@ -9,7 +9,8 @@ document.onkeydown = function (e) {
 
 //打开上传新素材页面
 function uploadAssets(){
-	window.open("assetsUpload.html", 'new','');
+//	window.open("assetsUpload.html", 'new','');
+	window.location.href = "assetsUpload.html";
 }
 
 //获取所有可用素材

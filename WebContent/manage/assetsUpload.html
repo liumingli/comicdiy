@@ -93,7 +93,7 @@
 	</li>
 	<li>
 		<label>素材原文件</label>
-		<input type="file" id="assetUpload" data-url="/comicdiy/fileupload"  name="asset">
+		<input type="file" id="assetUpload" data-url="/comicdiy/fileupload" >
 		<span  style="display: none;" id="assetInfo"></span>
 		<span class="help-block">支持swf文件</span>
 		<input type="hidden" id="assetPath">
@@ -111,19 +111,12 @@
 	</li>
 	<li style="margin-left:80px">
 		<input type="button" id="submit" value="提交" onclick="createAsset();">
-		<input type="button" id="cancel" value="取消">
+		<input type="button" id="cancel" value="取消" onclick="emptyForm();">
 		<span  style="display: none;" id="prompt"></span>
 	</li>
 </ul>
 </div>
 	
-
-
-<div id="floatBoxBg" style="display: none"></div>
-
- 
-
-
 <script>
 	$('#assetUpload').fileupload(
 			{
@@ -148,7 +141,6 @@
 							});
 				}
 			});
-
 	
 	$('#thumbnailUpload').fileupload(
 			{

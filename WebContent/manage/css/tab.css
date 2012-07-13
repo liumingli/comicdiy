@@ -1,14 +1,3 @@
-#floatBoxBg {
-	width: 100%;
-	height: 100%;
-	background: #ffffff;
-	filter: alpha(opacity =     50);
-	opacity: 0.5;
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-
 .tips_tab {
 	border: solid 1px #CDCDCD;
 	width: 280px;
