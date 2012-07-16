@@ -47,5 +47,21 @@ img{
 
 span{
 	cursor:pointer;
+	text-decoration: none;
 }
+
+span:HOVER{
+	text-decoration: underline;
+}
+
+
+ul {
+	list-style: none;
+}
+
+li {
+	display: list-item;
+	padding:6px;
+}
+
 

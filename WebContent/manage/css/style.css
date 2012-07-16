@@ -6,19 +6,6 @@ body{
   text-align: center;
 }
 
- #legend{
- 	 text-align: center;
-	 display: block;
-	 width: 100%;
-	 padding: 0;
-	 margin-bottom: 27px;
-	 font-size: 17.5px;
-	 line-height: 36px;
-	 color: #333333;
-	 border: 0;
-	 border-bottom: 1px solid #eee;
- }
-
 table{
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 12px;
