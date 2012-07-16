@@ -194,6 +194,7 @@ public class ApiAdaptor {
 	
 	
 	public String createLocalImage(List<FileItem> fileItems) {
+		String result="";
 		FileItem imgData = null;
 		String userId = "";
 		for (int i = 0; i < fileItems.size(); i++) {
@@ -210,7 +211,17 @@ public class ApiAdaptor {
 			}
 		}
 		String imgPath = comicService.createLocalImage(userId,imgData);
-		return imgPath;
+		
+		//处理全路径，返回相对路径即可
+		if(imgPath.contains("uploadFile")){
+			//先从字符串中找到文件夹uploadFile的位置，再加上uploadFile的长度10，即可截取到下属文件路径
+			int position = imgPath.lastIndexOf("uploadFile");
+			result =  imgPath.substring(position+10);
+		}else{
+			result = imgPath;
+		}
+		
+		return result;
 	}
 	
 	public String createAnimation(List<FileItem> fileItems) {
