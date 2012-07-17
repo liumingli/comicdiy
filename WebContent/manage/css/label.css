@@ -30,7 +30,7 @@ body{
 	 height: 400px;
 	 width: 300px;
 	 border: 1px solid #69c;
-	 padding:12px;
+/* 	 padding:12px; */
 }
 
 #rightPanel{
@@ -38,11 +38,19 @@ body{
 	 height: 400px;
 	 width: 300px;
 	 border: 1px solid #69c;
-	 padding:12px;
+/* 	 padding:12px; */
 }
 
 img{
 	vertical-align:bottom;
+}
+
+.odd {
+	background-color: #dbe8f0;
+}
+
+.ldd {
+    background-color: #f5f5f5;
 }
 
 span{

@@ -442,13 +442,13 @@ public class ComicServiceImplement implements ComicServiceInterface {
 
 	@Override
 	public String deleteLabelByParent(String parentId) {
-		boolean flag = false;
+		boolean flag = true;
 		//删除父标签时，将其下子标签也删掉
 		List<Label> list = dbVisitor.getLabelByParent(parentId);
 		if(list.size()>0){
 			int rows = dbVisitor.deleteLabelByParent(parentId);
-			if(rows>0){
-				flag = true;
+			if(rows<0){
+				flag = false;
 			}
 		}
 		return String.valueOf(flag);

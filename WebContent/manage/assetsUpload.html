@@ -13,6 +13,8 @@
 	charset="utf-8"></script>
 <script type="text/javascript" src="js/jquery.fileupload.js"
 	charset="utf-8"></script>
+	<script type="text/javascript" src="js/jquery.fileupload-fp.js"
+	charset="utf-8"></script>
 <script type="text/javascript" src="js/upload.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/popup.js" charset="utf-8"></script>
 
@@ -93,7 +95,7 @@
 	</li>
 	<li>
 		<label>素材原文件</label>
-		<input type="file" id="assetUpload" data-url="/comicdiy/fileupload" >
+		<input type="file" id="assetUpload" data-url="/comicdiy/fileupload">
 		<span  style="display: none;" id="assetInfo"></span>
 		<span class="help-block">支持swf文件</span>
 		<input type="hidden" id="assetPath">
@@ -118,53 +120,69 @@
 </div>
 	
 <script>
-	$('#assetUpload').fileupload(
-			{
+	$('#assetUpload').fileupload({
 				add : function(e, data) {
-					var jqXHR = data.submit().success(
-							function(result, textStatus, jqXHR) {
-								console.log(result);
-								if(result == "reject"){
-								    $('#assetInfo').show().html('<img src="imgs/no.png">');
-								}else{
-									$('#assetPath').val(result);
-								    $('#assetInfo').show().html('<img src="imgs/ok.png">');
-								    $('#assetUpload').attr('disabled','disabled');
-								}
-							}).error(
-							function(jqXHR, textStatus, errorThrown) {
-								console.log("error");
-								 $('#assetInfo').show().html('<img src="imgs/no.png">');
-							}).complete(
-							function(result, textStatus, jqXHR) {
-								console.log(result);
-							});
+					//因为现在只传一个文件，所以可以用files[0]来取到
+					var fileName = data.files[0].name;
+					var regexp = /\.(swf)$/i;
+				    if (!regexp.test(fileName)) {
+				    	  $('#assetInfo').show().html('<img src="imgs/no.png">');
+				    }else{
+						var jqXHR = data.submit().success(
+								function(result, textStatus, jqXHR) {
+									console.log(result);
+									if(result == "reject"){
+									    $('#assetInfo').show().html('<img src="imgs/no.png">');
+									}else{
+										$('#assetPath').val(result);
+									    $('#assetInfo').show().html('<img src="imgs/ok.png">');
+									    $('#assetUpload').attr('disabled','disabled');
+									}
+								}).error(
+								function(jqXHR, textStatus, errorThrown) {
+									console.log("error");
+									 $('#assetInfo').show().html('<img src="imgs/no.png">');
+								}).complete(
+								function(result, textStatus, jqXHR) {
+									console.log(result);
+								});
+				    }
 				}
-			});
+		});
 	
-	$('#thumbnailUpload').fileupload(
-			{
+	
+	
+	$('#thumbnailUpload').fileupload({
 				add : function(e, data) {
-					var jqXHR = data.submit().success(
-							function(result, textStatus, jqXHR) {
-								console.log(result);
-								if(result == "reject"){
-								    $('#assetInfo').show().html('<img src="imgs/no.png">');
-								}else{
-									$('#thumbnailPath').val(result);
-									$('#thumbnailInfo').show().html('<img src="imgs/ok.png">');
-									$('#thumbnailUpload').attr('disabled','disabled');
-								}
-							}).error(
-							function(jqXHR, textStatus, errorThrown) {
-								console.log("error");
-								$('#thumbnailInfo').show().html('<img src="imgs/no.png">');
-							}).complete(
-							function(result, textStatus, jqXHR) {
-								console.log(result);
-							});
+					var fileName = data.files[0].name;
+					var regexp = /\.(png)|(jpg)|(gif)$/i;
+				    if (!regexp.test(fileName)) {
+				    	  $('#thumbnailInfo').show().html('<img src="imgs/no.png">');
+				    }else{
+						var jqXHR = data.submit().success(
+								function(result, textStatus, jqXHR) {
+									console.log(result);
+									if(result == "reject"){
+									    $('#assetInfo').show().html('<img src="imgs/no.png">');
+									}else{
+										$('#thumbnailPath').val(result);
+										$('#thumbnailInfo').show().html('<img src="imgs/ok.png">');
+										$('#thumbnailUpload').attr('disabled','disabled');
+									}
+								}).error(
+								function(jqXHR, textStatus, errorThrown) {
+									console.log("error");
+									$('#thumbnailInfo').show().html('<img src="imgs/no.png">');
+								}).complete(
+								function(result, textStatus, jqXHR) {
+									console.log(result);
+								});
+				    }
 				}
+				    
 			});
+				    
+	
 </script>
 </body>
 </html>

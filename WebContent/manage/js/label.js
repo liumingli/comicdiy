@@ -10,8 +10,13 @@ function initParentLabel(){
 		$('#parentLabel').append('<a href="javascript:addLabel'+parent+'"><img src="imgs/add.png"></a>');
 		if(result.length > 0){
 			for( key in result ){
-				var para = "('"+result[key].id+"')";
-				$('#parentLabel').append('<div><span onclick="initChildLabel'+para+'">'+result[key].name+'</span><a href="javascript:deleteLabel'+para+'"><img src="imgs/delete.png"></a></div>');
+				var num = parseInt(key);
+				var para = "('"+result[key].id+"','"+result[key].parent+"')";
+				if(num%2){
+					$('#parentLabel').append('<div class="odd"><span onclick="initChildLabel'+para+'">'+result[key].name+'</span><a href="javascript:deleteLabel'+para+'"><img src="imgs/delete.png"></a></div>');
+				}else{
+					$('#parentLabel').append('<div class="ldd"><span onclick="initChildLabel'+para+'">'+result[key].name+'</span><a href="javascript:deleteLabel'+para+'"><img src="imgs/delete.png"></a></div>');
+				}
 			}
 	    }
 	},"json");
@@ -86,12 +91,11 @@ function deleteLabel(labelId,parent){
 		    }
 			
 			//删除操作后刷新本级列表
-			if(parent == 'parent'){
+			if(parent == "parent"){
 				operateParent(labelId);
 			}else{
 				initChildLabel(parent);
 			}
-			
 		});
 	}
 }

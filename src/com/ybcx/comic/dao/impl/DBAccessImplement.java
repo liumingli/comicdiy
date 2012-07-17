@@ -255,7 +255,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public List<Category> getAllCategory() {
 		List<Category> resList = new ArrayList<Category>();
-		String sql = "select * from t_category order by c_name,c_heat desc";
+		String sql = "select * from t_category order by c_heat desc";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -280,7 +280,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public List<Label> getAllParentLabel() {
 		List<Label> resList = new ArrayList<Label>();
-		String sql = "select * from t_label where l_parent='parent' order by l_name";
+		String sql = "select * from t_label where l_parent='parent' order by l_heat desc";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -299,7 +299,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public List<Label> getLabelByParent(String parentId) {
 		List<Label> resList = new ArrayList<Label>();
-		String sql = "select * from t_label where l_parent='"+parentId+"'";
+		String sql = "select * from t_label where l_parent='"+parentId+"' order by l_heat desc";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {

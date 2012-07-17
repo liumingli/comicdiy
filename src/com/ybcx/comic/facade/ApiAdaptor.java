@@ -252,7 +252,11 @@ public class ApiAdaptor {
 				}
 				
 				if (item.getFieldName().equals("content")) {
-					content = item.getString();
+					try {
+						content = item.getString("UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
 				}
 				
 			}
