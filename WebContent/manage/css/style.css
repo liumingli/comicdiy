@@ -61,9 +61,9 @@ li {
 	padding:6px;
 }
 
-span{
-	vertical-align:middle;
-}
+/* span{ */
+/* 	vertical-align:middle; */
+/* } */
 
 #content {
 	width:380px;
@@ -71,7 +71,6 @@ span{
 	margin: 20px auto;
 	text-align: left;
 }
-
 
 .help-block {
   margin-bottom: 0;

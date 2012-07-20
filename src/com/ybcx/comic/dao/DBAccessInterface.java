@@ -15,6 +15,8 @@ public interface DBAccessInterface {
 
 		public List<Assets> getAllAssets();
 
+		public List<Assets> getAssetsByPage(int pageNum, int pageSize);
+		
 		public int createAsset(Assets asset);
 		
 		public int createAstcatRel(String id, String assetId, String category);

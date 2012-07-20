@@ -65,6 +65,36 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 	
 	@Override
+	public List<Assets> getAssetsByPage(int pageNum, int pageSize) {
+		List<Assets> resList = new ArrayList<Assets>();
+		int startLine = (pageNum -1)*pageSize;
+		String sql = "select a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
+				" from t_assets a, t_category c, t_astcat_rel r " +
+				"where a.a_id=r.acr_assets and c.c_id=r.acr_category and a.a_enable = 1" +
+				" order by a.a_uploadTime desc limit "+startLine+","+pageSize;
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				Assets asset = new Assets();
+				asset.setId(map.get("a_id").toString());
+				asset.setCategory(map.get("c_name").toString());
+				asset.setHoliday(map.get("a_holiday").toString());
+				asset.setName(map.get("a_name").toString());
+				asset.setType(map.get("a_type").toString());
+				asset.setThumbnail(map.get("a_thumbnail").toString());
+				asset.setPath(map.get("a_path").toString());
+				asset.setUploadTime(map.get("a_uploadTime").toString());
+				asset.setPrice(Float.parseFloat(map.get("a_price").toString()));
+				asset.setHeat(Integer.parseInt(map.get("a_heat").toString()));
+				asset.setEnable(Integer.parseInt(map.get("a_enable").toString()));
+				resList.add(asset);
+			}
+		}
+		return resList;
+	}
+	
+	@Override
 	public int createAsset(final Assets asset) {
 		String sql = "INSERT INTO t_assets "
 				+ "(a_id, a_name, a_price , a_path, a_thumbnail, a_uploadTime, a_holiday, a_type, a_heat, a_enable ,a_memo) "
@@ -477,5 +507,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 		int rows = jdbcTemplate.update(sql);
 		return rows;
 	}
+
+
 
 }

@@ -41,6 +41,15 @@ public class AssistProcess {
 				pw.print(result);
 				pw.close();
 				
+		}else if (action.equals(AppStarter.GETASSETSBYPAGE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String pageNum = req.getParameter("pageNum");
+			String result = apiAdaptor.getAssetsByPage(pageNum);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+				
 		}else if (action.equals(AppStarter.SEARCHBYLABEL)) {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();

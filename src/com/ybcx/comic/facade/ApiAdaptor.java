@@ -73,6 +73,15 @@ public class ApiAdaptor {
 			}
 		}
 	}
+	
+	public String getAssetsByPage(String pageNum) {
+		List<Assets> list = comicService.getAssetsByPage(Integer.parseInt(pageNum));
+		JSONArray jsonArray = JSONArray.fromCollection(list);
+		processPath(jsonArray);
+		return jsonArray.toString();
+	}
+	
+	
 		
 	public String createAsset(String name, String type, String price,
 			String category, String label, String holiday, String assetPath,

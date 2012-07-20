@@ -18,6 +18,8 @@ public interface ComicServiceInterface {
 
 	public List<Assets> getAllAssets();
 	
+	public List<Assets> getAssetsByPage(int pageNum);
+	
 	public String createAsset(String name, String type, String price,
 			String category, String label, String holiday, String assetPath,
 			String thumbnailPath);

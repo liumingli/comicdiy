@@ -92,6 +92,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		return resultList;
 	}
 	
+	//根据素材id取得所有标签，并用空格连接
 	private String getLabelsById(String assetId) {
 		StringBuffer labels = new StringBuffer();
 		List<Label> labelList = dbVisitor.getAssetLabelsById(assetId);
@@ -106,6 +107,21 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}
 		return labels.toString().trim();
 	}
+	
+	@Override
+	public List<Assets> getAssetsByPage(int pageNum) {
+		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
+
+		List<Assets> assetsList = dbVisitor.getAssetsByPage(pageNum,pageSize);
+		
+		List<Assets> resultList = new ArrayList<Assets>();
+		
+		resultList = this.combinLabels(assetsList);
+		
+		return resultList;
+	}
+
+	
 	
 	@Override
 	public String createAsset(String name, String type, String price,
@@ -566,7 +582,6 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}
 		return String.valueOf(flag);
 	}
-
 
 
 

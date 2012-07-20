@@ -13,6 +13,9 @@ public interface ExtVisitorInterface {
 	//获取全部可用素材
 	public static final String GETALLASSETS  = "getAllAssets";
 	
+	//分页获取素材
+	public static final String GETASSETSBYPAGE = "getAssetsByPage";
+	
 	//根据标签搜索素材
 	public static final String SEARCHBYLABEL = "searchByLabel";
 	
