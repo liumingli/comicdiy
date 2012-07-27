@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>演示</title>
+<script type="text/javascript" src="jquery.js" charset="utf-8"></script>
+<style>
+	div{ 
+	 	margin-left:20px; 
+	 	padding:5px;
+	 } 
+	
+	a{
+		text-decoration: none; 
+	 }
+	
+	a:HOVER{ 
+	 	 text-decoration: underline; 
+	 } 
+</style>
+<script>
+	function getAnimationsOf(){
+		var user = $('#userId').val();
+		if(user == null || user == ""){
+			return;
+		}
+		$.post("/comicdiy/comicapi",{
+			'method' : 'getAnimationsOf',
+			'userId' : user
+		},
+		function (result) {
+			console.log(result.length);
+			if(result.length > 0){
+				$('#animList').children().remove();
+				for(key in result){
+					var id = 'id'+key;
+					var anim = '<div><a id='+ id+' value="'+result[key].id+'" href="javascript:redirect('+key+')">'+result[key].name+'</a></div>';
+					$('#animList').append(anim);
+				}
+			}
+			
+		},"json");
+	}
+	
+	function redirect(key){
+		var user = $('#userId').val();
+		var idVal = $('#id'+key).attr("value")
+		//http://localhost:8080/animclient/Aplayer_simple.html?userId=lwz7512&animId=897744a04d5e4f43
+		var url =  "Aplayer_simple.html?userId="+user+"&animId="+idVal;
+		window.location.href = url;
+	}
+</script>
+
+</head>
+<body onload="getAnimationsOf()">
+用户ID：<input type="text" id="userId" value="lwz7512">
+<input type="button" id="submit"  value="查询动画" onclick="getAnimationsOf()">
+<br><br>
+<div>显示动画（名称列表）：</div>
+<div id="animList">
+</div>
+
+</body>
+</html>

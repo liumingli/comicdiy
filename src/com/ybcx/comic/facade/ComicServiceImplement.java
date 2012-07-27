@@ -298,12 +298,11 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	public void getThumbnailFile(String relativePath, HttpServletResponse res) {
 		try {
 			//默认
-			File defaultImg = new File(imagePath + File.separator
-					+ "asset" + File.separator + "default.png");
+			File defaultImg = new File(imagePath + File.separator + "default.png");
 			InputStream defaultIn = new FileInputStream(defaultImg);
 			
 			String type = relativePath.substring(relativePath.lastIndexOf(".") + 1);
-			File file = new File(imagePath+relativePath);
+			File file = new File(imagePath+File.separator+relativePath);
 			
 			if (file.exists()) {
 				InputStream imageIn = new FileInputStream(file);
@@ -394,12 +393,11 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	public void getAssetFile(String relativePath, HttpServletResponse res) {
 		try {
 			//默认
-			File defaultImg = new File(imagePath + File.separator
-					+ "asset" + File.separator + File.separator + "default.png");
+			File defaultImg = new File(imagePath + File.separator + "default.png");
 			InputStream defaultIn = new FileInputStream(defaultImg);
 			
 			String type = relativePath.substring(relativePath.lastIndexOf(".") + 1);
-			File file = new File(imagePath+relativePath);
+			File file = new File(imagePath+File.separator +relativePath);
 			
 			if (file.exists()) {
 				InputStream imageIn = new FileInputStream(file);
@@ -497,7 +495,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	public String createLocalImage(String userId, FileItem imgData) {
 		String fileName = imgData.getName();
 
-		String path = imagePath + File.separator + "asset" + File.separator + fileName;
+		String path = imagePath + File.separator + fileName;
 		try {
 			BufferedInputStream in = new BufferedInputStream(imgData.getInputStream());
 			// 获得文件输入流
@@ -564,7 +562,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	//将diy成品的截屏缩小并保存
 	private String saveThumbnailOf(FileItem imgData) {
 		String fileName = imgData.getName();
-		String filePath = imagePath + File.separator + "asset" + File.separator + fileName;
+		String filePath = imagePath + File.separator + fileName;
 		try {
 			ImageHelper.handleImage(imgData, 100, 100, filePath);
 		} catch (IOException e) {

@@ -75,7 +75,7 @@
     	<servlet-class>com.ybcx.comic.tools.FileUploader</servlet-class>
     	<init-param> 
             <param-name>assetpath</param-name> 
-            <param-value>/WEB-INF/uploadFile/asset</param-value> 
+            <param-value>/WEB-INF/uploadFile</param-value> 
         </init-param> 
         <init-param> 
             <param-name>temppath</param-name> 

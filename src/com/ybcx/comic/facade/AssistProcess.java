@@ -53,6 +53,7 @@ public class AssistProcess {
 		}else if (action.equals(AppStarter.SEARCHBYLABEL)) {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
+			//FIXME TODO 再加一个api searchByLabelAndType
 			String labels = req.getParameter("keys");
 			String result = apiAdaptor.searchByLabel(labels);
 			log.debug(result);

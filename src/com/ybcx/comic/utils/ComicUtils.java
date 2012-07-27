@@ -28,4 +28,11 @@ public class ComicUtils {
 	public static String formatLong(Long time){
 		return simpledDateFormat.format(time);
 	}
+	
+	
+	public static String replace(String str){
+		String s=str.replace("\\","\\\\");
+		return s;
+	}
+	
 }

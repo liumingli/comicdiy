@@ -60,7 +60,7 @@ public class ApiAdaptor {
 			if(!"".equals(assetPath)){
 				//先从字符串中找到文件夹uploadFile的位置，再加上uploadFile的长度10，即可截取到下属文件路径
 				int position = assetPath.lastIndexOf("uploadFile");
-				String relativePath = assetPath.substring(position+10);
+				String relativePath = assetPath.substring(position+11);
 				jsonArray.getJSONObject(i).set("path", relativePath);
 			}
 			//缩略图路径
@@ -68,7 +68,8 @@ public class ApiAdaptor {
 			if(!"".equals(thumbnailPath)){
 				//先从字符串中找到文件夹uploadFile的位置，再加上uploadFile的长度10，即可截取到下属文件路径
 				int position = thumbnailPath.lastIndexOf("uploadFile");
-				String relativePath = thumbnailPath.substring(position+10);
+				String relativePath = thumbnailPath.substring(position+11);
+				
 				jsonArray.getJSONObject(i).set("thumbnail", relativePath);
 			}
 		}
@@ -175,7 +176,7 @@ public class ApiAdaptor {
 		if(!"".equals(thumbnailPath)){
 			//先从字符串中找到文件夹uploadFile的位置，再加上uploadFile的长度10，即可截取到下属文件路径
 			int position = thumbnailPath.lastIndexOf("uploadFile");
-			String relativePath = thumbnailPath.substring(position+10);
+			String relativePath = thumbnailPath.substring(position+11);
 			jsonObject.set("thumbnail", relativePath);
 		}
 	}
@@ -195,7 +196,7 @@ public class ApiAdaptor {
 			if(!"".equals(thumbnailPath)){
 				//先从字符串中找到文件夹uploadFile的位置，再加上uploadFile的长度10，即可截取到下属文件路径
 				int position = thumbnailPath.lastIndexOf("uploadFile");
-				String relativePath = thumbnailPath.substring(position+10);
+				String relativePath = thumbnailPath.substring(position+11);
 				jsonArray.getJSONObject(i).set("thumbnail", relativePath);
 			}
 		}
@@ -225,7 +226,7 @@ public class ApiAdaptor {
 		if(imgPath.contains("uploadFile")){
 			//先从字符串中找到文件夹uploadFile的位置，再加上uploadFile的长度10，即可截取到下属文件路径
 			int position = imgPath.lastIndexOf("uploadFile");
-			result =  imgPath.substring(position+10);
+			result =  imgPath.substring(position+11);
 		}else{
 			result = imgPath;
 		}

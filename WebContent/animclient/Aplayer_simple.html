@@ -1,0 +1,67 @@
+<!DOCTYPE html >
+<html > 
+    
+    <head>
+        <title></title>
+        <meta name="google" value="notranslate" />         
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+       
+        <style type="text/css" media="screen"> 
+            html, body  { height:100%; }
+            body { margin:0; padding:0; overflow:auto; text-align:center; 
+                   background-color: #ffffff; }   
+            object:focus { outline:none; }
+            #flashContent { display:none; }
+        </style>
+        
+            
+        <script type="text/javascript" src="swfobject.js"></script>
+        <script type="text/javascript">
+        
+        	 function getQueryStringRegExp(name) { 
+				var reg = new RegExp("(^|\\?|&)"+ name +"=([^&]*)(\\s|&|$)", "i"); 
+				if (reg.test(location.href)) return unescape(RegExp.$2.replace(/\+/g, " ")); return ""; 
+			 };            
+            
+		     function createSWFById(divId){
+		           
+		            //获取URL参数
+		            var flashvars = {};
+		            flashvars.userId = getQueryStringRegExp('userId');
+		            flashvars.animId = getQueryStringRegExp('animId');
+		 			
+		            var swfVersionStr = "11.2.0";           
+		            var xiSwfUrlStr = "playerProductInstall.swf";             
+		            var params = {};
+		            params.quality = "high";
+		            params.bgcolor = "#ffffff";
+		            params.allowscriptaccess = "sameDomain";
+		            params.allowfullscreen = "true";
+		            var attributes = {};
+		            attributes.id = divId;
+		            attributes.name = divId;
+		            attributes.align = "middle";
+		            swfobject.embedSWF("Aplayer.swf", divId, 400, 400, swfVersionStr, xiSwfUrlStr,flashvars, params, attributes);            
+		            swfobject.createCSS("#"+divId, "display:block;text-align:left;");	
+			}
+			
+			//show flash obj...
+			createSWFById('flashContent');
+			
+        </script>
+    </head>
+    <body>
+        <!-- SWFObject's dynamic embed method replaces this alternative HTML content with Flash content when enough 
+             JavaScript and Flash plug-in support is available. The div is initially hidden so that it doesn't show
+             when JavaScript is disabled.
+        -->
+        <div id="flashContent">
+            <p>
+                To view this page ensure that Adobe Flash Player version 
+                11.1.0 or greater is installed. 
+            </p>
+
+        </div>
+       
+   </body>
+</html>
