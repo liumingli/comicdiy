@@ -6,12 +6,6 @@ function uploadAssets(){
 
 //获取所有可用素材
 function getAllAssets(){
-	
-	var num = $('#current').text();
-	if(parseInt(num) == 1){
-		return;
-	}
-	
 	$("#assetsList").html("");
 	$.post('/comicdiy/comicapi', {
 		'method'  : 'getAllAssets'
