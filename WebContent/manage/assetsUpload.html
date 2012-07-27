@@ -161,7 +161,7 @@
 								function(result, textStatus, jqXHR) {
 									console.log(result);
 									if(result == "reject"){
-									    $('#assetInfo').show().html('<img src="imgs/no.png">');
+									    $('#thumbnailInfo').show().html('<img src="imgs/no.png">');
 									}else{
 										$('#thumbnailPath').val(result);
 										$('#thumbnailInfo').show().html('<img src="imgs/ok.png">');

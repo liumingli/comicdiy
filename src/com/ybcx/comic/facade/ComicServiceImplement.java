@@ -299,7 +299,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		try {
 			//默认
 			File defaultImg = new File(imagePath + File.separator
-					+ "asset" + File.separator + File.separator + "default.png");
+					+ "asset" + File.separator + "default.png");
 			InputStream defaultIn = new FileInputStream(defaultImg);
 			
 			String type = relativePath.substring(relativePath.lastIndexOf(".") + 1);
