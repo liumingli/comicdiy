@@ -5,10 +5,14 @@
 <title>演示</title>
 <script type="text/javascript" src="jquery.js" charset="utf-8"></script>
 <style>
-	div{ 
-	 	margin-left:20px; 
-	 	padding:5px;
-	 } 
+	 #content{
+	   font-family:Arial,Helvetica,sans-serif,"宋体";
+  		font-size: 13px;
+		width:380px;
+/* 		border: 1px solid #69c; */
+		margin: 20px auto;
+		text-align: center;
+	 }
 	
 	a{
 		text-decoration: none; 
@@ -17,6 +21,33 @@
 	a:HOVER{ 
 	 	 text-decoration: underline; 
 	 } 
+	 
+	 table{
+		font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+		font-size: 12px;
+		margin:20px auto; 
+		border-collapse: collapse;
+		border: 1px solid #69c;
+	}
+
+	tr{
+		padding: 12px 17px 12px 17px;
+		font-weight: normal;
+		color: #039;
+		border-bottom: 1px dashed #69c;
+	}
+	
+	td{
+		padding: 7px 17px 7px 17px;
+		color: #669;
+		border: 1px solid #69c; 
+	}
+	
+	tbody tr:hover td{
+		color: #339;
+		background: #d0dafd;
+	}
+
 </style>
 <script>
 	function getAnimationsOf(){
@@ -33,18 +64,47 @@
 			if(result.length > 0){
 				$('#animList').children().remove();
 				for(key in result){
-					var id = 'id'+key;
-					var anim = '<div><a id='+ id+' value="'+result[key].id+'" href="javascript:redirect('+key+')">'+result[key].name+'</a></div>';
-					$('#animList').append(anim);
+					generateTr(key);
+					
+					generateTd(parseInt(key)+1,key);
+					
+					generateTd(result[key].name,key);
+					
+					generateImgTd(result[key].thumbnail,result[key].id,key);
 				}
 			}
 			
 		},"json");
 	}
 	
-	function redirect(key){
+	function generateTr(key){
+		$('<tr></tr>').appendTo($('#animList'))
+		.attr("id","line"+key);
+	}
+
+	//生成各td
+	function generateTd(txt,key){
+		$('<td></td>').appendTo($('#line'+key))
+		.text(txt);
+	}
+	
+	//生成缩略图
+	function generateImgTd(thumbnail,id,key){
+		var tr = document.getElementById("line"+key);
+		var para = document.createElement("td");
+		var a = document.createElement("a");
+		para.appendChild(a);
+		var img = document.createElement("img");
+		var local = '/comicdiy/comicapi?method=getThumbnail&relativePath=';
+		img.setAttribute("src",local+thumbnail);
+		img.setAttribute("height",30);
+		a.appendChild(img);
+		a.setAttribute("href","javascript:redirect('"+id+"')");
+		tr.appendChild(para);
+	}
+	
+	function redirect(idVal){
 		var user = $('#userId').val();
-		var idVal = $('#id'+key).attr("value")
 		//http://localhost:8080/animclient/Aplayer_simple.html?userId=lwz7512&animId=897744a04d5e4f43
 		var url =  "Aplayer_simple.html?userId="+user+"&animId="+idVal;
 		window.location.href = url;
@@ -53,12 +113,22 @@
 
 </head>
 <body onload="getAnimationsOf()">
-用户ID：<input type="text" id="userId" value="lwz7512">
-<input type="button" id="submit"  value="查询动画" onclick="getAnimationsOf()">
-<br><br>
-<div>显示动画（名称列表）：</div>
-<div id="animList">
+<div id="content">
+	用户ID：<input type="text" id="userId" value="lwz7512">
+	<input type="button" id="submit"  value="查询动画" onclick="getAnimationsOf()">
+<!-- 	<br><br> -->
+<!-- 	<div>显示动画（名称列表）：</div> -->
+<!-- 	<div id="animList"> -->
+<!-- 	</div> -->
+	<table id="mytable">
+		<thead>
+			<tr>
+			<td>序号</td><td>名称</td><td>缩略图</td>
+			</tr>
+		</thead>
+		<tbody id="animList">
+		</tbody>
+	</table>
 </div>
-
 </body>
 </html>
