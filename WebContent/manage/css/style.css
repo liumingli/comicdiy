@@ -61,9 +61,9 @@ li {
 	padding:6px;
 }
 
-/* span{ */
-/* 	vertical-align:middle; */
-/* } */
+#labelSpan{
+	vertical-align:middle;
+}
 
 #content {
 	width:380px;

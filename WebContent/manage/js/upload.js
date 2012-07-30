@@ -85,7 +85,17 @@ function checkNull(){
 function createAsset(){
 	if(checkNull()){
 		var name =  $("#name").val();
-		var type =  $("#type").val();
+		var type=null;
+	    var radio=document.getElementsByName("radiobutton");
+		for(var i=0;i<radio.length;i++)
+		{
+		     if(radio.item(i).checked){
+		         type=radio.item(i).getAttribute("value");  
+		         break;
+		     }else{
+		    	 continue;
+		     }
+		} 
 		var price =  $("#price").val();
 		var category =  $("#category").val();
 		var label =  $("#label").val();
@@ -118,7 +128,6 @@ function createAsset(){
 
 function emptyForm(){
 	 $("#name").val("");
-	 $("#type").val("element");
 	 $("#price").val("0");
 	 $("#category").val("");
 	 $("#labelSpan").children().remove();
