@@ -112,6 +112,13 @@ public class ApiAdaptor {
 		return jsonArray.toString();
 	}
 	
+	public String searchByLabelAndType(String labels, String type) {
+		List<Assets> list = comicService.searchByLabelAndType(labels,type);
+		JSONArray jsonArray = JSONArray.fromCollection(list);
+		processPath(jsonArray);
+		return jsonArray.toString();
+	}
+	
 	public String getAllCategory() {
 		List<Category> list = comicService.getAllCategory();
 		return JSONArray.fromCollection(list).toString();
@@ -282,8 +289,7 @@ public class ApiAdaptor {
 		String result = comicService.modifyAnimation(animId,content);
 		return result;
 	}
-	
-	
 
+	
 
 } // end of class

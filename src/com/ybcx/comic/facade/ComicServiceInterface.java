@@ -27,6 +27,8 @@ public interface ComicServiceInterface {
 	public String deleteAssetById(String assetId);
 
 	public List<Assets> searchByLabel(String labels);
+	
+	public List<Assets> searchByLabelAndType(String labels, String type);
 
 	public Assets getAssetById(String assetId);
 

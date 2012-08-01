@@ -39,10 +39,12 @@ Holiday.prototype.convert = function(enHoliday){//container:Element
    }else  if(enHoliday == 'Halloween'){
 	   chHoliday = '万圣节';
    }else  if(enHoliday == 'Neujahr'){
-	   chHoliday = '平安夜';
+	   chHoliday = '元旦';
    }else  if(enHoliday == 'Christmas-eve'){
-	   chHoliday = '圣诞节';
+	   chHoliday = '平安夜';
    }else  if(enHoliday == 'Christmas'){
+	   chHoliday = '圣诞节';
+   }else{
 	   chHoliday = '其他';
    }
    

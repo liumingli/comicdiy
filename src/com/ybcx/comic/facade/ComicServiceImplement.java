@@ -36,7 +36,6 @@ import com.ybcx.comic.utils.ComicUtils;
 @SuppressWarnings("restriction")
 public class ComicServiceImplement implements ComicServiceInterface {
 
-
 	// 由Spring注入
 	private DBAccessInterface dbVisitor;
 	
@@ -278,6 +277,39 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		return andList;
 	}
 
+	@Override
+	public List<Assets> searchByLabelAndType(String labels, String type) {
+		List<Assets> resList = new ArrayList<Assets>();
+		List<Assets> andList = new ArrayList<Assets>();
+		List<Assets> orList = new ArrayList<Assets>();
+		 String[] labelArr =labels.split(" ");
+		 StringBuffer labelOr = new StringBuffer();
+		 //在这里将用空格分隔的labels转变成sql可识别的'','
+		 if(labelArr.length > 0){
+			 for (int i = 0; i < labelArr.length; i++) {
+					if (!"".equals(labelArr[i].trim())) {
+						if (labelOr.length() > 0) {
+							labelOr.append(",");
+						}
+						labelOr.append("'");
+						labelOr.append(labelArr[i]);
+						labelOr.append("'");
+					}
+				}
+			 
+			 andList = dbVisitor.searchByLabelTypeAnd(labelArr,type);
+			 orList = dbVisitor.searchByLabelTypeOr(labelOr.toString(),type);
+		 }
+		 
+		 resList = combinResult(andList, orList);
+		 
+		List<Assets> resultList = new ArrayList<Assets>();
+		
+		resultList = this.combinLabels(resList);
+		
+		return resultList;
+	}
+	
 	@Override
 	public List<Category> getAllCategory() {
 		List<Category> cateList = dbVisitor.getAllCategory();
@@ -580,7 +612,6 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}
 		return String.valueOf(flag);
 	}
-
 
 
 }

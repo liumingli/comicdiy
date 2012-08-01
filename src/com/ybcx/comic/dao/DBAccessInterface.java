@@ -35,7 +35,11 @@ public interface DBAccessInterface {
 		
 		public List<Assets> searchByLabelAnd(String[] labelArr);
 
-		public List<Assets> searchByLabelOr(String string);
+		public List<Assets> searchByLabelOr(String labels);
+		
+		public List<Assets> searchByLabelTypeAnd(String[] labelArr,String type);
+
+		public List<Assets> searchByLabelTypeOr(String labels,String type);
 
 		public List<Category> getAllCategory();
 

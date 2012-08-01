@@ -19,6 +19,9 @@ public interface ExtVisitorInterface {
 	//根据标签搜索素材
 	public static final String SEARCHBYLABEL = "searchByLabel";
 	
+	//根据标签(以空格分隔多个)以及分类(element or theme)搜索素材
+	public static final String SEARCHBYLABELANDTYPE = "searchByLabelAndType";
+	
 	//上传一个素材
 	public static final String CREATEASSET = "createAsset";
 	
