@@ -613,5 +613,11 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		return String.valueOf(flag);
 	}
 
+	@Override
+	public int getAssetCountByType(String type) {
+		int rows = dbVisitor.getAssetCountByType(type);
+		return rows;
+	}
+
 
 }

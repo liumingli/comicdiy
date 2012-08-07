@@ -56,6 +56,8 @@ public interface DBAccessInterface {
 		public int deleteLabelByParent(String parentId);
 
 		public List<Assets> getAsssetsByType(String type, int page, int pageSize);
+		
+		public int getAssetCountByType(String type);
 
 		public Cartoon getAnimationBy(String userId, String animId);
 		
@@ -69,5 +71,6 @@ public interface DBAccessInterface {
 				String uploadTime);
 
 		public int updateAnimation(String animId, String content);
+
 
 }

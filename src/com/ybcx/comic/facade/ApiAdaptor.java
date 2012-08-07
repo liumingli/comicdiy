@@ -289,6 +289,11 @@ public class ApiAdaptor {
 		String result = comicService.modifyAnimation(animId,content);
 		return result;
 	}
+	
+	public int getAssetCountByType(String type) {
+		int result = comicService.getAssetCountByType(type);
+		return result;
+	}
 
 	
 

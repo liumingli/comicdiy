@@ -64,5 +64,7 @@ public interface ComicServiceInterface {
 
 	public String modifyAnimation(String animId, String content);
 
+	public int getAssetCountByType(String type);
+
 	
 }

@@ -440,7 +440,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	public List<Assets> getAsssetsByType(String type, int page, int pageSize) {
 		List<Assets> resList = new ArrayList<Assets>();
 		int startLine = (page -1)*pageSize;
-		String sql = "select * from t_assets where a_type='"+type+"' order by a_heat desc limit "+startLine+","+pageSize;
+		String sql = "select * from t_assets where a_type='"+type+"' and a_enable=1 order by a_heat desc limit "+startLine+","+pageSize;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -460,6 +460,13 @@ public class DBAccessImplement  implements DBAccessInterface {
 			}
 		}
 		return resList;
+	}
+	
+	@Override
+	public int getAssetCountByType(String type) {
+		String sql = "select count(a_id) from t_assets where a_type='"+type+"' and a_enable=1 order by a_heat desc";
+		int rows = jdbcTemplate.queryForInt(sql);
+		return rows;
 	}
 
 	@Override

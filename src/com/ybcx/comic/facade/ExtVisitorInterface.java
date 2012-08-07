@@ -71,7 +71,10 @@ public interface ExtVisitorInterface {
 	//动画载入播放
 	public static final String GETANIMATIONBY = "getAnimationBy";
 	
-	//某用户的所胡diy动画
+	//按分类获取素材总数
+	public static final String GETASSETCOUNTBY = "getAssetCountBy";
+	
+	//某用户的所有diy动画
 	public static final String GETANIMATIONSOF = "getAnimationsOf";
 	
 	//上传本地图片
@@ -82,6 +85,7 @@ public interface ExtVisitorInterface {
 	
 	//动画修改
 	public static final String MODIFYANIM = "modifyAnim";
+	
     
     //--------接微博相关方法
     

@@ -192,6 +192,15 @@ public class AssistProcess {
 			pw.print(result);
 			pw.close();
 			
+		}else if (action.equals(AppStarter.GETASSETCOUNTBY)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String type = req.getParameter("type");
+			int result= apiAdaptor.getAssetCountByType(type);
+			log.debug(result);
+			pw.print(result);
+			pw.close();	
+			
 		}else if (action.equals(AppStarter.GETANIMATIONBY)) {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
