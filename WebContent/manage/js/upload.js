@@ -10,6 +10,7 @@ window.onload = function(){
 		    if (!regexp.test(fileName)) {
 		    	  $('#assetInfo').show().html('<img src="imgs/no.png">');
 		    }else{
+		    	 $('#assetInfo').show().html('<img src="imgs/loading.gif">');
 				var jqXHR = data.submit().success(
 						function(result, textStatus, jqXHR) {
 							console.log(result);
@@ -40,6 +41,7 @@ window.onload = function(){
 		    if (!regexp.test(fileName)) {
 		    	  $('#thumbnailInfo').show().html('<img src="imgs/no.png">');
 		    }else{
+		    	 $('#thumbnailInfo').show().html('<img src="imgs/loading.gif">');
 				var jqXHR = data.submit().success(
 						function(result, textStatus, jqXHR) {
 							console.log(result);
@@ -144,6 +146,7 @@ function checkNull(){
 }
 
 function createAsset(){
+	$('#prompt').show().html('<img src="imgs/load.gif">');
 	if(checkNull()){
 		var name =  $("#name").val();
 		var type=null;
