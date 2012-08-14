@@ -47,9 +47,12 @@
 		<input type="hidden" id="assetId">
 		<label>名称</label>
 			<input type="text" id="name"><br>
+		<label id="typeLab">类型</label>
+			<input type="radio" name="radiobutton" id="type" value="element" >元件
+			<input type="radio" name="radiobutton" id="type" value="theme"> 主题<br>
 		<label>价格</label>
 			<input type="text" id="price"><br>
-		<label>关联节假日</label>
+		<label id="hodLab">关联节假日</label>
 		<select id="holiday">
 			<option value="Neujahr">元旦</option>
 			<option value="Spring">春节</option>
@@ -70,8 +73,7 @@
 			<option value="Christmas-eve">平安夜</option>
 			<option value="Christmas">圣诞节</option>
 			<option value="others">其他</option>
-		</select>
-		<br>
+		</select><br>
 		<input type="button" id="submit" value="提交" onclick="updateAsset();">
 	</div>
 </div>  

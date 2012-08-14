@@ -149,7 +149,7 @@ function createAsset(){
 	$('#prompt').show().html('<img src="imgs/load.gif">');
 	if(checkNull()){
 		var name =  $("#name").val();
-		var type=null;
+		var type='';
 	    var radio=document.getElementsByName("radiobutton");
 		for(var i=0;i<radio.length;i++)
 		{
@@ -257,7 +257,7 @@ function initLabel(){
 				}
 			}
 		}else{
-			alert("获取标签有误");
+			alert("无标签");
 		}
 	},"json");
 	
@@ -280,7 +280,7 @@ function initChildLable(parent,num){
 				chooseLable(num,key);
 			}
 		}else{
-			alert("获取标签有误");
+			$('#childLabel').append('<span><font size="2" color="red">无子标签</font></span>');
 		}
 	},"json");
 	

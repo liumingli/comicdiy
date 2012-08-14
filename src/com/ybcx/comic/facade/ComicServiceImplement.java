@@ -219,9 +219,9 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 	
 	@Override
-	public String updateAssetById(String assetId, String name, String price, String holiday) {
+	public String updateAssetById(String assetId, String name, String price, String holiday, String type) {
 		boolean flag = true;
-		int rows = dbVisitor.updateAssetById(assetId,name,price,holiday);
+		int rows = dbVisitor.updateAssetById(assetId,name,price,holiday,type);
 		if(rows < 1){
 			flag = false;
 		}

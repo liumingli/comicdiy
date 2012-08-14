@@ -129,6 +129,17 @@ function createEditWindow(result,assetId){
 	$("#price").val(result.price);
 	$("#holiday").val(result.holiday);
 	$("#assetId").val(assetId);
+	var radio=document.getElementsByName("radiobutton");
+	for(var i=0;i<radio.length;i++)
+	{
+		 var type=radio.item(i).getAttribute("value");  
+		 if(type == result.type){
+			 radio.item(i).checked=true;
+	         break;
+	     }else{
+	    	 continue;
+	     }
+	}
 }
 
 
@@ -158,35 +169,72 @@ function deleteAssetById(key){
 	
 }
 
+//检查字段空值
+function checkNull(){
+	var assetId=$("#assetId").attr("value");
+	var name=$("#name").attr("value");
+	var price=$("#price").attr("value");
+	var holiday=$("#holiday").attr("value");
+	var type='';
+    var radio=document.getElementsByName("radiobutton");
+	for(var i=0;i<radio.length;i++)
+	{
+	     if(radio.item(i).checked){
+	         type=radio.item(i).getAttribute("value");  
+	         break;
+	     }else{
+	    	 continue;
+	     }
+	}
+	if(assetId == "" || assetId == null || name == "" || name == null ||
+			price == "" || price == null || holiday == "" || holiday == null ||
+			type == "" || type == null){
+		return false;
+	}else{
+		return true;
+	}
+}
+
 function updateAsset(){
 	var assetId=$("#assetId").attr("value");
 	var name=$("#name").attr("value");
 	var price=$("#price").attr("value");
 	var holiday=$("#holiday").attr("value");
-	//根据id查出广告详情并填充newAd用于修改
-	$.post('/comicdiy/comicapi', {
-		'method'  : 'updateAssetById',
-		'assetId' : assetId,
-		'name' : name,
-		'price' : price,
-		'holiday' : holiday
-	}, 
-	//回调函数
-	function (result) {
-		if(result.trim() == 'false'){
-			 alert("操作有误，请重试！");
+	var type='';
+    var radio=document.getElementsByName("radiobutton");
+	for(var i=0;i<radio.length;i++)
+	{
+	     if(radio.item(i).checked){
+	         type=radio.item(i).getAttribute("value");  
+	         break;
+	     }else{
+	    	 continue;
 	     }
-		
-		//关闭编辑窗口
-		disablePopup();  
-	     //操作后刷新列表
-		getAllAssets();
-	});
+	}
 	
+	if(checkNull()){
+		//根据id查出广告详情并填充newAd用于修改
+		$.post('/comicdiy/comicapi', {
+			'method'  : 'updateAssetById',
+			'assetId' : assetId,
+			'name' : name,
+			'price' : price,
+			'holiday' : holiday,
+			'type' : type
+		}, 
+		//回调函数
+		function (result) {
+			if(result.trim() == 'false'){
+				 alert("操作有误，请重试！");
+		     }
+			
+			//关闭编辑窗口
+			disablePopup();  
+		     //操作后刷新列表
+			getAllAssets();
+		});
+	}
 }
-
-
-
 
 //按条件搜索素材
 function searchAssets(){

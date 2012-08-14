@@ -206,9 +206,9 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 
 	@Override
-	public int updateAssetById(String assetId, String name, String price, String holiday) {
+	public int updateAssetById(String assetId, String name, String price, String holiday, String type) {
 		Float priceVal = Float.parseFloat(price);
-		String sql = "update t_assets set a_name='"+name+"', a_price="+priceVal+", a_holiday ='"+ holiday+"' where a_id='"+assetId+"'";
+		String sql = "update t_assets set a_name='"+name+"', a_price="+priceVal+", a_holiday ='"+ holiday+"', a_type='"+type+"' where a_id='"+assetId+"'";
 		int rows = jdbcTemplate.update(sql);
 		return rows;
 	}

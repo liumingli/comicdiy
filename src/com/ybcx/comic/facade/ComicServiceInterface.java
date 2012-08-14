@@ -32,7 +32,7 @@ public interface ComicServiceInterface {
 
 	public Assets getAssetById(String assetId);
 
-	public String updateAssetById(String assetId, String name, String price, String holiday);
+	public String updateAssetById(String assetId, String name, String price, String holiday, String type);
 
 	public List<Category> getAllCategory();
 

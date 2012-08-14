@@ -36,7 +36,7 @@ function initChildLabel(parentId){
 		if(result.length > 0){
 			for( key in result ){
 				var para = "('"+result[key].id+"','"+result[key].parent+"')";
-				$('#childLabel').append('<div>'+result[key].name+'<a href="javascript:deleteLabel'+para+'"><img src="imgs/delete.png"></a></div>');
+				$('#childLabel').append('<div class="child">'+result[key].name+'<a href="javascript:deleteLabel'+para+'"><img src="imgs/delete.png"></a></div>');
 			}
 	    }
 	},"json");

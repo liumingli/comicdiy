@@ -47,10 +47,16 @@ img{
 
 .odd {
 	background-color: #dbe8f0;
+	padding:4px;
 }
 
 .ldd {
     background-color: #f5f5f5;
+    padding:4px;
+}
+
+.child{
+	  padding:3px;
 }
 
 span{
@@ -63,13 +69,5 @@ span:HOVER{
 }
 
 
-ul {
-	list-style: none;
-}
-
-li {
-	display: list-item;
-	padding:6px;
-}
 
 

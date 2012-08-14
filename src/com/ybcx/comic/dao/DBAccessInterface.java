@@ -31,7 +31,7 @@ public interface DBAccessInterface {
 
 		public Assets getAssetById(String assetId);
 
-		public int updateAssetById(String assetId, String name, String price, String holiday);
+		public int updateAssetById(String assetId, String name, String price, String holiday, String type);
 		
 		public List<Assets> searchByLabelAnd(String[] labelArr);
 

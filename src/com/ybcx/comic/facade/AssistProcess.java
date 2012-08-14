@@ -111,7 +111,8 @@ public class AssistProcess {
 			String name = req.getParameter("name");
 			String price = req.getParameter("price");
 			String holiday = req.getParameter("holiday");
-			String result= apiAdaptor.updateAssetById(assetId,name,price,holiday);
+			String type = req.getParameter("type");
+			String result= apiAdaptor.updateAssetById(assetId,name,price,holiday,type);
 			log.debug(result);
 			pw.print(result);
 			pw.close();
