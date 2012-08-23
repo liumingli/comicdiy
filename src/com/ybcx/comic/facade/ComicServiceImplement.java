@@ -28,6 +28,7 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
+import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.dao.DBAccessInterface;
 import com.ybcx.comic.tools.ImageHelper;
@@ -317,9 +318,9 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 
 	@Override
-	public String createCategory(String name) {
+	public String createCategory(String name,String parent) {
 		String id = ComicUtils.generateUID();
-		int rows = dbVisitor.createCategory(id,name);
+		int rows = dbVisitor.createCategory(id,name,parent);
 		if(rows<1){
 			id = "";
 		}
@@ -588,6 +589,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		cartoon.setName(name);
 		cartoon.setThumbnail(thumbnail);
 		cartoon.setCreateTime( ComicUtils.getFormatNowTime());
+		cartoon.setEnable(1);
 		return cartoon;
 	}
 
@@ -619,5 +621,42 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		return rows;
 	}
 
+	@Override
+	public List<Cartoon> getAllAnimation() {
+		List<Cartoon> cartoonList = dbVisitor.getAllAnimation();
+		return cartoonList;
+	}
+
+	@Override
+	public List<Images> getAllImages() {
+		List<Images> cartoonList = dbVisitor.getAllImages();
+		return cartoonList;
+	}
+
+	@Override
+	public String examineAnim(String animId) {
+		boolean flag = false;
+		int rows = dbVisitor.updateAnimById(animId);
+		if(rows > 0){
+			flag = true;
+		}
+		return String.valueOf(flag);
+	}
+
+	@Override
+	public String examineImage(String imgId, String imgPath) {
+		boolean flag = false;
+		int rows = dbVisitor.updateImageById(imgId);
+		if(rows > 0){
+			flag = true;
+		}
+		return String.valueOf(flag);
+	}
+
+	@Override
+	public List<Cartoon> searchAnimation(String key) {
+		List<Cartoon> list = dbVisitor.searchAnimation(key);
+		return list;
+	}
 
 }

@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
+import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.dao.DBAccessInterface;
 import com.ybcx.comic.utils.ComicUtils;
@@ -362,6 +363,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 				Category category = new Category();
 				category.setId(map.get("c_id").toString());
 				category.setName(map.get("c_name").toString());
+				category.setParent(map.get("c_parent").toString());
 				category.setHeat(Integer.parseInt(map.get("c_heat").toString()));
 				resList.add(category);
 			}
@@ -370,8 +372,8 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 
 	@Override
-	public int createCategory(String id, String name) {
-		String sql = "insert into t_category values('"+id+"', '"+name+"', 0, '')";
+	public int createCategory(String id, String name, String parent) {
+		String sql = "insert into t_category(c_id,c_name,c_parent,c_heat, c_memo) values('"+id+"', '"+name+"','"+parent+"', 0, '')";
 		int rows = jdbcTemplate.update(sql);
 		return rows;
 	}
@@ -472,7 +474,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public Cartoon getAnimationBy(String userId, String animId) {
 		Cartoon cartoon = new Cartoon();
-		String sql = "select * from t_cartoon where c_id='"+animId+"' and c_owner='"+userId+"'";
+		String sql = "select * from t_cartoon where c_id='"+animId+"' and c_owner='"+userId+"' and c_enable=1";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -483,6 +485,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 				cartoon.setContent(map.get("c_content").toString());
 				cartoon.setCreateTime(map.get("c_createTime").toString());
 				cartoon.setThumbnail(map.get("c_thumbnail").toString());
+				cartoon.setEnable(Integer.parseInt(map.get("c_enable").toString()));
 			}
 		}
 		return cartoon;
@@ -491,7 +494,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public List<Cartoon> getAnimationsOf(String userId) {
 		List<Cartoon> list = new ArrayList<Cartoon>();
-		String sql = "select * from t_cartoon where c_owner='"+userId+"'";
+		String sql = "select * from t_cartoon where c_owner='"+userId+"' and c_enable=1 order by c_createTime desc";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -503,6 +506,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 				cartoon.setContent(map.get("c_content").toString());
 				cartoon.setCreateTime(map.get("c_createTime").toString());
 				cartoon.setThumbnail(map.get("c_thumbnail").toString());
+				cartoon.setEnable(Integer.parseInt(map.get("c_enable").toString()));
 				list.add(cartoon);
 			}
 		}
@@ -512,8 +516,8 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public int saveAnimation(final Cartoon cartoon) {
 		String sql = "INSERT INTO t_cartoon "
-				+ "(c_id, c_name, c_thumbnail, c_content, c_owner, c_createTime, c_memo) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+				+ "(c_id, c_name, c_thumbnail, c_content, c_owner, c_createTime, c_enable, c_memo) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement ps) {
@@ -524,7 +528,8 @@ public class DBAccessImplement  implements DBAccessInterface {
 					ps.setString(4, cartoon.getContent());
 					ps.setString(5, cartoon.getOwner());
 					ps.setString(6, cartoon.getCreateTime());
-					ps.setString(7,"");
+					ps.setInt(7, cartoon.getEnable());
+					ps.setString(8,"");
 
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -557,7 +562,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public int createLocalImage(final String id, final String userId, final String path,
 			final String uploadTime) {
-		String sql = "insert into t_images (i_id,i_path,i_uploadTime,i_owner,i_memo) values(?,?,?,?,?)";
+		String sql = "insert into t_images (i_id,i_path,i_uploadTime,i_owner,i_enable,i_memo) values(?,?,?,?,?,?)";
 		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement ps) {
 				try {
@@ -565,7 +570,8 @@ public class DBAccessImplement  implements DBAccessInterface {
 					ps.setString(2, path);
 					ps.setString(3, uploadTime);
 					ps.setString(4, userId);
-					ps.setString(5,"");
+					ps.setInt(5, 1);
+					ps.setString(6,"");
 
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -584,5 +590,84 @@ public class DBAccessImplement  implements DBAccessInterface {
 		return rows;
 	}
 
+	@Override
+	public List<Cartoon> getAllAnimation() {
+		List<Cartoon> list = new ArrayList<Cartoon>();
+		String sql = "select * from t_cartoon where c_enable=1 order by c_createTime desc";
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				Cartoon cartoon = new Cartoon();
+				cartoon.setId(map.get("c_id").toString());
+				cartoon.setName(map.get("c_name").toString());
+				cartoon.setOwner(map.get("c_owner").toString());
+				cartoon.setContent(map.get("c_content").toString());
+				cartoon.setCreateTime(map.get("c_createTime").toString());
+				cartoon.setThumbnail(map.get("c_thumbnail").toString());
+				cartoon.setEnable(Integer.parseInt(map.get("c_enable").toString()));
+				list.add(cartoon);
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<Images> getAllImages() {
+		List<Images> list = new ArrayList<Images>();
+		String sql = "select * from t_images where i_enable=1 order by i_uploadTime desc";
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				Images img = new Images();
+				img.setId(map.get("i_id").toString());
+				img.setOwner(map.get("i_owner").toString());
+				img.setUploadTime(map.get("i_uploadTime").toString());
+				img.setPath(map.get("i_path").toString());
+				img.setEnable(Integer.parseInt(map.get("i_enable").toString()));
+				list.add(img);
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public int updateAnimById(String animId) {
+		String sql = "update t_cartoon set c_enable = 0 where c_id='"+animId+"'";
+//		String sql = "delete from t_cartoon where c_id='"+animId+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
+	@Override
+	public int updateImageById(String imgId) {
+		String sql = "update t_images set i_enable = 0 where i_id='"+imgId+"'";
+//		String sql = "delete from t_images where i_id='"+imgId+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
+	@Override
+	public List<Cartoon> searchAnimation(String key) {
+		List<Cartoon> list = new ArrayList<Cartoon>();
+		String sql = "select * from t_cartoon where c_enable=1 and c_name like '%"+key+"%' order by c_createTime desc";
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				Cartoon cartoon = new Cartoon();
+				cartoon.setId(map.get("c_id").toString());
+				cartoon.setName(map.get("c_name").toString());
+				cartoon.setOwner(map.get("c_owner").toString());
+				cartoon.setContent(map.get("c_content").toString());
+				cartoon.setCreateTime(map.get("c_createTime").toString());
+				cartoon.setThumbnail(map.get("c_thumbnail").toString());
+				cartoon.setEnable(Integer.parseInt(map.get("c_enable").toString()));
+				list.add(cartoon);
+			}
+		}
+		return list;
+	}
 
 }

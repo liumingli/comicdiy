@@ -9,6 +9,7 @@ import org.apache.commons.fileupload.FileItem;
 import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
+import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 
 public interface ComicServiceInterface {
@@ -36,7 +37,7 @@ public interface ComicServiceInterface {
 
 	public List<Category> getAllCategory();
 
-	public String createCategory(String name);
+	public String createCategory(String name,String parent);
 
 	public void getThumbnailFile(String relativePath, HttpServletResponse res);
 
@@ -65,6 +66,16 @@ public interface ComicServiceInterface {
 	public String modifyAnimation(String animId, String content);
 
 	public int getAssetCountByType(String type);
+
+	public List<Cartoon> getAllAnimation();
+
+	public List<Images> getAllImages();
+
+	public String examineAnim(String animId);
+
+	public String examineImage(String imgId, String imgPath);
+
+	public List<Cartoon> searchAnimation(String key);
 
 	
 }

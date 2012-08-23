@@ -6,6 +6,7 @@ import java.util.Map;
 import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
+import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 
 
@@ -43,7 +44,7 @@ public interface DBAccessInterface {
 
 		public List<Category> getAllCategory();
 
-		public int createCategory(String id, String name);
+		public int createCategory(String id, String name, String parent);
 
 		public List<Label> getAllParentLabel();
 
@@ -72,5 +73,14 @@ public interface DBAccessInterface {
 
 		public int updateAnimation(String animId, String content);
 
+		public List<Cartoon> getAllAnimation();
+
+		public List<Images> getAllImages();
+
+		public int updateAnimById(String animId);
+
+		public int updateImageById(String imgId);
+
+		public List<Cartoon> searchAnimation(String key);
 
 }

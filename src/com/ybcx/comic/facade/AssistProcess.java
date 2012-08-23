@@ -129,7 +129,8 @@ public class AssistProcess {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
 			String name = req.getParameter("name");
-			String result= apiAdaptor.createCategory(name);
+			String parent = req.getParameter("parent");
+			String result= apiAdaptor.createCategory(name,parent);
 			log.debug(result);
 			pw.print(result);
 			pw.close();
@@ -231,6 +232,50 @@ public class AssistProcess {
 			pw.print(result);
 			pw.close();
 			
+		}else if (action.equals(AppStarter.GETALLANIM)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String result= apiAdaptor.getAllAnim();
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.GETALLIMAGE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String result= apiAdaptor.getAllImage();
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.EXAMINEANIM)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String animId = req.getParameter("animId");
+			String result= apiAdaptor.examineAnim(animId);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.EXAMINEIMAGE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String imgId = req.getParameter("imgId");
+			String imgPath = req.getParameter("imgPath");
+			String result= apiAdaptor.examineImage(imgId,imgPath);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+		
+		}else if (action.equals(AppStarter.SEARCHANIM)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String key = req.getParameter("key");
+			String result= apiAdaptor.searchAnim(key);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+		
 		}else{
 			
 		}

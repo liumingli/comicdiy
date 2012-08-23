@@ -8,14 +8,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
+import org.apache.commons.fileupload.FileItem;
 
 import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
+import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 
 
@@ -124,8 +125,8 @@ public class ApiAdaptor {
 		return JSONArray.fromCollection(list).toString();
 	}
 	
-	public String createCategory(String name) {
-		String idVal = comicService.createCategory(name);
+	public String createCategory(String name, String parent) {
+		String idVal = comicService.createCategory(name,parent);
 		return idVal;
 	}
 	
@@ -294,7 +295,50 @@ public class ApiAdaptor {
 		int result = comicService.getAssetCountByType(type);
 		return result;
 	}
-
+	
+	public String getAllAnim() {
+		List<Cartoon> list = comicService.getAllAnimation();
+		JSONArray jsonArray = JSONArray.fromCollection(list);
+		processCartoon(jsonArray);
+		return jsonArray.toString();
+	}
+	
+	private void processImgPath(JSONArray jsonArray) {
+		for (int i = 0; i < jsonArray.length(); i++) {
+			//DIY成品的缩略图
+			String thumbnailPath = jsonArray.getJSONObject(i).get("path").toString();
+			if(!"".equals(thumbnailPath)){
+				//先从字符串中找到文件夹uploadFile的位置，再加上uploadFile的长度10，即可截取到下属文件路径
+				int position = thumbnailPath.lastIndexOf("uploadFile");
+				String relativePath = thumbnailPath.substring(position+11);
+				jsonArray.getJSONObject(i).set("path", relativePath);
+			}
+		}
+	}
+	
+	public String getAllImage() {
+		List<Images> list = comicService.getAllImages();
+		JSONArray jsonArray = JSONArray.fromCollection(list);
+		processImgPath(jsonArray);
+		return jsonArray.toString();
+	}
+	
+	public String examineAnim(String animId) {
+		String result = comicService.examineAnim(animId);
+		return result;
+	}
+	
+	public String examineImage(String imgId, String imgPath) {
+		String result = comicService.examineImage(imgId,imgPath);
+		return result;
+	}
+	
+	public String searchAnim(String key) {
+		List<Cartoon> list = comicService.searchAnimation(key);
+		JSONArray jsonArray = JSONArray.fromCollection(list);
+		processCartoon(jsonArray);
+		return jsonArray.toString();
+	}
 	
 
 } // end of class

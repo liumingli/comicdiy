@@ -88,3 +88,6 @@ input#selfCategory{
 	 width: 100px;
 }
 
+input[type="text"] {
+	width:200px;
+}

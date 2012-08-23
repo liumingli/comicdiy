@@ -5,7 +5,15 @@ public class Category {
 	private String id;
 	private String name;
 	private int heat;
+	private String parent;
 	
+	
+	public String getParent() {
+		return parent;
+	}
+	public void setParent(String parent) {
+		this.parent = parent;
+	}
 	public String getId() {
 		return id;
 	}

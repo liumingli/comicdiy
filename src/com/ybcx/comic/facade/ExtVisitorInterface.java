@@ -86,6 +86,27 @@ public interface ExtVisitorInterface {
 	//动画修改
 	public static final String MODIFYANIM = "modifyAnim";
 	
+	//查看所有动画待审核
+	public static final String GETALLANIM = "getAllAnim";
+	
+	//动画审核删除
+	public static final String  EXAMINEANIM = "examineAnim";
+	
+	public static final String GETANIMBYPAGE = "getAnimByPage";
+	
+	//查看所有图片待审核
+	public static final String GETALLIMAGE = "getAllImage";
+	
+	//用户上传的图片审核删除
+	public static final String EXAMINEIMAGE = "exanimeImage";
+	
+	public static final String GETIMAGEBYPAGE = "getImageByPage";
+	
+	//根据动画名称模糊查询动画
+	public static final String SEARCHANIM = "searchAnim";
+	
+	
+	
     
     //--------接微博相关方法
     

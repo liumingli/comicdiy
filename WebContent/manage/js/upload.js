@@ -1,3 +1,8 @@
+//存放三大分类与项下各小分类
+var elementArray = new Array();
+var sceneArray = new Array();
+var themeArray = new Array();
+	
 window.onload = function(){
 	//加载页面时动态获取所有分类
 	getAllCategory();
@@ -76,7 +81,16 @@ function getAllCategory(){
 	function (result) {
 		if(result.length>0){
 			for(key in result){
-				$('#category').append("<option value='"+result[key].id+"'>"+result[key].name+"</option>");
+				if(result[key].parent=="element"){
+					elementArray.push(result[key]);
+					$('#category').append("<option value='"+result[key].id+"'>"+result[key].name+"</option>");
+				}
+				if(result[key].parent=="scene"){
+					sceneArray.push(result[key]);
+				}
+				if(result[key].parent=="theme"){
+					themeArray.push(result[key]);
+				}
 			}
 		}
 	},"json");
@@ -90,13 +104,35 @@ function selfDefination(){
 //自定义新分类
 function createCategory(){
 	var val = $('#selfCategory').val();
+	var type="";
+    var radio=document.getElementsByName("radiobutton");
+	for(var i=0;i<radio.length;i++)
+	{
+	     if(radio.item(i).checked){
+	         type=radio.item(i).getAttribute("value");  
+	         break;
+	     }else{
+	    	 continue;
+	     }
+	}
 	if(val != null && val != ""){
 		$.post('/comicdiy/comicapi', {
 			'method'  : 'createCategory',
-			'name': val
+			'name': val,
+			'parent': type
 		}, 
 		function (result) {
 			if(result!=null && result!=""){
+				var obj = new Object();
+				obj.id=result;
+				obj.name=val;
+				if(type=="element"){
+					elementArray.push(obj);
+				}else if(type == "theme"){
+					themeArray.push(obj);
+				}else if(type == "scene"){
+					sceneArray.push(obj);
+				}
 				$('#category').append("<option value='"+result+"' selected='selected'>"+val+"</option>");
 			}
 		});
@@ -125,7 +161,6 @@ function checkNull(){
 		    	 continue;
 		     }
 		}
-		console.log(type);
 		
 		var price =  $("#price").val();
 		var category =  $("#category").val();
@@ -146,8 +181,8 @@ function checkNull(){
 }
 
 function createAsset(){
-	$('#prompt').show().html('<img src="imgs/load.gif">');
 	if(checkNull()){
+		$('#prompt').show().html('<img src="imgs/load.gif">');
 		var name =  $("#name").val();
 		var type='';
 	    var radio=document.getElementsByName("radiobutton");
@@ -187,6 +222,8 @@ function createAsset(){
 				emptyForm();
 			}
 		});
+	}else{
+		$('#prompt').show().html('<font color="red" size="2">请填写内容</font>');
 	}
 }
 
@@ -208,10 +245,26 @@ function emptyForm(){
 
 function themeClick(){
     $('#price').val("");
+	  $('#category').children().remove();
+    for(var i=0;i<themeArray.length;i++){
+    	  $('#category').append("<option value='"+themeArray[i].id+"'>"+themeArray[i].name+"</option>");
+    }
 }
 
 function elementClick(){
     $('#price').val("0");
+	$('#category').children().remove();
+    for(var i=0;i<elementArray.length;i++){
+    	  $('#category').append("<option value='"+elementArray[i].id+"'>"+elementArray[i].name+"</option>");
+    }
+}
+
+function sceneClick(){
+	 $('#price').val("");
+	  $('#category').children().remove();
+	    for(var i=0;i<sceneArray.length;i++){
+	    	  $('#category').append("<option value='"+sceneArray[i].id+"'>"+sceneArray[i].name+"</option>");
+	    }
 }
 
 function checkNum(){
@@ -240,28 +293,149 @@ function operateLabel(){
 	initLabel();
 }
 
+//存储全部的标签
+var parentLabelList = new Array();
+
+//存储页面与元素下标的对应关系
+var matchupArray= new Array();
+
+var sumLength = 0;
+
 function initLabel(){
-	$('#parentLable').children().remove();
-	$.post('/comicdiy/comicapi', {
-		'method'  : 'getAllParentLabel'
-	}, 
-	function (result) {
-		if(result.length > 0){
-			for(key in result){
-				var parent ="('"+result[key].id+"','"+key+"')";
-				if(key == 0){
-					$('#parentLable').append('<a href = "javascript:initChildLable'+parent+'"  id="'+key+'" class="current" >'+result[key].name+'</a>');
-					initChildLable(result[key].id,key);
-				}else{
-					$('#parentLable').append('<a href = "javascript:initChildLable'+parent+'"  id="'+key+'">'+result[key].name+'</a>');
+	//判断标签框是否已加载
+	var div = document.getElementById('parentLable');
+	var len = div.childNodes.length;
+	console.log(len);
+	
+	if(len==0){
+		$('#parentLable').children().remove();
+		$.post('/comicdiy/comicapi', {
+			'method'  : 'getAllParentLabel'
+		}, 
+		function (result) {
+			if(result.length > 0){
+				//给数组赋值
+				for(key in result){
+					parentLabelList.push(result[key]);
 				}
+				
+				//根据长度判断第一次显示几个
+				for(key in result){
+					var parent ="('"+result[key].id+"','"+key+"')";
+					if(key == 0){
+						$('#parentLable').append('<a href = "javascript:initChildLable'+parent+'"  id="'+key+'" class="current" >'+result[key].name+'</a>');
+						initChildLable(result[key].id,key);
+						
+					}else{
+						var html = '<a href = "javascript:initChildLable'+parent+'"  id="'+key+'">'+result[key].name+'</a>';
+						var everyLength =$('#' + (parseInt(key)-1).toString()).width(); 
+						sumLength+= everyLength;
+						if(sumLength > 165)
+						{
+							//存入页码与开始元素的关系
+							matchupArray[1]=0;
+							$('.tip_right').show();
+							var pageNum = 2;
+							var para ="('"+key+"',"+pageNum+")";
+							$('#rightTip').attr('onclick','nextPage'+para);
+							matchupArray[pageNum]=key;
+							break;
+						}else{
+							$('#parentLable').append(html);
+						}
+					}
+				}
+			}else{
+				alert("无标签");
 			}
-		}else{
-			alert("无标签");
-		}
 	},"json");
+  }
+}
+
+//向后翻页
+//第num页，元素以key为下标的开始
+function nextPage(key,num){
+	console.log("nextPage>>>",key,num);
+	sumLength = 0;
+	$('#parentLable').children().remove();
 	
+	//从第key个元素开始添加第num页的标签
+	for(var i=parseInt(key);i<parentLabelList.length;i++){
+		
+		var parent ="('"+parentLabelList[i].id+"','"+i+"')";
+		//当前页的第一个标签，初始状态为选中
+		if(i == parseInt(key)){
+			$('#parentLable').append('<a href = "javascript:initChildLable'+parent+'"  id="'+i+'" class="current" >'+parentLabelList[i].name+'</a>');
+			initChildLable(parentLabelList[i].id,i);
+		}else{
+			var html = '<a href = "javascript:initChildLable'+parent+'"  id="'+i+'">'+parentLabelList[i].name+'</a>';
+			$('#parentLable').append(html);
+		}
+		
+		//累加长度
+		var everyLength =$('#' + i).width(); 
+		sumLength+= everyLength;
+		
+		if(sumLength > 165){
+			//判断如果还可翻页则继续
+			$('.tip_right').show();
+			var newPage=num+1;
+			var para ="('"+(i+1)+"',"+newPage+")";
+			$('#rightTip').attr('onclick','nextPage'+para);
+			
+			//存入页码与开始元素的关系
+			matchupArray[newPage]=i;
+			
+			break;
+			
+		}else{
+			$('.tip_left').show();
+			var newPage=num-1;
+			var para ="('"+key+"',"+newPage+")";
+			$('#leftTip').attr('onclick','previousPage'+para);
+			$('.tip_right').hide();
+		}
+	}
+}
+
+//往前翻页
+function previousPage(key,num){
+	console.log("previousPage>>>",key,num);
+	sumLength = 0;
+	$('#parentLable').children().remove();
 	
+	//取到当前页数是从哪个元素位置开始
+	var index = matchupArray[num];
+	console.log(index+"<<<<<<<");
+	for(var i = index;i<parentLabelList.length;i++){
+		var parent ="('"+parentLabelList[i].id+"','"+i+"')";
+		if(i == index){
+			$('#parentLable').append('<a href = "javascript:initChildLable'+parent+'"  id="'+i+'" class="current" >'+parentLabelList[i].name+'</a>');
+			initChildLable(parentLabelList[i].id,i);
+		}else{
+			var html = '<a href = "javascript:initChildLable'+parent+'"  id="'+i+'">'+parentLabelList[i].name+'</a>';
+			$('#parentLable').append(html);
+		}
+		var everyLength =$('#' + i).width(); 
+		sumLength+= everyLength;
+		if(sumLength > 165){
+			if(num>1){
+				$('.tip_left').show();
+				var newPage=num-1;
+				var para ="('"+index+"',"+newPage+")";
+				$('#leftTip').attr('onclick','previousPage'+para);
+			}
+			break;
+		}else{
+			$('.tip_right').show();
+			var newPage=num+1;
+			var para ="('"+key+"',"+newPage+")";
+			$('#rightTip').attr('onclick','nextPage'+para);
+			$('.tip_left').hide();
+			//存入页码与开始元素的关系
+			matchupArray[newPage]=key;
+		}
+	}
 }
 
 function initChildLable(parent,num){

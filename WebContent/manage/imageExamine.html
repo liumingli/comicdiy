@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>图片审核</title>
+<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/style.css" />
+<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/imgexamine.js" charset="utf-8"></script>
+
+</head>
+<body onload="getAllImage()">
+	<table id="mytable">
+		<thead>
+			<tr>
+			<td>序号</td><td>缩略图</td><td>上传时间</td><td>操作</td>
+			</tr>
+		</thead>
+		<tbody id="imgList">
+		</tbody>
+	</table>
+	<div id="paging">
+		<span id="firstPage"><a href="javascript:getFirstpageImg()">第一页</a></span>
+		<span id="prevPage"><a href="javascript:getPrevpageImg()">上一页</a></span>
+		<span id="nextPage"><a href="javascript:getNextpageImg()">下一页</a></span>
+		<span id="lastPage"><a href="javascript:getLastpageImg()">最后一页</a></span>
+		<span id="currentPage">当前第<span id="current"></span>页</span>
+		<span id="totalPage">共<span id="total"></span>页</span>
+	</div>
+</body>
+</html>

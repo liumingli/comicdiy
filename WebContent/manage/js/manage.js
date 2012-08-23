@@ -34,8 +34,10 @@ function getAllAssets(){
 					var type = result[key].type;
 					if(type == 'element'){
 						type = '元件';
-					}else{
-						type = '主题';
+					}else if(type == 'scene'){
+						type = '场景';
+					}else if(type == 'theme'){
+						type = '情景';
 					}
 					generateTd(type,key);
 					//分类

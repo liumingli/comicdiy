@@ -28,7 +28,8 @@
 	<li>
 		<label>类型</label>
 		<input type="radio" name="radiobutton" id="type" value="element"  checked onclick="elementClick();">元件
-		<input type="radio" name="radiobutton" id="type" value="theme" onclick="themeClick();"> 主题
+		<input type="radio" name="radiobutton" id="type" value="scene" onclick="sceneClick();"> 场景
+		<input type="radio" name="radiobutton" id="type" value="theme" onclick="themeClick();"> 情景
 	</li>
 	<li>
 		<label>价格</label>
@@ -49,21 +50,31 @@
 	</li>
 	<li>
 		<label>标签</label>
-		<span id="labelSpan" style="display:inline-block; width:150px; height:20px; border:1px solid #999; margin-left:2px;" onclick="operateLabel();"></span>
+		<span id="labelSpan" style="display:inline-block; width:200px; height:20px; border:1px solid #999; margin-left:2px;" onclick="operateLabel();"></span>
 		<span class="help-block">最多可选三个</span>
 		<input type="hidden" id="label">
 		
 		 <div id="tag_wrap" style="display: none;" class="tips_tab">  
-			<div class ="tipTab_sorts">
-				<span class="tip_win">
-					<a href="javascript:closePopup();">
-						<img src="imgs/close.gif">
-					</a>
-				</span>
-			<div id="parentLable"></div>
+		 	<span class="tip_left" style="display: none;">
+				<a id="leftTip" href="javascript:;">
+					<img src="imgs/tab_left.png">
+				</a>
+			</span>
+			<span class="tip_win" >
+				<a href="javascript:closePopup();">
+					<img src="imgs/close.gif">
+				</a>
+			</span>
+			<span class="tip_right" style="display: none;">
+				<a id="rightTip" href="javascript:;">
+					<img src="imgs/tab_right.png">
+				</a>
+			</span>
+	 		
 			
-			<div class="tipTab_content" id="childLabel">
-			</div>
+			<div class ="tipTab_sorts">
+				<div id="parentLable"></div>
+				<div class="tipTab_content" id="childLabel"></div>
 			</div>
 		</div> 
 	</li>

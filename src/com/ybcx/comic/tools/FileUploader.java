@@ -113,7 +113,7 @@ public class FileUploader extends HttpServlet {
 			String fileName = item.getName();
 			int dotPos = fileName.lastIndexOf(".");
 			//文件类型
-			String fileType = fileName.substring(dotPos+1);
+			String fileType = fileName.substring(dotPos+1).toLowerCase();
 			
 			if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("jpeg") 
 					|| fileType.equals("gif") || fileType.equals("swf")){

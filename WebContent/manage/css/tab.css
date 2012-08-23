@@ -1,15 +1,22 @@
 .tips_tab {
 	border: solid 1px #CDCDCD;
-	width: 280px;
-	background: #F3F3F3;
-	z-index: 999;
-	line-height: 16px;
-	padding:2px;
 	margin-left:32px;
+	background: #F3F3F3;
 }
 
+.tipTab_sorts{
+	background: #F3F3F3;
+	z-index: 999;
+	line-height: 20px;
+	padding:2px;
+	
+/* 	white-space:nowrap; */
+/*  	word-break:keep-all;	 */
+/*  	overflow:auto; */
+}
+
+
 .tips_tab .tipTab_sorts a.current {
-	height: 29px;
 	background: white;
 /* 	border: solid 1px #E8E8E8; */
 	border-top: solid 1px #999;
@@ -18,14 +25,27 @@
 }
 
 .tips_tab .tipTab_sorts a {
-	height: 29px;
 	padding: 3px 5px;
 }
 
 .tips_tab .tip_win {
 	display: block;
 	float: right;
-	margin-right: 3px;
+	margin-right:2px;
+	background: #F3F3F3;
+}
+
+.tips_tab .tip_left{
+	display: block;
+	float: left;
+	margin-left: 2px;
+	background: #F3F3F3;
+}
+
+.tips_tab .tip_right{
+	display: block;
+	float: right;
+	background: #F3F3F3;
 }
 
 .tips_tab .tipTab_content {

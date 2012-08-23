@@ -8,6 +8,7 @@ public class Cartoon {
 	private String thumbnail;
 	private String owner;
 	private String createTime;
+	private int enable;
 	
 	public String getId() {
 		return id;
@@ -44,6 +45,12 @@ public class Cartoon {
 	}
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
+	}
+	public int getEnable() {
+		return enable;
+	}
+	public void setEnable(int enable) {
+		this.enable = enable;
 	}
 	
 	
