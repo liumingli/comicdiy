@@ -680,12 +680,12 @@ public class DBAccessImplement  implements DBAccessInterface {
 			if(catAnd.length()>0){
 				catAnd.append(" and ");
 			}
-			catAnd.append("a.a_id in (select r.alr_assets from t_astcat_rel r, t_category c where r.acr_cateogry= c.c_id and c.c_name ='"+catArr[i].trim()+"')");
+			catAnd.append("a.a_id in (select r.acr_assets from t_astcat_rel r, t_category c where r.acr_category= c.c_id and c.c_name ='"+catArr[i].trim()+"')");
 		}
 		
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
-				" from t_assets a, t_label l, t_astlab_rel alr, t_category c, t_astcat_rel acr " +
-				"where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_id = alr.alr_assets and l.l_id = alr.alr_label " +
+				" from t_assets a, t_category c, t_astcat_rel acr " +
+				"where a.a_id=acr.acr_assets and c.c_id=acr.acr_category " +
 				"and "+ catAnd.toString() +" and a.a_enable =1 order by a.a_heat desc";
 		
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
@@ -714,8 +714,8 @@ public class DBAccessImplement  implements DBAccessInterface {
 	public List<Assets> searchByCategoryTypeOr(String categorys, String type) {
 		List<Assets> resList = new ArrayList<Assets>();
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
-				" from t_assets a, t_label l, t_astlab_rel r, t_category c, t_astcat_rel acr" +
-				" where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_id = r.alr_assets and l.l_id = r.alr_label " +
+				" from t_assets a, t_category c, t_astcat_rel acr" +
+				" where a.a_id=acr.acr_assets and c.c_id=acr.acr_category " +
 				"and c.c_name in("+ categorys+") and a.a_enable =1 order by a.a_heat desc";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
