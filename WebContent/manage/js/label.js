@@ -1,4 +1,6 @@
 function initParentLabel(){
+	$('#parentAdd').children().remove();
+	$('#parentAdd').text("父标签");
 	$('#parentLabel').children().remove();
 	//获取所有父级Label
 	$.post('/comicdiy/comicapi', {
@@ -7,7 +9,7 @@ function initParentLabel(){
 	//回调函数
 	function (result) {
 		var parent ="('parent')";
-		$('#parentLabel').append('<a href="javascript:addLabel'+parent+'"><img src="imgs/add.png"></a>');
+		$('#parentAdd').append('<a href="javascript:addLabel'+parent+'"><img src="imgs/add.png"></a>');
 		if(result.length > 0){
 			for( key in result ){
 				var num = parseInt(key);
@@ -23,7 +25,10 @@ function initParentLabel(){
 }
 
 function initChildLabel(parentId){
+	$('#childAdd').children().remove();
+	$('#childAdd').text("子标签");
 	$('#childLabel').children().remove();
+	$('#childAdd').append('<div id="load"><img src="imgs/loading.gif"></div>');
 	//根据父标签id获取所有子标签
 	$.post('/comicdiy/comicapi', {
 		'method'  : 'getLabelByParent',
@@ -31,12 +36,18 @@ function initChildLabel(parentId){
 	}, 
 	//回调函数
 	function (result) {
+		$('#load').remove();
 		var parent ="('"+parentId+"')";
-		$('#childLabel').append('<a href="javascript:addLabel'+parent+'"><img src="imgs/add.png"></a>');
+		$('#childAdd').append('<a href="javascript:addLabel'+parent+'"><img src="imgs/add.png"></a>');
 		if(result.length > 0){
 			for( key in result ){
+				var num = parseInt(key);
 				var para = "('"+result[key].id+"','"+result[key].parent+"')";
-				$('#childLabel').append('<div class="child">'+result[key].name+'<a href="javascript:deleteLabel'+para+'"><img src="imgs/delete.png"></a></div>');
+				if(num%2){
+					$('#childLabel').append('<div class="ldd">'+result[key].name+'<a href="javascript:deleteLabel'+para+'"><img src="imgs/delete.png"></a></div>');
+				}else{
+					$('#childLabel').append('<div class="odd">'+result[key].name+'<a href="javascript:deleteLabel'+para+'"><img src="imgs/delete.png"></a></div>');
+				}
 			}
 	    }
 	},"json");
@@ -44,10 +55,11 @@ function initChildLabel(parentId){
 
 
 function addLabel(parent){
-	$('#parent').val(parent);
-	$('#name').val("");
 	centerPopup();
 	loadPopup();
+	$('#parent').val(parent);
+	$('#name').val("");
+	$("#name").focus();
 }
 
 function createLabel(){

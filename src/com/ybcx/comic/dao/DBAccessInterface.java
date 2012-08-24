@@ -42,6 +42,10 @@ public interface DBAccessInterface {
 
 		public List<Assets> searchByLabelTypeOr(String labels,String type);
 
+		public List<Assets> searchByCategoryTypeAnd(String[] catArr, String type);
+
+		public List<Assets> searchByCategoryTypeOr(String string, String type);
+
 		public List<Category> getAllCategory();
 
 		public int createCategory(String id, String name, String parent);

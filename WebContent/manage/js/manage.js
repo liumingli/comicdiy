@@ -127,6 +127,7 @@ function getAssetById(key){
 function createEditWindow(result,assetId){
 	centerPopup();
 	loadPopup();
+	$("#name").focus();
 	$("#name").val(result.name);
 	$("#price").val(result.price);
 	$("#holiday").val(result.holiday);

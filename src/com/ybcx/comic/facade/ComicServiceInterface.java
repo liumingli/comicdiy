@@ -30,6 +30,8 @@ public interface ComicServiceInterface {
 	public List<Assets> searchByLabel(String labels);
 	
 	public List<Assets> searchByLabelAndType(String labels, String type);
+	
+	public List<Assets> searchByCategoryAndType(String categorys, String type);
 
 	public Assets getAssetById(String assetId);
 
@@ -77,5 +79,4 @@ public interface ComicServiceInterface {
 
 	public List<Cartoon> searchAnimation(String key);
 
-	
 }

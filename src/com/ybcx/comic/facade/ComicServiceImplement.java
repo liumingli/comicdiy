@@ -312,6 +312,40 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 	
 	@Override
+	public List<Assets> searchByCategoryAndType(String categorys, String type) {
+		List<Assets> resList = new ArrayList<Assets>();
+		List<Assets> andList = new ArrayList<Assets>();
+		List<Assets> orList = new ArrayList<Assets>();
+		 String[] catArr =categorys.split(" ");
+		 StringBuffer catOr = new StringBuffer();
+		 //在这里将用空格分隔的labels转变成sql可识别的'','
+		 if(catArr.length > 0){
+			 for (int i = 0; i < catArr.length; i++) {
+					if (!"".equals(catArr[i].trim())) {
+						if (catOr.length() > 0) {
+							catOr.append(",");
+						}
+						catOr.append("'");
+						catOr.append(catArr[i]);
+						catOr.append("'");
+					}
+				}
+			 
+			 andList = dbVisitor.searchByCategoryTypeAnd(catArr,type);
+			 orList = dbVisitor.searchByCategoryTypeOr(catOr.toString(),type);
+		 }
+		 
+		 resList = combinResult(andList, orList);
+		 
+		List<Assets> resultList = new ArrayList<Assets>();
+		
+		resultList = this.combinLabels(resList);
+		
+		return resultList;
+	}
+
+	
+	@Override
 	public List<Category> getAllCategory() {
 		List<Category> cateList = dbVisitor.getAllCategory();
 		return cateList;

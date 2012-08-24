@@ -120,6 +120,13 @@ public class ApiAdaptor {
 		return jsonArray.toString();
 	}
 	
+	public String searchByCategoryAndType(String categorys, String type) {
+		List<Assets> list = comicService.searchByCategoryAndType(categorys,type);
+		JSONArray jsonArray = JSONArray.fromCollection(list);
+		processPath(jsonArray);
+		return jsonArray.toString();
+	}
+	
 	public String getAllCategory() {
 		List<Category> list = comicService.getAllCategory();
 		return JSONArray.fromCollection(list).toString();
@@ -339,6 +346,7 @@ public class ApiAdaptor {
 		processCartoon(jsonArray);
 		return jsonArray.toString();
 	}
+	
 	
 
 } // end of class

@@ -27,7 +27,7 @@ body{
 
 #leftPanel{
 	 float: left;
-	 height: 400px;
+	 height: auto;
 	 width: 300px;
 	 border: 1px solid #69c;
 /* 	 padding:12px; */
@@ -41,18 +41,37 @@ body{
 /* 	 padding:12px; */
 }
 
-img{
+
+#parentAdd{
+	padding:5px;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#childAdd{
+	padding:5px;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#parentLabel img{
 	vertical-align:bottom;
+	float:right;
+}
+
+#childLabel img{
+	vertical-align:bottom;
+	float:right;
 }
 
 .odd {
 	background-color: #dbe8f0;
-	padding:4px;
+	padding:6px;
 }
 
 .ldd {
     background-color: #f5f5f5;
-    padding:4px;
+    padding:6px;
 }
 
 .child{

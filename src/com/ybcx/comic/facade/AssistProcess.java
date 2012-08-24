@@ -70,6 +70,17 @@ public class AssistProcess {
 			pw.print(result);
 			pw.close();
 			
+		}else if (action.equals(AppStarter.SEARCHBYCATEGORYANDTYPE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			//根据分类和类型查素材
+			String categorys = req.getParameter("categorys");
+			String type = req.getParameter("type");
+			String result = apiAdaptor.searchByCategoryAndType(categorys,type);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
 		}else if (action.equals(AppStarter.CREATEASSET)) {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
