@@ -355,7 +355,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public List<Category> getAllCategory() {
 		List<Category> resList = new ArrayList<Category>();
-		String sql = "select * from t_category order by c_heat desc";
+		String sql = "select * from t_category order by CONVERT( c_name USING gbk )";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -381,7 +381,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public List<Label> getAllParentLabel() {
 		List<Label> resList = new ArrayList<Label>();
-		String sql = "select * from t_label where l_parent='parent' order by l_heat desc";
+		String sql = "select * from t_label where l_parent='parent' order by CONVERT( l_name USING gbk )";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -400,7 +400,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public List<Label> getLabelByParent(String parentId) {
 		List<Label> resList = new ArrayList<Label>();
-		String sql = "select * from t_label where l_parent='"+parentId+"' order by l_heat desc";
+		String sql = "select * from t_label where l_parent='"+parentId+"' order by CONVERT( l_name USING gbk )";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
