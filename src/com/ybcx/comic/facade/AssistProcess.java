@@ -71,12 +71,14 @@ public class AssistProcess {
 			pw.close();
 			
 		}else if (action.equals(AppStarter.SEARCHBYCATEGORYANDTYPE)) {
+			//TODO 后面要加分页
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
 			//根据分类和类型查素材
 			String categorys = req.getParameter("categorys");
 			String type = req.getParameter("type");
-			String result = apiAdaptor.searchByCategoryAndType(categorys,type);
+			String pageNum = req.getParameter("pageNum");
+			String result = apiAdaptor.searchByCategoryAndType(categorys,type,pageNum);
 			log.debug(result);
 			pw.print(result);
 			pw.close();
@@ -251,6 +253,23 @@ public class AssistProcess {
 			pw.print(result);
 			pw.close();
 			
+		}else if (action.equals(AppStarter.GETANIMBYPAGE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String pageNum = req.getParameter("pageNum");
+			String result = apiAdaptor.getAnimByPage(pageNum);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.GETANIMCOUNT)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			int result= apiAdaptor.getAnimCount();
+			log.debug(result);
+			pw.print(result);
+			pw.close();	
+			
 		}else if (action.equals(AppStarter.GETALLIMAGE)) {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
@@ -258,6 +277,23 @@ public class AssistProcess {
 			log.debug(result);
 			pw.print(result);
 			pw.close();
+			
+		}else if (action.equals(AppStarter.GETIMAGEBYPAGE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String pageNum = req.getParameter("pageNum");
+			String result = apiAdaptor.getImageByPage(pageNum);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.GETIMAGECOUNT)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			int result= apiAdaptor.getImageCount();
+			log.debug(result);
+			pw.print(result);
+			pw.close();	
 			
 		}else if (action.equals(AppStarter.EXAMINEANIM)) {
 			res.setContentType("text/plain;charset=UTF-8");

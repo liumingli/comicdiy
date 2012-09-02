@@ -15,16 +15,25 @@ function initParentLabel(){
 				var num = parseInt(key);
 				var para = "('"+result[key].id+"','"+result[key].parent+"')";
 				if(num%2){
-					$('#parentLabel').append('<div class="odd"><span onclick="initChildLabel'+para+'">'+result[key].name+'</span><a href="javascript:deleteLabel'+para+'"><img src="imgs/delete.png"></a></div>');
+					$('#parentLabel').append('<div class="odd"><span  id="'+result[key].id+'" onclick="initChildLabel'+para+'" >'+result[key].name+'</span><a href="javascript:deleteLabel'+para+'"><img src="imgs/delete.png"></a></div>');
 				}else{
-					$('#parentLabel').append('<div class="ldd"><span onclick="initChildLabel'+para+'">'+result[key].name+'</span><a href="javascript:deleteLabel'+para+'"><img src="imgs/delete.png"></a></div>');
+					$('#parentLabel').append('<div class="ldd"><span id="'+result[key].id+'" onclick="initChildLabel'+para+'">'+result[key].name+'</span><a href="javascript:deleteLabel'+para+'"><img src="imgs/delete.png"></a></div>');
 				}
 			}
 	    }
 	},"json");
 }
 
+var staticParend="";
+
 function initChildLabel(parentId){
+	//给父标签当前选中的是哪个添加样式
+	if(staticParend != parentId && staticParend != ""){
+		$('#'+staticParend).removeClass("extendCss");
+	}
+	$('#'+parentId).addClass("extendCss");
+	staticParend=parentId;
+	
 	$('#childAdd').children().remove();
 	$('#childAdd').text("子标签");
 	$('#childLabel').children().remove();
@@ -39,6 +48,7 @@ function initChildLabel(parentId){
 		$('#load').remove();
 		var parent ="('"+parentId+"')";
 		$('#childAdd').append('<a href="javascript:addLabel'+parent+'"><img src="imgs/add.png"></a>');
+		
 		if(result.length > 0){
 			for( key in result ){
 				var num = parseInt(key);

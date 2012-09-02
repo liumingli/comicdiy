@@ -120,8 +120,8 @@ public class ApiAdaptor {
 		return jsonArray.toString();
 	}
 	
-	public String searchByCategoryAndType(String categorys, String type) {
-		List<Assets> list = comicService.searchByCategoryAndType(categorys,type);
+	public String searchByCategoryAndType(String categorys, String type, String pageNum) {
+		List<Assets> list = comicService.searchByCategoryAndType(categorys,type,pageNum);
 		JSONArray jsonArray = JSONArray.fromCollection(list);
 		processPath(jsonArray);
 		return jsonArray.toString();
@@ -345,6 +345,30 @@ public class ApiAdaptor {
 		JSONArray jsonArray = JSONArray.fromCollection(list);
 		processCartoon(jsonArray);
 		return jsonArray.toString();
+	}
+	
+	public String getAnimByPage(String pageNum) {
+		List<Cartoon> list = comicService.getAmimByPage(pageNum);
+		JSONArray jsonArray = JSONArray.fromCollection(list);
+		processCartoon(jsonArray);
+		return jsonArray.toString();
+	}
+	
+	public int getAnimCount() {
+		int result = comicService.getAnimCount();
+		return result;
+	}
+	
+	public String getImageByPage(String pageNum) {
+		List<Images> list = comicService.getImageByPage(pageNum);
+		JSONArray jsonArray = JSONArray.fromCollection(list);
+		processImgPath(jsonArray);
+		return jsonArray.toString();
+	}
+	
+	public int getImageCount() {
+		int result = comicService.getImageCount();
+		return result;
 	}
 	
 	

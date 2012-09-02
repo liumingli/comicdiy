@@ -211,9 +211,13 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	
 	@Override
 	public String deleteAssetById(String assetId) {
+		//删除素材时，注意同时要删除与标签和分类的关联
 		boolean flag = true;
 		int rows = dbVisitor.deleteAssetById(assetId);
-		if(rows < 1){
+		int lab = dbVisitor.deleteAssetLabelRel(assetId);
+		int cat = dbVisitor.deleteAssetCategoryRel(assetId);
+		
+		if(rows < 1 || lab < 1 || cat < 1){
 			flag = false;
 		}
 		return String.valueOf(flag);
@@ -312,7 +316,9 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 	
 	@Override
-	public List<Assets> searchByCategoryAndType(String categorys, String type) {
+	public List<Assets> searchByCategoryAndType(String categorys, String type,String pageNum) {
+		int num = Integer.parseInt(pageNum);
+		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
 		List<Assets> resList = new ArrayList<Assets>();
 		List<Assets> andList = new ArrayList<Assets>();
 		List<Assets> orList = new ArrayList<Assets>();
@@ -331,8 +337,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 					}
 				}
 			 
-			 andList = dbVisitor.searchByCategoryTypeAnd(catArr,type);
-			 orList = dbVisitor.searchByCategoryTypeOr(catOr.toString(),type);
+			 andList = dbVisitor.searchByCategoryTypeAnd(catArr,type,num,pageSize);
+			 orList = dbVisitor.searchByCategoryTypeOr(catOr.toString(),type,num,pageSize);
 		 }
 		 
 		 resList = combinResult(andList, orList);
@@ -691,6 +697,32 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	public List<Cartoon> searchAnimation(String key) {
 		List<Cartoon> list = dbVisitor.searchAnimation(key);
 		return list;
+	}
+
+	@Override
+	public List<Images> getImageByPage(String pageNum) {
+		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
+		List<Images> list = dbVisitor.getImageBypage(Integer.parseInt(pageNum),pageSize);
+		return list;
+	}
+
+	@Override
+	public List<Cartoon> getAmimByPage(String pageNum) {
+		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
+		List<Cartoon> list = dbVisitor.getAmimByPage(Integer.parseInt(pageNum),pageSize);
+		return list;
+	}
+
+	@Override
+	public int getAnimCount() {
+		int rows = dbVisitor.getAnimCount();
+		return rows;
+	}
+
+	@Override
+	public int getImageCount() {
+		int rows = dbVisitor.getImageCount();
+		return rows;
 	}
 
 }

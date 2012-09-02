@@ -92,9 +92,13 @@ public interface ExtVisitorInterface {
 	//查看所有动画待审核
 	public static final String GETALLANIM = "getAllAnim";
 	
+	//获取动画总数
+	public static final String GETANIMCOUNT = "getAnimCount";
+	
 	//动画审核删除
 	public static final String  EXAMINEANIM = "examineAnim";
 	
+	//分页取动画
 	public static final String GETANIMBYPAGE = "getAnimByPage";
 	
 	//查看所有图片待审核
@@ -103,6 +107,10 @@ public interface ExtVisitorInterface {
 	//用户上传的图片审核删除
 	public static final String EXAMINEIMAGE = "exanimeImage";
 	
+	//获取图片总数
+	public static final String GETIMAGECOUNT = "getImageCount";
+	
+	//分页取图片
 	public static final String GETIMAGEBYPAGE = "getImageByPage";
 	
 	//根据动画名称模糊查询动画

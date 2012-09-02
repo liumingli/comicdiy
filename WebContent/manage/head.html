@@ -6,7 +6,18 @@
 <title></title>
 </head>
 <script type="text/javascript">
+	var staticVal = "";
 	function changeMainPage(val) {
+		var id = val.substring(0,val.lastIndexOf("."));
+		if(id != "assetsUpload"){
+			document.getElementById("assetsUpload").style.color="#eee";
+		}
+		if(staticVal !=id && staticVal !="" ){
+			document.getElementById(staticVal).style.color="#eee";
+		}
+		document.getElementById(id).style.color="#ff9966";
+		staticVal = id;
+		
 		window.parent.frames['mainFrame'].location.href =val; 
 	}
 </script>
@@ -18,25 +29,25 @@
 		<div id="zg-top-nav" class="xls">
 			<ul class="xjs">
 			<li class="xis">
-				<a class="xhs" href="javascript:changeMainPage('assetsUpload.html')">素材上传</a>
+				<a class="xhs" id="assetsUpload" href="#" onclick="changeMainPage('assetsUpload.html')">素材上传</a>
 			</li>
 			<li class="xis">
-				<a class="xhs" href="javascript:changeMainPage('assetsManage.html')">素材管理</a>
+				<a class="xhs" id="assetsManage"  href="#" onclick="changeMainPage('assetsManage.html')">素材管理</a>
 			</li>
 			<li class="xis">
-				<a class="xhs" href="javascript:changeMainPage('labelManage.html')">标签管理</a>
+				<a class="xhs" id="labelManage" href="#" onclick="changeMainPage('labelManage.html')">标签管理</a>
 			</li>
 			<li class="xis">
-				<a class="xhs" href="javascript:changeMainPage('imageExamine.html')">图片审核</a>
+				<a class="xhs" id="imageExamine" href="#" onclick="changeMainPage('imageExamine.html')">图片审核</a>
 			</li>
 			<li class="xis">
-				<a class="xhs" href="javascript:changeMainPage('../animclient/animExamine.html')">动画审核</a>
+				<a class="xhs" id ="../animclient/animExamine" href="#" onclick="changeMainPage('../animclient/animExamine.html')">动画审核</a>
 			</li>
 			<li class="xis">
-				<a class="xhs" href="javascript:changeMainPage('../animclient/useranims.html')">我的动画</a>
+				<a class="xhs" id ="../animclient/useranims" href="#" onclick="changeMainPage('../animclient/useranims.html')">我的动画</a>
 			</li>
 			<li class="xis">
-				<a class="xhs" href="javascript:changeMainPage('../animclient/Main.html')">动画制作</a>
+				<a class="xhs" id="../animclient/Main" href="#" onclick="changeMainPage('../animclient/Main.html')">动画制作</a>
 			</li>
 <!-- 			<li class="xis"> -->
 <!-- 				<a class="xhs"  href="javascript:changeMainPage('imageUpload.html')">背景上传测试</a> -->

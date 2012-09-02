@@ -1,7 +1,3 @@
-//存储全部的动画
-var animList = new Array();
-//存储页面与元素下标的对应关系
-var matchupArray= new Array();
 
 function searchAnim(){
 	var keys = $('#key').val().trim();
@@ -35,27 +31,14 @@ function searchAnim(){
 		
 //审查动画
 function getAllAnimation(){
-	console.log("getAllAnimation<<<");
+	console.log("getAnimationCount<<<");
 	$.post("/comicdiy/comicapi",{
-		'method' : 'getAllAnim'
+		'method' : 'getAnimCount'
 	},
 	function (result) {
 		$('#animList').children().remove();
-		if(result.length > 0){
-			if(animList.length>0){
-				animList = new Array();
-			}
-			for( key in result ){
-				animList.push(result[key]);
-			}
-			
-			var total = parseInt(result.length / 12)+1;
-			if(matchupArray.length > 0){
-				matchupArray = new Array();
-			}
-			for(var i=1;i<=total;i++){
-				matchupArray[i]=(i-1)*12;
-			}
+		if(result > 0){
+			var total = parseInt(result / 12)+1;
 			
 			$('#total').html(total);
 			$('#current').html(1);
@@ -63,7 +46,7 @@ function getAllAnimation(){
 			getAnimByPage(1);
 		}
 		
-	},"json");
+	});
 }
 	
 function generateAnimTr(key){
@@ -138,27 +121,29 @@ function deleteAnimById(key){
 
 function getAnimByPage(pageNum){
 	$('#animList').children().remove();
-	var begin=matchupArray[pageNum];
-	var end = begin+12;
-	var total=$('#total').text();
-	if(pageNum == total || animList.length < 12){
-		end = animList.length;
-	}
 	$('#current').html(pageNum);
-	for(var i=begin;i<end;i++){
-		generateAnimTr(i);
-		
-		generateTd(parseInt(i)+1,i);
-		
-		generateTd(animList[i].name,i);
-		
-		generateAnimTd(animList[i].thumbnail,animList[i].id,animList[i].owner,i);
+	
+	$.post("/comicdiy/comicapi",{
+		'method' : 'getAnimByPage',
+		'pageNum' : pageNum
+	},
+	function (result) {
+		if(result.length >0){
+			for(key in result){
+				generateAnimTr(key);
+				
+				generateTd(parseInt(key)+1,key);
+				
+				generateTd(result[key].name,key);
+				
+				generateAnimTd(result[key].thumbnail,result[key].id,result[key].owner,key);
 
-		generateTd(animList[i].createTime,i);
-		
-		generateAnimOperate(animList[i].id,i);
-		
-	}
+				generateTd(result[key].createTime,key);
+				
+				generateAnimOperate(result[key].id,key);
+			}
+		}
+	},"json");
 }
 
 

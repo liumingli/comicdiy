@@ -35,7 +35,7 @@ body{
 
 #rightPanel{
 	 float: right;
-	 height: 400px;
+	 height: auto;
 	 width: 300px;
 	 border: 1px solid #69c;
 /* 	 padding:12px; */
@@ -87,6 +87,7 @@ span:HOVER{
 	text-decoration: underline;
 }
 
+.extendCss { color:blue; }
 
 
 

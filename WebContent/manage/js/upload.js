@@ -2,6 +2,8 @@
 var elementArray = new Array();
 var sceneArray = new Array();
 var themeArray = new Array();
+
+var tabLength = 500;
 	
 window.onload = function(){
 	//加载页面时动态获取所有分类
@@ -330,7 +332,7 @@ function initLabel(){
 						var html = '<a href = "javascript:initChildLable'+parent+'"  id="'+key+'">'+result[key].name+'</a>';
 						var everyLength =$('#' + (parseInt(key)-1).toString()).width(); 
 						sumLength+= everyLength;
-						if(sumLength > 165)
+						if(sumLength > tabLength)
 						{
 							//存入页码与开始元素的关系
 							matchupArray[1]=0;
@@ -376,7 +378,7 @@ function nextPage(key,num){
 		var everyLength =$('#' + i).width(); 
 		sumLength+= everyLength;
 		
-		if(sumLength > 165){
+		if(sumLength > tabLength){
 			//判断如果还可翻页则继续
 			$('.tip_right').show();
 			var newPage=num+1;
@@ -418,7 +420,7 @@ function previousPage(key,num){
 		}
 		var everyLength =$('#' + i).width(); 
 		sumLength+= everyLength;
-		if(sumLength > 165){
+		if(sumLength > tabLength){
 			if(num>1){
 				$('.tip_left').show();
 				var newPage=num-1;
@@ -442,11 +444,13 @@ function initChildLable(parent,num){
 	$('#parentLable').children().attr("class","");
 	$('#'+num).attr("class","current");
 	$('#childLabel').children().remove();
+	$('#childLabel').append('<a href="#" id="load"><img src="imgs/loading.gif"></a>');
 	$.post('/comicdiy/comicapi', {
 		'method'  : 'getLabelByParent',
 		'parentId' : parent
 	}, 
 	function (result) {
+		$('#load').remove();
 		if(result.length > 0){
 			for(key in result){
 				$('#childLabel').append('<a href = "javascript:;"  id="'+num+key+'" value="'+result[key].id+'">'+result[key].name+'</a>');
@@ -454,10 +458,9 @@ function initChildLable(parent,num){
 				chooseLable(num,key);
 			}
 		}else{
-			$('#childLabel').append('<span><font size="2" color="red">无子标签</font></span>');
+			$('#childLabel').append('<a href="#"><font color="red">无子标签</font></a>');
 		}
 	},"json");
-	
 }
 
 function closePopup(){

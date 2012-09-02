@@ -1,32 +1,15 @@
-//存储全部的图片
-var imageList = new Array();
-//存储页面与元素下标的对应关系
-var matchupArray= new Array();
 
 //审查图片
 function getAllImage(){
-	console.log("getAllImage<<<");
+	console.log("getImageCount<<<");
 	$.post("/comicdiy/comicapi",{
-		'method' : 'getAllImage'
+		'method' : 'getImageCount'
 	},
 	function (result) {
 		$('#imgList').children().remove();
-		if(result.length > 0){
-			if(imageList.length>0){
-				imageList = new Array();
-			}
-			for( key in result ){
-				imageList.push(result[key]);
-			}
+		if(result > 0){
 			
-			var total = parseInt(result.length / 12)+1;
-			
-			if(matchupArray.length > 0){
-				matchupArray = new Array();
-			}
-			for(var i=1;i<=total;i++){
-				matchupArray[i]=(i-1)*12;
-			}
+			var total = parseInt(result / 12)+1;
 			
 			$('#total').html(total);
 			$('#current').html(1);
@@ -34,7 +17,7 @@ function getAllImage(){
 			getImgByPage(1);
 		}
 		
-	},"json");
+	});
 }
 
 function generateImgTr(key){
@@ -104,26 +87,27 @@ function deleteImgById(path,key){
 }
 
 function getImgByPage(pageNum){
-	$('#imgList').children().remove();
-	var begin=matchupArray[pageNum];
-	var end = begin+12;
-	var total=$('#total').text();
-	//判断如果是最后一页或者总长度小于pageSize
-	if(pageNum == total || imageList.length<12 ){
-		end = imageList.length;
-	}
 	$('#current').html(pageNum);
-	for(var i=begin;i<end;i++){
-		generateImgTr(i);
+	$('#imgList').children().remove();
+	$.post("/comicdiy/comicapi",{
+		'method' : 'getImageByPage',
+		'pageNum' : pageNum
+	},
+	function (result) {
+		if(result.length >0){
+			for(key in result){
+				generateImgTr(key);
+				
+				generateTd(parseInt(key)+1,key);
+				
+				generateImgTd(result[key].path,result[key].id,key);
 		
-		generateTd(parseInt(i)+1,i);
-		
-		generateImgTd(imageList[i].path,imageList[i].id,i);
-
-		generateTd(imageList[i].uploadTime,i);
-		
-		generateImgOperate(imageList[i].path,imageList[i].id,i);
-	}
+				generateTd(result[key].uploadTime,key);
+				
+				generateImgOperate(result[key].path,result[key].id,key);
+			}
+		}
+	},"json");
 }
 
 

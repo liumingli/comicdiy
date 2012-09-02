@@ -42,9 +42,9 @@ public interface DBAccessInterface {
 
 		public List<Assets> searchByLabelTypeOr(String labels,String type);
 
-		public List<Assets> searchByCategoryTypeAnd(String[] catArr, String type);
+		public List<Assets> searchByCategoryTypeAnd(String[] catArr, String type, int pageNum, int pageSize);
 
-		public List<Assets> searchByCategoryTypeOr(String string, String type);
+		public List<Assets> searchByCategoryTypeOr(String string, String type, int pageNum, int pageSize);
 
 		public List<Category> getAllCategory();
 
@@ -86,5 +86,17 @@ public interface DBAccessInterface {
 		public int updateImageById(String imgId);
 
 		public List<Cartoon> searchAnimation(String key);
+
+		public int deleteAssetLabelRel(String assetId);
+
+		public int deleteAssetCategoryRel(String assetId);
+
+		public List<Images> getImageBypage(int pageNum, int pageSize);
+
+		public List<Cartoon> getAmimByPage(int pageNum, int pageSize);
+
+		public int getAnimCount();
+
+		public int getImageCount();
 
 }

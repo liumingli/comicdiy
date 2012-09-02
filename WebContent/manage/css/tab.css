@@ -2,12 +2,13 @@
 	border: solid 1px #CDCDCD;
 	margin-left:32px;
 	background: #F3F3F3;
+	width:740px;
 }
 
 .tipTab_sorts{
 	background: #F3F3F3;
 	z-index: 999;
-	line-height: 20px;
+	line-height: 28px;
 	padding:2px;
 	
 /* 	white-space:nowrap; */
@@ -22,6 +23,7 @@
 	border-top: solid 1px #999;
 	border-left: solid 1px #E8E8E8;
 	border-right: solid 1px #E8E8E8;
+	padding:6px;
 }
 
 .tips_tab .tipTab_sorts a {
@@ -50,5 +52,7 @@
 
 .tips_tab .tipTab_content {
 	background: white;
-	padding: 3px 5px;
+	padding: 4px 6px;
+	line-height: 28px;
 }
+

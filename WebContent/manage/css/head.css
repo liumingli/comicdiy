@@ -45,7 +45,7 @@
 }
 
 .xhs,.xhs:visited,.xhs:active {
-	color: #EEE;
+	color: #FFF;
 	text-decoration: none;
 }
 
@@ -62,3 +62,8 @@
 	line-height: 1;
 	padding: 5px 0;
 }
+
+#assetsUpload{
+	color:#ff9966;
+}
+

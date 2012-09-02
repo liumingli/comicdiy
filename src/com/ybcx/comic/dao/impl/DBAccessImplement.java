@@ -671,9 +671,9 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 
 	@Override
-	public List<Assets> searchByCategoryTypeAnd(String[] catArr, String type) {
+	public List<Assets> searchByCategoryTypeAnd(String[] catArr, String type, int pageNum, int pageSize) {
+		int startLine = (pageNum -1)*pageSize;
 		List<Assets> resList = new ArrayList<Assets>();
-		
 		StringBuffer catAnd = new StringBuffer();
 		
 		for(int i=0;i<catArr.length;i++){
@@ -686,7 +686,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_category c, t_astcat_rel acr " +
 				"where a.a_id=acr.acr_assets and c.c_id=acr.acr_category " +
-				"and "+ catAnd.toString() +" and a.a_enable =1 order by a.a_heat desc";
+				"and "+ catAnd.toString() +" and a.a_enable =1 order by a.a_heat desc limit "+startLine+","+pageSize;
 		
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
@@ -711,12 +711,13 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 
 	@Override
-	public List<Assets> searchByCategoryTypeOr(String categorys, String type) {
+	public List<Assets> searchByCategoryTypeOr(String categorys, String type,  int pageNum, int pageSize) {
+		int startLine = (pageNum -1)*pageSize;
 		List<Assets> resList = new ArrayList<Assets>();
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_category c, t_astcat_rel acr" +
 				" where a.a_id=acr.acr_assets and c.c_id=acr.acr_category " +
-				"and c.c_name in("+ categorys+") and a.a_enable =1 order by a.a_heat desc";
+				"and c.c_name in("+ categorys+") and a.a_enable =1 order by a.a_heat desc limit "+startLine+","+pageSize;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -737,6 +738,78 @@ public class DBAccessImplement  implements DBAccessInterface {
 			}
 		}
 		return resList;
+	}
+
+	@Override
+	public int deleteAssetLabelRel(String assetId) {
+		String sql = "delete from t_astlab_rel where alr_assets='"+assetId+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
+	@Override
+	public int deleteAssetCategoryRel(String assetId) {
+		String sql = "delete from t_astcat_rel where acr_assets='"+assetId+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
+	@Override
+	public List<Images> getImageBypage(int pageNum, int pageSize) {
+		List<Images> list = new ArrayList<Images>();
+		int startLine = (pageNum -1)*pageSize;
+		String sql = "select * from t_images where  i_enable=1 order by i_uploadTime desc limit "+startLine+","+pageSize;
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				Images img = new Images();
+				img.setId(map.get("i_id").toString());
+				img.setOwner(map.get("i_owner").toString());
+				img.setUploadTime(map.get("i_uploadTime").toString());
+				img.setPath(map.get("i_path").toString());
+				img.setEnable(Integer.parseInt(map.get("i_enable").toString()));
+				list.add(img);
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<Cartoon> getAmimByPage(int pageNum, int pageSize) {
+		List<Cartoon> list = new ArrayList<Cartoon>();
+		int startLine = (pageNum -1)*pageSize;
+		String sql = "select * from t_cartoon where  c_enable=1 order by c_createTime desc limit "+startLine+","+pageSize;
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				Cartoon cartoon = new Cartoon();
+				cartoon.setId(map.get("c_id").toString());
+				cartoon.setName(map.get("c_name").toString());
+				cartoon.setOwner(map.get("c_owner").toString());
+				cartoon.setContent(map.get("c_content").toString());
+				cartoon.setCreateTime(map.get("c_createTime").toString());
+				cartoon.setThumbnail(map.get("c_thumbnail").toString());
+				cartoon.setEnable(Integer.parseInt(map.get("c_enable").toString()));
+				list.add(cartoon);
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public int getAnimCount() {
+		String sql = "select count(*) from t_cartoon where c_enable=1";
+		int rows = jdbcTemplate.queryForInt(sql);
+		return rows;
+	}
+
+	@Override
+	public int getImageCount() {
+		String sql = "select count(*) from t_images where i_enable=1 ";
+		int rows = jdbcTemplate.queryForInt(sql);
+		return rows;
 	}
 
 }
