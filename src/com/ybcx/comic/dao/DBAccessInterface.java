@@ -99,4 +99,6 @@ public interface DBAccessInterface {
 
 		public int getImageCount();
 
+		public int getAssetCountByTypeAndCategory(String type, String category);
+
 }

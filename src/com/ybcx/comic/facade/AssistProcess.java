@@ -211,7 +211,8 @@ public class AssistProcess {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
 			String type = req.getParameter("type");
-			int result= apiAdaptor.getAssetCountByType(type);
+			String category = req.getParameter("category");
+			int result= apiAdaptor.getAssetCountByType(type,category);
 			log.debug(result);
 			pw.print(result);
 			pw.close();	

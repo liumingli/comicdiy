@@ -470,6 +470,15 @@ public class DBAccessImplement  implements DBAccessInterface {
 		int rows = jdbcTemplate.queryForInt(sql);
 		return rows;
 	}
+	
+	@Override
+	public int getAssetCountByTypeAndCategory(String type, String category) {
+		String sql = "select count(a.a_id) from t_assets a, t_category c, t_astcat_rel r " +
+				"where a.a_id=r.acr_assets and c.c_id =r.acr_category and c.c_name='" +category+"' " +
+				"and a.a_type='"+type+"' and a.a_enable=1 order by a.a_heat desc";
+		int rows = jdbcTemplate.queryForInt(sql);
+		return rows;
+	}
 
 	@Override
 	public Cartoon getAnimationBy(String userId, String animId) {
@@ -811,5 +820,6 @@ public class DBAccessImplement  implements DBAccessInterface {
 		int rows = jdbcTemplate.queryForInt(sql);
 		return rows;
 	}
+
 
 }

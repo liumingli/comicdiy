@@ -298,8 +298,8 @@ public class ApiAdaptor {
 		return result;
 	}
 	
-	public int getAssetCountByType(String type) {
-		int result = comicService.getAssetCountByType(type);
+	public int getAssetCountByType(String type, String category) {
+		int result = comicService.getAssetCountByType(type,category);
 		return result;
 	}
 	
