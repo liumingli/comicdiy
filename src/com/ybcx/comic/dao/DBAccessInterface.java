@@ -101,4 +101,6 @@ public interface DBAccessInterface {
 
 		public int getAssetCountByTypeAndCategory(String type, String category);
 
+		public List<Assets> searchByType( String type, int num, int pageSize);
+
 }

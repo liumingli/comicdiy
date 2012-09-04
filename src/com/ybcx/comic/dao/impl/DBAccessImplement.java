@@ -694,7 +694,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 		
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_category c, t_astcat_rel acr " +
-				"where a.a_id=acr.acr_assets and c.c_id=acr.acr_category " +
+				"where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_type='"+type +"' "+
 				"and "+ catAnd.toString() +" and a.a_enable =1 order by a.a_heat desc limit "+startLine+","+pageSize;
 		
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
@@ -725,7 +725,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 		List<Assets> resList = new ArrayList<Assets>();
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_category c, t_astcat_rel acr" +
-				" where a.a_id=acr.acr_assets and c.c_id=acr.acr_category " +
+				" where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_type='"+type +"' "+
 				"and c.c_name in("+ categorys+") and a.a_enable =1 order by a.a_heat desc limit "+startLine+","+pageSize;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
@@ -821,5 +821,30 @@ public class DBAccessImplement  implements DBAccessInterface {
 		return rows;
 	}
 
+	@Override
+	public List<Assets> searchByType( String type, int num, int pageSize) {
+		List<Assets> resList = new ArrayList<Assets>();
+		int startLine = (num -1)*pageSize;
+		String sql = "select * from t_assets where a_type='"+type+"' and a_enable=1 order by a_heat desc limit "+startLine+","+pageSize;
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				Assets asset = new Assets();
+				asset.setId(map.get("a_id").toString());
+				asset.setHoliday(map.get("a_holiday").toString());
+				asset.setName(map.get("a_name").toString());
+				asset.setType(map.get("a_type").toString());
+				asset.setThumbnail(map.get("a_thumbnail").toString());
+				asset.setPath(map.get("a_path").toString());
+				asset.setUploadTime(map.get("a_uploadTime").toString());
+				asset.setPrice(Float.parseFloat(map.get("a_price").toString()));
+				asset.setHeat(Integer.parseInt(map.get("a_heat").toString()));
+				asset.setEnable(Integer.parseInt(map.get("a_enable").toString()));
+				resList.add(asset);
+			}
+		}
+		return resList;
+	}
 
 }
