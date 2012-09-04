@@ -85,6 +85,7 @@ function generateImgTd(thumbnail,path,key){
 	//var swf =  '/comicdiy/comicapi?method=getAssetFile&relativePath=';
 	var swf =  '/comicdiy/comicapi?method=getAssetFile&relativePath=';
 	a.setAttribute("href",swf+path);
+	a.setAttribute("target", "_blank");
 	tr.appendChild(para);
 }
 

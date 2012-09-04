@@ -100,6 +100,7 @@
 		img.setAttribute("height",30);
 		a.appendChild(img);
 		a.setAttribute("href","javascript:redirect('"+id+"')");
+		a.setAttribute("target", "_blank");
 		tr.appendChild(para);
 	}
 	
@@ -107,7 +108,8 @@
 		var user = $('#userId').val();
 		//http://localhost:8080/animclient/Aplayer_simple.html?userId=lwz7512&animId=897744a04d5e4f43
 		var url =  "Aplayer_simple.html?userId="+user+"&animId="+idVal;
-		window.location.href = url;
+		//window.location.href = url;
+		window.open(url);
 	}
 </script>
 

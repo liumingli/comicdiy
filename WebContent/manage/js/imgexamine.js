@@ -39,6 +39,7 @@ function generateImgTd(path,id,key){
 	img.setAttribute("height",30);
 	a.appendChild(img);
 	a.setAttribute("href",local+path);
+	a.setAttribute("target", "_blank");
 	tr.appendChild(para);
 }
 

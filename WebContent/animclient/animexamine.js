@@ -90,7 +90,7 @@ function generateAnimOperate(id,key){
 function redirect(user,idVal){
 	//http://localhost:8080/animclient/Aplayer_simple.html?userId=lwz7512&animId=897744a04d5e4f43
 	var url =  "Aplayer_simple.html?userId="+user+"&animId="+idVal;
-	window.location.href = url;
+	window.open(url);
 }
 
 function confirmDel(){
