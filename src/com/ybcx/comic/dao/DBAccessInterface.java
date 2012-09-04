@@ -40,7 +40,7 @@ public interface DBAccessInterface {
 		
 		public List<Assets> searchByLabelTypeAnd(String[] labelArr,String type);
 
-		public List<Assets> searchByLabelTypeOr(String labels,String type);
+		public List<Assets> searchByLabelTypeOr(String[] labelArr,String type);
 
 		public List<Assets> searchByCategoryTypeAnd(String[] catArr, String type, int pageNum, int pageSize);
 

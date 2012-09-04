@@ -303,7 +303,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 				}
 			 
 			 andList = dbVisitor.searchByLabelTypeAnd(labelArr,type);
-			 orList = dbVisitor.searchByLabelTypeOr(labelOr.toString(),type);
+			 orList = dbVisitor.searchByLabelTypeOr(labelArr,type);
 		 }
 		 
 		 resList = combinResult(andList, orList);

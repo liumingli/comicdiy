@@ -2,7 +2,7 @@
 	border: solid 1px #CDCDCD;
 	margin-left:32px;
 	background: #F3F3F3;
-	width:740px;
+	width:750px;
 }
 
 .tipTab_sorts{
@@ -33,13 +33,15 @@
 .tips_tab .tip_win {
 	display: block;
 	float: right;
-	margin-right:2px;
+	margin-top:2px;
+	margin-right:6px;
 	background: #F3F3F3;
 }
 
 .tips_tab .tip_left{
 	display: block;
 	float: left;
+	margin-top:2px;
 	margin-left: 2px;
 	background: #F3F3F3;
 }
@@ -47,6 +49,8 @@
 .tips_tab .tip_right{
 	display: block;
 	float: right;
+	margin-top:2px;
+	margin-right:2px;
 	background: #F3F3F3;
 }
 
