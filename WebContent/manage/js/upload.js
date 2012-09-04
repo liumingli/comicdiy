@@ -310,11 +310,14 @@ function initLabel(){
 	console.log(len);
 	
 	if(len==0){
-		$('#parentLable').children().remove();
+		$('#parentLable').append('<a href="#" id="load"><img src="imgs/loading.gif"></a>');
+		
 		$.post('/comicdiy/comicapi', {
 			'method'  : 'getAllParentLabel'
 		}, 
 		function (result) {
+			$('#parentLable').children().remove();
+			$('#load').remove();
 			if(result.length > 0){
 				//给数组赋值
 				for(key in result){

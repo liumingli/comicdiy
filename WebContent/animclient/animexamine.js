@@ -109,7 +109,6 @@ function deleteAnimById(key){
 		}, 
 		//回调函数
 		function (result) {
-			animList.slice(key, 1);
 			if(result.trim() == 'false'){
 				 alert("操作有误，请重试！");
 		     }

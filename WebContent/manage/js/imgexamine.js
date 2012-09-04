@@ -71,13 +71,12 @@ function deleteImgById(path,key){
 	if(confirmDel()){
 		var imgId=$("#imgId"+key).attr("value");
 		$.post('/comicdiy/comicapi', {
-			'method'  : 'exanimeImage',
+			'method'  : 'examineImage',
 			'imgId' : imgId,
 			"imgPath": path
 		}, 
 		//回调函数
 		function (result) {
-			imageList.slice(key, 1);
 			if(result.trim() == 'false'){
 				 alert("操作有误，请重试！");
 		     }

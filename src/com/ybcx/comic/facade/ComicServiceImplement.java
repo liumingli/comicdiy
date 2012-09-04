@@ -254,7 +254,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 				}
 			 
 			 andList = dbVisitor.searchByLabelAnd(labelArr);
-			 orList = dbVisitor.searchByLabelOr(labelOr.toString());
+			 orList = dbVisitor.searchByLabelOr(labelArr);
 		 }
 		 
 		 resList = combinResult(andList, orList);

@@ -105,7 +105,7 @@ public interface ExtVisitorInterface {
 	public static final String GETALLIMAGE = "getAllImage";
 	
 	//用户上传的图片审核删除
-	public static final String EXAMINEIMAGE = "exanimeImage";
+	public static final String EXAMINEIMAGE = "examineImage";
 	
 	//获取图片总数
 	public static final String GETIMAGECOUNT = "getImageCount";

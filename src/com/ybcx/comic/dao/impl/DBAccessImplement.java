@@ -224,7 +224,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 			if(labelAnd.length()>0){
 				labelAnd.append(" and ");
 			}
-			labelAnd.append("a.a_id in (select r.alr_assets from t_astlab_rel r, t_label l where r.alr_label= l.l_id and l.l_name ='"+labelArr[i].trim()+"')");
+			labelAnd.append("a.a_id in (select r.alr_assets from t_astlab_rel r, t_label l where r.alr_label= l.l_id and l.l_name like '%"+labelArr[i].trim()+"%')");
 		}
 		
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
@@ -255,12 +255,20 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 
 	@Override
-	public List<Assets> searchByLabelOr(String labels) {
+	public List<Assets> searchByLabelOr(String[] labelArr) {
 		List<Assets> resList = new ArrayList<Assets>();
+		StringBuffer labelOr = new StringBuffer();
+		
+		for(int i=0;i<labelArr.length;i++){
+			if(labelOr.length()>0){
+				labelOr.append(" or ");
+			}
+			labelOr.append("a.a_id in (select r.alr_assets from t_astlab_rel r, t_label l where r.alr_label= l.l_id and l.l_name like '%"+labelArr[i].trim()+"%')");
+		}
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_label l, t_astlab_rel r, t_category c, t_astcat_rel acr" +
 				" where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_id = r.alr_assets and l.l_id = r.alr_label " +
-				"and l.l_name in("+ labels+") and a.a_enable =1 order by a.a_heat desc";
+				"and "+ labelOr.toString() +" and a.a_enable =1 order by a.a_heat desc";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
