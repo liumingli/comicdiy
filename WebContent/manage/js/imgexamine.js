@@ -1,15 +1,20 @@
 
 //审查图片
 function getAllImage(){
-	console.log("getImageCount<<<");
+	var logger = new Logger();
+	logger.trace("getImageCount<<<");
 	$.post("/comicdiy/comicapi",{
 		'method' : 'getImageCount'
 	},
 	function (result) {
 		$('#imgList').children().remove();
 		if(result > 0){
-			
-			var total = parseInt(result / 12)+1;
+			var total = 0;
+			if(parseInt(result%12) == 0){
+				total = parseInt(result / 12);
+			}else{
+				 total = parseInt(result / 12)+1;
+			}
 			
 			$('#total').html(total);
 			$('#current').html(1);

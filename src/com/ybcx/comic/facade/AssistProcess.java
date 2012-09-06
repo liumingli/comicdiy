@@ -318,8 +318,8 @@ public class AssistProcess {
 		}else if (action.equals(AppStarter.SEARCHANIM)) {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
-			String key = req.getParameter("key");
-			String result= apiAdaptor.searchAnim(key);
+			String keys = req.getParameter("keys");
+			String result= apiAdaptor.searchAnim(keys);
 			log.debug(result);
 			pw.print(result);
 			pw.close();

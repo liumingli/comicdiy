@@ -60,7 +60,6 @@
 			'userId' : user
 		},
 		function (result) {
-			console.log(result.length);
 			if(result.length > 0){
 				$('#animList').children().remove();
 				for(key in result){
@@ -99,7 +98,8 @@
 		img.setAttribute("src",local+thumbnail);
 		img.setAttribute("height",30);
 		a.appendChild(img);
-		a.setAttribute("href","javascript:redirect('"+id+"')");
+		a.setAttribute("onclick","javascript:redirect('"+id+"')");
+		a.setAttribute("href","javascript:;");
 		a.setAttribute("target", "_blank");
 		tr.appendChild(para);
 	}

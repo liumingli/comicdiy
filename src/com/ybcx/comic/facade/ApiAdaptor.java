@@ -340,8 +340,8 @@ public class ApiAdaptor {
 		return result;
 	}
 	
-	public String searchAnim(String key) {
-		List<Cartoon> list = comicService.searchAnimation(key);
+	public String searchAnim(String keys) {
+		List<Cartoon> list = comicService.searchAnimation(keys);
 		JSONArray jsonArray = JSONArray.fromCollection(list);
 		processCartoon(jsonArray);
 		return jsonArray.toString();

@@ -136,10 +136,18 @@ public class FileUploader extends HttpServlet {
 				log.debug("fileName is null ...");
 				return;
 			}
-
-			File uploadFile = new File(assetPath + File.separator + fileName);
-			// 生成文件
-			item.write(uploadFile);
+			
+			File uploadFile = null;
+			if(fileType.equals("swf")){
+				fileName = System.currentTimeMillis()+fileName.substring(dotPos).toLowerCase();
+				uploadFile = new File(assetPath + File.separator + fileName);
+				// 生成文件
+				item.write(uploadFile);
+			}else{
+				uploadFile = new File(assetPath + File.separator + fileName);
+				// 生成文件
+				item.write(uploadFile);
+			}
 		
 			
 			log.debug(fileName + " File is complete ...");

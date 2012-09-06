@@ -4,7 +4,7 @@ var sceneArray = new Array();
 var themeArray = new Array();
 
 var tabLength = 500;
-	
+
 window.onload = function(){
 	//加载页面时动态获取所有分类
 	getAllCategory();
@@ -20,7 +20,6 @@ window.onload = function(){
 		    	 $('#assetInfo').show().html('<img src="imgs/loading.gif">');
 				var jqXHR = data.submit().success(
 						function(result, textStatus, jqXHR) {
-							console.log(result);
 							if(result == "reject"){
 							    $('#assetInfo').show().html('<img src="imgs/no.png">');
 							}else{
@@ -30,11 +29,9 @@ window.onload = function(){
 							}
 						}).error(
 						function(jqXHR, textStatus, errorThrown) {
-							console.log("error");
 							 $('#assetInfo').show().html('<img src="imgs/no.png">');
 						}).complete(
 						function(result, textStatus, jqXHR) {
-							console.log(result);
 						});
 		    }
 		}
@@ -51,7 +48,6 @@ window.onload = function(){
 		    	 $('#thumbnailInfo').show().html('<img src="imgs/loading.gif">');
 				var jqXHR = data.submit().success(
 						function(result, textStatus, jqXHR) {
-							console.log(result);
 							if(result == "reject"){
 							    $('#thumbnailInfo').show().html('<img src="imgs/no.png">');
 							}else{
@@ -61,11 +57,9 @@ window.onload = function(){
 							}
 						}).error(
 						function(jqXHR, textStatus, errorThrown) {
-							console.log("error");
 							$('#thumbnailInfo').show().html('<img src="imgs/no.png">');
 						}).complete(
 						function(result, textStatus, jqXHR) {
-							console.log(result);
 						});
 		    }
 		}
@@ -75,7 +69,8 @@ window.onload = function(){
 
 //获取所有分类
 function getAllCategory(){
-	console.log("get all category");
+	var logger = new Logger();
+	logger.trace(">>>get all category");
 	$.post('/comicdiy/comicapi', {
 		'method'  : 'getAllCategory'
 	}, 
@@ -219,7 +214,6 @@ function createAsset(){
 				alert("上传素材有误，请重试");
 			}else{
 				$('#prompt').show().html('<font color="red" size="2">上传成功</font>');
-				console.log("new asset complete");
 				//清空表单
 				emptyForm();
 			}
@@ -271,7 +265,6 @@ function sceneClick(){
 
 function checkNum(){
 	var val = $("#price").val();
-	console.log(typeof val);
 	if(isNaN(val)){
 		 $('#priceInfo').show().html('<font color="red" size="2">请输入数字</font>');
 	}
@@ -287,7 +280,6 @@ function cancelPrompt(){
 }
 
 function operateLabel(){
-	console.log("display Label panel");
 //	$('#floatBoxBg').attr("style","display: block");
 	$('#tag_wrap').attr('style',"display: block");
 	
@@ -307,7 +299,6 @@ function initLabel(){
 	//判断标签框是否已加载
 	var div = document.getElementById('parentLable');
 	var len = div.childNodes.length;
-	console.log(len);
 	
 	if(len==0){
 		$('#parentLable').append('<a href="#" id="load"><img src="imgs/loading.gif"></a>');
@@ -360,7 +351,8 @@ function initLabel(){
 //向后翻页
 //第num页，元素以key为下标的开始
 function nextPage(key,num){
-	console.log("nextPage>>>",key,num);
+	var logger = new Logger();
+	logger.trace("nextPage>>>",key,num);
 	sumLength = 0;
 	$('#parentLable').children().remove();
 	
@@ -405,13 +397,13 @@ function nextPage(key,num){
 
 //往前翻页
 function previousPage(key,num){
-	console.log("previousPage>>>",key,num);
+	var logger = new Logger();
+	logger.trace("previousPage>>>",key,num);
 	sumLength = 0;
 	$('#parentLable').children().remove();
 	
 	//取到当前页数是从哪个元素位置开始
 	var index = matchupArray[num];
-	console.log(index+"<<<<<<<");
 	for(var i = index;i<parentLabelList.length;i++){
 		var parent ="('"+parentLabelList[i].id+"','"+i+"')";
 		if(i == index){
@@ -467,7 +459,6 @@ function initChildLable(parent,num){
 }
 
 function closePopup(){
-	console.log("close Label panel");
 	$('#tag_wrap').attr('style','display: none');
 }
 
@@ -486,8 +477,6 @@ function chooseLable(num,key){
 		
 		if(old == null && child < 3){
 			
-			console.log(labelId+"-----------"+labelName);
-
 			//将要用来传参的标签id以逗号分隔的方式填入
 			setLabelId(labelId);
 			//将标签文字添加到labelPanel里
@@ -533,7 +522,6 @@ function deleteThis(id){
 	
 
 	var labelIds = 	$('#label').val();
-	console.log("delete before "+labelIds);
 	var strs= new Array(); //定义一数组
 	strs=labelIds.split(","); //字符分割      
 	for (var i=0 ; i<strs.length ; i++ )    
@@ -544,6 +532,5 @@ function deleteThis(id){
         }
     } 
 	var newIds =strs.join(",");
-	console.log("delete after "+newIds);
 	$('#label').val(newIds);
 };

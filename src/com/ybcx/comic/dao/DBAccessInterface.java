@@ -85,7 +85,7 @@ public interface DBAccessInterface {
 
 		public int updateImageById(String imgId);
 
-		public List<Cartoon> searchAnimation(String key);
+		public List<Cartoon> searchAnimation(String keys);
 
 		public int deleteAssetLabelRel(String assetId);
 

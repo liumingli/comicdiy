@@ -706,8 +706,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 
 	@Override
-	public List<Cartoon> searchAnimation(String key) {
-		List<Cartoon> list = dbVisitor.searchAnimation(key);
+	public List<Cartoon> searchAnimation(String keys) {
+		List<Cartoon> list = dbVisitor.searchAnimation(keys);
 		return list;
 	}
 

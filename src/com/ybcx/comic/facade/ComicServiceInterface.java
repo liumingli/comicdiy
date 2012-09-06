@@ -77,7 +77,7 @@ public interface ComicServiceInterface {
 
 	public String examineImage(String imgId, String imgPath);
 
-	public List<Cartoon> searchAnimation(String key);
+	public List<Cartoon> searchAnimation(String keys);
 
 	public List<Images> getImageByPage(String pageNum);
 

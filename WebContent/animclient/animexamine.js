@@ -1,10 +1,10 @@
 
 function searchAnim(){
-	var keys = $('#key').val().trim();
+	var keys = $('#keys').val();
 	if(keys != "" && keys != null){
 		$.post('/comicdiy/comicapi', {
 			'method'  : 'searchAnim',
-			'key' : keys
+			'keys' : keys
 		}, 
 		//回调函数
 		function (result) {
@@ -31,14 +31,18 @@ function searchAnim(){
 		
 //审查动画
 function getAllAnimation(){
-	console.log("getAnimationCount<<<");
 	$.post("/comicdiy/comicapi",{
 		'method' : 'getAnimCount'
 	},
 	function (result) {
 		$('#animList').children().remove();
 		if(result > 0){
-			var total = parseInt(result / 12)+1;
+			var total = 0;
+			if(parseInt(result%12) == 0){
+				total = parseInt(result / 12);
+			}else{
+				 total = parseInt(result / 12)+1;
+			}
 			
 			$('#total').html(total);
 			$('#current').html(1);
@@ -71,7 +75,9 @@ function generateAnimTd(thumbnail,id,user,key){
 	img.setAttribute("src",local+thumbnail);
 	img.setAttribute("height",30);
 	a.appendChild(img);
-	a.setAttribute("href","javascript:redirect('"+user+"','"+id+"')");
+	a.setAttribute("onclick","javascript:redirect('"+user+"','"+id+"')");
+	a.setAttribute("href", "javascript:;");
+	a.setAttribute("target", "_blank");
 	tr.appendChild(para);
 }
 	
@@ -127,7 +133,7 @@ function getAnimByPage(pageNum){
 		'pageNum' : pageNum
 	},
 	function (result) {
-		if(result.length >0){
+		if(result.length > 0){
 			for(key in result){
 				generateAnimTr(key);
 				
@@ -136,7 +142,7 @@ function getAnimByPage(pageNum){
 				generateTd(result[key].name,key);
 				
 				generateAnimTd(result[key].thumbnail,result[key].id,result[key].owner,key);
-
+				
 				generateTd(result[key].createTime,key);
 				
 				generateAnimOperate(result[key].id,key);

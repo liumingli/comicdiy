@@ -674,9 +674,9 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 
 	@Override
-	public List<Cartoon> searchAnimation(String key) {
+	public List<Cartoon> searchAnimation(String keys) {
 		List<Cartoon> list = new ArrayList<Cartoon>();
-		String sql = "select * from t_cartoon where c_enable=1 and c_name like '%"+key+"%' order by c_createTime desc";
+		String sql = "select * from t_cartoon where c_enable=1 and c_name like '%"+keys+"%' order by c_createTime desc";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
