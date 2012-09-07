@@ -328,13 +328,10 @@ function initLabel(){
 						sumLength+= everyLength;
 						if(sumLength > tabLength)
 						{
+							var pageNum=1;
 							//存入页码与开始元素的关系
-							matchupArray[1]=0;
-							$('.tip_right').show();
-							var pageNum = 2;
-							var para ="('"+key+"',"+pageNum+")";
-							$('#rightTip').attr('onclick','nextPage'+para);
-							matchupArray[pageNum]=key;
+							matchupArray[pageNum]=0;
+							addRight(pageNum,key);
 							break;
 						}else{
 							$('#parentLable').append(html);
@@ -351,54 +348,48 @@ function initLabel(){
 //向后翻页
 //第num页，元素以key为下标的开始
 function nextPage(key,num){
-	var logger = new Logger();
-	logger.trace("nextPage>>>",key,num);
 	sumLength = 0;
 	$('#parentLable').children().remove();
 	
 	//从第key个元素开始添加第num页的标签
 	for(var i=parseInt(key);i<parentLabelList.length;i++){
-		
 		var parent ="('"+parentLabelList[i].id+"','"+i+"')";
 		//当前页的第一个标签，初始状态为选中
 		if(i == parseInt(key)){
 			$('#parentLable').append('<a href = "javascript:initChildLable'+parent+'"  id="'+i+'" class="current" >'+parentLabelList[i].name+'</a>');
 			initChildLable(parentLabelList[i].id,i);
 		}else{
-			var html = '<a href = "javascript:initChildLable'+parent+'"  id="'+i+'">'+parentLabelList[i].name+'</a>';
-			$('#parentLable').append(html);
+		    var  html = '<a href = "javascript:initChildLable'+parent+'"  id="'+i+'">'+parentLabelList[i].name+'</a>';
+			//累加长度
+			var everyLength =$('#' + (i-1)).width(); 
+			sumLength+= everyLength;
+			
+			if(sumLength > tabLength){
+				//判断如果还可翻页则继续
+				addRight(num,i);
+				break;
+			}else{
+				$('#parentLable').append(html);
+				$('.tip_right').hide();
+			}
 		}
-		
-		//累加长度
-		var everyLength =$('#' + i).width(); 
-		sumLength+= everyLength;
-		
-		if(sumLength > tabLength){
-			//判断如果还可翻页则继续
-			$('.tip_right').show();
-			var newPage=num+1;
-			var para ="('"+(i+1)+"',"+newPage+")";
-			$('#rightTip').attr('onclick','nextPage'+para);
-			
-			//存入页码与开始元素的关系
-			matchupArray[newPage]=i;
-			
-			break;
-			
-		}else{
-			$('.tip_left').show();
-			var newPage=num-1;
-			var para ="('"+key+"',"+newPage+")";
-			$('#leftTip').attr('onclick','previousPage'+para);
-			$('.tip_right').hide();
-		}
+	}
+	//添加向前翻页
+	addLeft(num-1,key);
+}
+
+function addLeft(num,key){
+	if(key == 0){
+		$('.tip_left').hide();
+	}else{
+		$('.tip_left').show();
+		var para ="('"+key+"',"+num+")";
+		$('#leftTip').attr('onclick','previousPage'+para);
 	}
 }
 
 //往前翻页
 function previousPage(key,num){
-	var logger = new Logger();
-	logger.trace("previousPage>>>",key,num);
 	sumLength = 0;
 	$('#parentLable').children().remove();
 	
@@ -411,28 +402,27 @@ function previousPage(key,num){
 			initChildLable(parentLabelList[i].id,i);
 		}else{
 			var html = '<a href = "javascript:initChildLable'+parent+'"  id="'+i+'">'+parentLabelList[i].name+'</a>';
-			$('#parentLable').append(html);
-		}
-		var everyLength =$('#' + i).width(); 
-		sumLength+= everyLength;
-		if(sumLength > tabLength){
-			if(num>1){
-				$('.tip_left').show();
-				var newPage=num-1;
-				var para ="('"+index+"',"+newPage+")";
-				$('#leftTip').attr('onclick','previousPage'+para);
+		
+			var everyLength =$('#' +(i-1)).width(); 
+			sumLength+= everyLength;
+			if(sumLength > tabLength){
+				addLeft(num-1,index);
+				addRight(num,key);
+				break;
+			}else{
+				$('#parentLable').append(html);
 			}
-			break;
-		}else{
-			$('.tip_right').show();
-			var newPage=num+1;
-			var para ="('"+key+"',"+newPage+")";
-			$('#rightTip').attr('onclick','nextPage'+para);
-			$('.tip_left').hide();
-			//存入页码与开始元素的关系
-			matchupArray[newPage]=key;
 		}
 	}
+}
+
+function addRight(num,key){
+	$('.tip_right').show();
+	var newPage=num+1;
+	var para ="('"+key+"',"+newPage+")";
+	$('#rightTip').attr('onclick','nextPage'+para);
+	//存入页码与开始元素的关系
+	matchupArray[newPage]=key;
 }
 
 function initChildLable(parent,num){
