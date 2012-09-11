@@ -66,6 +66,13 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 	
 	@Override
+	public int getAssetCount() {
+		String sql = "select count(a_id) from t_assets where a_enable=1 order by a_heat desc";
+		int rows = jdbcTemplate.queryForInt(sql);
+		return rows;
+	}
+	
+	@Override
 	public List<Assets> getAssetsByPage(int pageNum, int pageSize) {
 		List<Assets> resList = new ArrayList<Assets>();
 		int startLine = (pageNum -1)*pageSize;
@@ -224,7 +231,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 			if(labelAnd.length()>0){
 				labelAnd.append(" and ");
 			}
-			labelAnd.append("a.a_id in (select r.alr_assets from t_astlab_rel r, t_label l where r.alr_label= l.l_id and l.l_name like '%"+labelArr[i].trim()+"%')");
+			labelAnd.append("l.l_name like '%"+labelArr[i].trim()+"%'");
 		}
 		
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
@@ -263,12 +270,12 @@ public class DBAccessImplement  implements DBAccessInterface {
 			if(labelOr.length()>0){
 				labelOr.append(" or ");
 			}
-			labelOr.append("a.a_id in (select r.alr_assets from t_astlab_rel r, t_label l where r.alr_label= l.l_id and l.l_name like '%"+labelArr[i].trim()+"%')");
+			labelOr.append("l.l_name like '%"+labelArr[i].trim()+"%'");
 		}
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_label l, t_astlab_rel r, t_category c, t_astcat_rel acr" +
 				" where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_id = r.alr_assets and l.l_id = r.alr_label " +
-				"and "+ labelOr.toString() +" and a.a_enable =1 order by a.a_heat desc";
+				"and ("+ labelOr.toString() +") and a.a_enable =1 order by a.a_heat desc";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -301,7 +308,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 			if(labelAnd.length()>0){
 				labelAnd.append(" and ");
 			}
-			labelAnd.append("a.a_id in (select r.alr_assets from t_astlab_rel r, t_label l where r.alr_label= l.l_id and l.l_name like '%"+labelArr[i].trim()+"%')");
+			labelAnd.append("l.l_name like '%"+labelArr[i].trim()+"%'");
 		}
 		
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
@@ -340,12 +347,12 @@ public class DBAccessImplement  implements DBAccessInterface {
 			if(labelOr.length()>0){
 				labelOr.append(" or ");
 			}
-			labelOr.append("a.a_id in (select r.alr_assets from t_astlab_rel r, t_label l where r.alr_label= l.l_id and l.l_name like '%"+labelArr[i].trim()+"%')");
+			labelOr.append("l.l_name like '%"+labelArr[i].trim()+"%'");
 		}
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_label l, t_astlab_rel r, t_category c, t_astcat_rel acr" +
 				" where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_id = r.alr_assets and l.l_id = r.alr_label " +
-				"and "+ labelOr.toString() +" and a.a_type='"+type+"' and a.a_enable =1 order by a.a_heat desc";
+				"and ("+ labelOr.toString() +") and a.a_type='"+type+"' and a.a_enable =1 order by a.a_heat desc";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -696,76 +703,6 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 
 	@Override
-	public List<Assets> searchByCategoryTypeAnd(String[] catArr, String type, int pageNum, int pageSize) {
-		int startLine = (pageNum -1)*pageSize;
-		List<Assets> resList = new ArrayList<Assets>();
-		StringBuffer catAnd = new StringBuffer();
-		
-		for(int i=0;i<catArr.length;i++){
-			if(catAnd.length()>0){
-				catAnd.append(" and ");
-			}
-			catAnd.append("a.a_id in (select r.acr_assets from t_astcat_rel r, t_category c where r.acr_category= c.c_id and c.c_name ='"+catArr[i].trim()+"')");
-		}
-		
-		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
-				" from t_assets a, t_category c, t_astcat_rel acr " +
-				"where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_type='"+type +"' "+
-				"and "+ catAnd.toString() +" and a.a_enable =1 order by a.a_heat desc limit "+startLine+","+pageSize;
-		
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
-		if (rows != null && rows.size() > 0) {
-			for (int i = 0; i < rows.size(); i++) {
-				Map<String, Object> map = (Map<String, Object>) rows.get(i);
-				Assets asset = new Assets();
-				asset.setId(map.get("a_id").toString());
-				asset.setHoliday(map.get("a_holiday").toString());
-				asset.setName(map.get("a_name").toString());
-				asset.setCategory(map.get("c_name").toString());
-				asset.setType(map.get("a_type").toString());
-				asset.setThumbnail(map.get("a_thumbnail").toString());
-				asset.setPath(map.get("a_path").toString());
-				asset.setUploadTime(map.get("a_uploadTime").toString());
-				asset.setPrice(Float.parseFloat(map.get("a_price").toString()));
-				asset.setHeat(Integer.parseInt(map.get("a_heat").toString()));
-				asset.setEnable(Integer.parseInt(map.get("a_enable").toString()));
-				resList.add(asset);
-			}
-		}
-		return resList;
-	}
-
-	@Override
-	public List<Assets> searchByCategoryTypeOr(String categorys, String type,  int pageNum, int pageSize) {
-		int startLine = (pageNum -1)*pageSize;
-		List<Assets> resList = new ArrayList<Assets>();
-		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
-				" from t_assets a, t_category c, t_astcat_rel acr" +
-				" where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_type='"+type +"' "+
-				"and c.c_name in("+ categorys+") and a.a_enable =1 order by a.a_heat desc limit "+startLine+","+pageSize;
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
-		if (rows != null && rows.size() > 0) {
-			for (int i = 0; i < rows.size(); i++) {
-				Map<String, Object> map = (Map<String, Object>) rows.get(i);
-				Assets asset = new Assets();
-				asset.setId(map.get("a_id").toString());
-				asset.setHoliday(map.get("a_holiday").toString());
-				asset.setName(map.get("a_name").toString());
-				asset.setCategory(map.get("c_name").toString());
-				asset.setType(map.get("a_type").toString());
-				asset.setThumbnail(map.get("a_thumbnail").toString());
-				asset.setPath(map.get("a_path").toString());
-				asset.setUploadTime(map.get("a_uploadTime").toString());
-				asset.setPrice(Float.parseFloat(map.get("a_price").toString()));
-				asset.setHeat(Integer.parseInt(map.get("a_heat").toString()));
-				asset.setEnable(Integer.parseInt(map.get("a_enable").toString()));
-				resList.add(asset);
-			}
-		}
-		return resList;
-	}
-
-	@Override
 	public int deleteAssetLabelRel(String assetId) {
 		String sql = "delete from t_astlab_rel where alr_assets='"+assetId+"'";
 		int rows = jdbcTemplate.update(sql);
@@ -838,10 +775,13 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 
 	@Override
-	public List<Assets> searchByType( String type, int num, int pageSize) {
+	public List<Assets> getByType( String type, int num, int pageSize) {
 		List<Assets> resList = new ArrayList<Assets>();
 		int startLine = (num -1)*pageSize;
-		String sql = "select * from t_assets where a_type='"+type+"' and a_enable=1 order by a_heat desc limit "+startLine+","+pageSize;
+		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
+				" from t_assets a, t_category c, t_astcat_rel acr " +
+				"where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_type='"+type +"' "+
+				"and a.a_enable =1 order by a.a_heat desc limit "+startLine+","+pageSize;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -850,6 +790,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 				asset.setId(map.get("a_id").toString());
 				asset.setHoliday(map.get("a_holiday").toString());
 				asset.setName(map.get("a_name").toString());
+				asset.setCategory(map.get("c_name").toString());
 				asset.setType(map.get("a_type").toString());
 				asset.setThumbnail(map.get("a_thumbnail").toString());
 				asset.setPath(map.get("a_path").toString());
@@ -862,5 +803,37 @@ public class DBAccessImplement  implements DBAccessInterface {
 		}
 		return resList;
 	}
+
+	@Override
+	public List<Assets> getByCategoryAndType(String categorys, String type,
+			int num, int pageSize) {
+		List<Assets> resList = new ArrayList<Assets>();
+		int startLine = (num -1)*pageSize;
+		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
+				" from t_assets a, t_category c, t_astcat_rel acr " +
+				"where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_type='"+type +"' "+
+				"and c.c_name='"+categorys+"' and a.a_enable =1 order by a.a_heat desc limit "+startLine+","+pageSize;
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				Assets asset = new Assets();
+				asset.setId(map.get("a_id").toString());
+				asset.setHoliday(map.get("a_holiday").toString());
+				asset.setName(map.get("a_name").toString());
+				asset.setType(map.get("a_type").toString());
+				asset.setCategory(map.get("c_name").toString());
+				asset.setThumbnail(map.get("a_thumbnail").toString());
+				asset.setPath(map.get("a_path").toString());
+				asset.setUploadTime(map.get("a_uploadTime").toString());
+				asset.setPrice(Float.parseFloat(map.get("a_price").toString()));
+				asset.setHeat(Integer.parseInt(map.get("a_heat").toString()));
+				asset.setEnable(Integer.parseInt(map.get("a_enable").toString()));
+				resList.add(asset);
+			}
+		}
+		return resList;
+	}
+
 
 }

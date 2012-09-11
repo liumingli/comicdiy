@@ -7,7 +7,6 @@ function getAllImage(){
 		'method' : 'getImageCount'
 	},
 	function (result) {
-		$('#imgList').children().remove();
 		if(result > 0){
 			var total = 0;
 			if(parseInt(result%12) == 0){

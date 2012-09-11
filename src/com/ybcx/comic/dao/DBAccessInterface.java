@@ -16,6 +16,8 @@ public interface DBAccessInterface {
 
 		public List<Assets> getAllAssets();
 
+		public int getAssetCount();
+
 		public List<Assets> getAssetsByPage(int pageNum, int pageSize);
 		
 		public int createAsset(Assets asset);
@@ -41,10 +43,6 @@ public interface DBAccessInterface {
 		public List<Assets> searchByLabelTypeAnd(String[] labelArr,String type);
 
 		public List<Assets> searchByLabelTypeOr(String[] labelArr,String type);
-
-		public List<Assets> searchByCategoryTypeAnd(String[] catArr, String type, int pageNum, int pageSize);
-
-		public List<Assets> searchByCategoryTypeOr(String string, String type, int pageNum, int pageSize);
 
 		public List<Category> getAllCategory();
 
@@ -101,6 +99,8 @@ public interface DBAccessInterface {
 
 		public int getAssetCountByTypeAndCategory(String type, String category);
 
-		public List<Assets> searchByType( String type, int num, int pageSize);
+		public List<Assets> getByType( String type, int num, int pageSize);
 
+		public List<Assets> getByCategoryAndType(String categorys, String type,
+				int num, int pageSize);
 }

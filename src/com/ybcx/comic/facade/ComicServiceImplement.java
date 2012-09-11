@@ -71,12 +71,15 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	@Override
 	public List<Assets> getAllAssets() {
 		List<Assets> assetsList = dbVisitor.getAllAssets();
-		
 		List<Assets> resultList = new ArrayList<Assets>();
-		
 		resultList = this.combinLabels(assetsList);
-		
 		return resultList;
+	}
+
+	@Override
+	public int getAllAssetsCount() {
+		int res = dbVisitor.getAssetCount();
+		return res;
 	}
 	
 	//给素材取标签
@@ -115,7 +118,6 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		List<Assets> assetsList = dbVisitor.getAssetsByPage(pageNum,pageSize);
 		
 		List<Assets> resultList = new ArrayList<Assets>();
-		
 		resultList = this.combinLabels(assetsList);
 		
 		return resultList;
@@ -235,123 +237,100 @@ public class ComicServiceImplement implements ComicServiceInterface {
 
 	@Override
 	public List<Assets> searchByLabel(String labels) {
-		List<Assets> resList = new ArrayList<Assets>();
-		List<Assets> andList = new ArrayList<Assets>();
+//		List<Assets> resList = new ArrayList<Assets>();
+//		List<Assets> andList = new ArrayList<Assets>();
 		List<Assets> orList = new ArrayList<Assets>();
 		 String[] labelArr =labels.split(" ");
-		 StringBuffer labelOr = new StringBuffer();
-		 //在这里将用空格分隔的labels转变成sql可识别的'','
-		 if(labelArr.length > 0){
-			 for (int i = 0; i < labelArr.length; i++) {
-					if (!"".equals(labelArr[i].trim())) {
-						if (labelOr.length() > 0) {
-							labelOr.append(",");
-						}
-						labelOr.append("'");
-						labelOr.append(labelArr[i]);
-						labelOr.append("'");
-					}
-				}
-			 
-			 andList = dbVisitor.searchByLabelAnd(labelArr);
-			 orList = dbVisitor.searchByLabelOr(labelArr);
-		 }
+//		 StringBuffer labelOr = new StringBuffer();
+//		 //在这里将用空格分隔的labels转变成sql可识别的'','
+//		 if(labelArr.length > 0){
+//			 for (int i = 0; i < labelArr.length; i++) {
+//					if (!"".equals(labelArr[i].trim())) {
+//						if (labelOr.length() > 0) {
+//							labelOr.append(",");
+//						}
+//						labelOr.append("'");
+//						labelOr.append(labelArr[i]);
+//						labelOr.append("'");
+//					}
+//				}
+//		 }
+//		 
+//		 andList = dbVisitor.searchByLabelAnd(labelArr);
+		 orList = dbVisitor.searchByLabelOr(labelArr);
 		 
-		 resList = combinResult(andList, orList);
+//		 resList = combinResult(andList, orList);
 		 
 		List<Assets> resultList = new ArrayList<Assets>();
-		
-		resultList = this.combinLabels(resList);
+		resultList = this.combinLabels(orList);
 		
 		return resultList;
 		 
 	}
 	
-	private List<Assets> combinResult(List<Assets> andList, List<Assets> orList){
-		for(int m=0; m<andList.size(); m++){
-			Assets asset = andList.get(m);
-			String id = asset.getId();
-			for(int n=0; n <orList.size(); n++){
-				Assets asse = orList.get(n);
-				if(id.equals(asse.getId())){
-					orList.remove(n);
-				}
-			}
-		}
-		andList.addAll(orList);
-		return andList;
-	}
+//	private List<Assets> combinResult(List<Assets> andList, List<Assets> orList){
+//		for(int m=0; m<andList.size(); m++){
+//			Assets asset = andList.get(m);
+//			String id = asset.getId();
+//			for(int n=0; n <orList.size(); n++){
+//				Assets asse = orList.get(n);
+//				if(id.equals(asse.getId())){
+//					orList.remove(n);
+//				}
+//			}
+//		}
+//		andList.addAll(orList);
+//		return andList;
+//	}
 
 	@Override
 	public List<Assets> searchByLabelAndType(String labels, String type) {
-		List<Assets> resList = new ArrayList<Assets>();
-		List<Assets> andList = new ArrayList<Assets>();
+//		List<Assets> resList = new ArrayList<Assets>();
+//		List<Assets> andList = new ArrayList<Assets>();
 		List<Assets> orList = new ArrayList<Assets>();
 		 String[] labelArr =labels.split(" ");
-		 StringBuffer labelOr = new StringBuffer();
-		 //在这里将用空格分隔的labels转变成sql可识别的'','
-		 if(labelArr.length > 0){
-			 for (int i = 0; i < labelArr.length; i++) {
-					if (!"".equals(labelArr[i].trim())) {
-						if (labelOr.length() > 0) {
-							labelOr.append(",");
-						}
-						labelOr.append("'");
-						labelOr.append(labelArr[i]);
-						labelOr.append("'");
-					}
-				}
-			 
-			 andList = dbVisitor.searchByLabelTypeAnd(labelArr,type);
-			 orList = dbVisitor.searchByLabelTypeOr(labelArr,type);
-		 }
+//		 StringBuffer labelOr = new StringBuffer();
+//		 //在这里将用空格分隔的labels转变成sql可识别的'','
+//		 if(labelArr.length > 0){
+//			 for (int i = 0; i < labelArr.length; i++) {
+//					if (!"".equals(labelArr[i].trim())) {
+//						if (labelOr.length() > 0) {
+//							labelOr.append(",");
+//						}
+//						labelOr.append("'");
+//						labelOr.append(labelArr[i]);
+//						labelOr.append("'");
+//					}
+//				}
+//		 }
 		 
-		 resList = combinResult(andList, orList);
+//		 andList = dbVisitor.searchByLabelTypeAnd(labelArr,type);
+		 orList = dbVisitor.searchByLabelTypeOr(labelArr,type);
+		 
+//		 resList = combinResult(andList, orList);
 		 
 		List<Assets> resultList = new ArrayList<Assets>();
-		
-		resultList = this.combinLabels(resList);
+		resultList = this.combinLabels(orList);
 		
 		return resultList;
 	}
 	
 	@Override
-	public List<Assets> searchByCategoryAndType(String categorys, String type,String pageNum) {
+	public List<Assets> getByCategoryAndType(String categorys, String type,String pageNum) {
 		int num = Integer.parseInt(pageNum);
 		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
 		List<Assets> resList = new ArrayList<Assets>();
-		List<Assets> andList = new ArrayList<Assets>();
-		List<Assets> orList = new ArrayList<Assets>();
 		
 		if("all".equals(categorys)){
 			
-			resList = dbVisitor.searchByType(type,num,pageSize);
+			resList = dbVisitor.getByType(type,num,pageSize);
 			
 		}else{
-			 String[] catArr =categorys.split(" ");
-			 StringBuffer catOr = new StringBuffer();
-			 //在这里将用空格分隔的labels转变成sql可识别的'','
-			 if(catArr.length > 0){
-				 for (int i = 0; i < catArr.length; i++) {
-						if (!"".equals(catArr[i].trim())) {
-							if (catOr.length() > 0) {
-								catOr.append(",");
-							}
-							catOr.append("'");
-							catOr.append(catArr[i]);
-							catOr.append("'");
-						}
-					}
-				 
-				 andList = dbVisitor.searchByCategoryTypeAnd(catArr,type,num,pageSize);
-				 orList = dbVisitor.searchByCategoryTypeOr(catOr.toString(),type,num,pageSize);
-			 }
-			 
-			 resList = combinResult(andList, orList);
+			
+			resList = dbVisitor.getByCategoryAndType(categorys,type,num,pageSize);
 		}
 		 
 		List<Assets> resultList = new ArrayList<Assets>();
-		
 		resultList = this.combinLabels(resList);
 		
 		return resultList;
@@ -386,24 +365,25 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			if (file.exists()) {
 				InputStream imageIn = new FileInputStream(file);
 				if (type.toLowerCase().equals("jpg") || type.toLowerCase().equals("jpeg")) {
-					writeJPGImage(imageIn, res);
+					writeJPGImage(imageIn, res, file);
 				} else if (type.toLowerCase().equals("png")) {
-					writePNGImage(imageIn, res);
+					writePNGImage(imageIn, res, file);
 				} else if (type.toLowerCase().equals("gif")) {
-					writeGIFImage(imageIn, res);
+					writeGIFImage(imageIn, res, file);
 				} else {
-					writePNGImage(defaultIn, res);
+					writePNGImage(defaultIn, res, file);
 				}
 			} else {
-				writePNGImage(defaultIn, res);
+				writePNGImage(defaultIn, res, defaultImg);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private void writeJPGImage(InputStream imageIn, HttpServletResponse res) {
+	private void writeJPGImage(InputStream imageIn, HttpServletResponse res, File file) {
 		try {
+//			res.addHeader("content-length",String.valueOf(file.length()));
 			res.setContentType(JPG);
 			JPEGImageDecoder decoder = JPEGCodec.createJPEGDecoder(imageIn);
 			// 得到编码后的图片对象
@@ -425,12 +405,14 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}
 	}
 
-	private void writePNGImage(InputStream imageIn, HttpServletResponse res) {
+	private void writePNGImage(InputStream imageIn, HttpServletResponse res, File file) {
+//		res.addHeader("content-length",String.valueOf(file.length()));
 		res.setContentType(PNG);
 		getOutInfo(imageIn, res);
 	}
 
-	private void writeGIFImage(InputStream imageIn, HttpServletResponse res) {
+	private void writeGIFImage(InputStream imageIn, HttpServletResponse res, File file) {
+//		res.addHeader("content-length",String.valueOf(file.length()));
 		res.setContentType(GIF);
 		getOutInfo(imageIn, res);
 	}
@@ -463,7 +445,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 
 	}
 	
-	private void writeSWF(InputStream imageIn, HttpServletResponse res) {
+	private void writeSWF(InputStream imageIn, HttpServletResponse res, File file) {
+//		res.addHeader("content-length",String.valueOf(file.length()));
 		res.setContentType(SWF);
 		getOutInfo(imageIn, res);
 	}
@@ -481,18 +464,18 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			if (file.exists()) {
 				InputStream imageIn = new FileInputStream(file);
 				if(type.toLowerCase().equals("swf")){
-					writeSWF(imageIn,res);
+					writeSWF(imageIn,res,file);
 				}else if (type.toLowerCase().equals("jpg") || type.toLowerCase().equals("jpeg")) {
-					writeJPGImage(imageIn, res);
+					writeJPGImage(imageIn, res, file);
 				} else if (type.toLowerCase().equals("png")) {
-					writePNGImage(imageIn, res);
+					writePNGImage(imageIn, res, file);
 				} else if (type.toLowerCase().equals("gif")) {
-					writeGIFImage(imageIn, res);
+					writeGIFImage(imageIn, res, file);
 				} else {
-					writePNGImage(defaultIn, res);
+					writePNGImage(defaultIn, res, file);
 				}
 			} else {
-				writePNGImage(defaultIn, res);
+				writePNGImage(defaultIn, res, defaultImg);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -552,10 +535,10 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
 		List<Assets> assetList = dbVisitor.getAsssetsByType(type,page,pageSize);
 		
-		List<Assets> resultList = new ArrayList<Assets>();
-		resultList = this.combinLabels(assetList);
+//		List<Assets> resultList = new ArrayList<Assets>();
+//		resultList = this.combinLabels(assetList);
 		
-		return resultList;
+		return assetList;
 	}
 
 	@Override

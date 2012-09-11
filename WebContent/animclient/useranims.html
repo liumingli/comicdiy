@@ -98,8 +98,11 @@
 		img.setAttribute("src",local+thumbnail);
 		img.setAttribute("height",30);
 		a.appendChild(img);
-		a.setAttribute("onclick","javascript:redirect('"+id+"')");
-		a.setAttribute("href","javascript:;");
+// 		a.setAttribute("onclick","javascript:redirect('"+id+"')");
+// 		a.setAttribute("href","javascript:void(0)");
+		var user = $('#userId').val();
+		var url =  "Aplayer_simple.html?userId="+user+"&animId="+id;
+		a.setAttribute("href", url);
 		a.setAttribute("target", "_blank");
 		tr.appendChild(para);
 	}

@@ -1,3 +1,7 @@
+//存储搜索的动画结果
+var animsList = new Array();
+//存储页面与元素下标的对应关系
+var matchupArray= new Array();
 
 function searchAnim(){
 	var keys = $('#keys').val();
@@ -10,22 +14,80 @@ function searchAnim(){
 		function (result) {
 			$('#animList').children().remove();
 			if(result.length > 0){
-				for(key in result){
-					generateAnimTr(key);
+				if(result.length > 0){
+					if(animsList.length>0){
+						animsList = new Array();
+					}
+					for( key in result ){
+						animsList.push(result[key]);
+					}
 					
-					generateTd(parseInt(key)+1,key);
+					var total = 0;
+					if(parseInt(result.length % 12) == 0){
+						total = parseInt(result.length / 12);
+					}else{
+						 total = parseInt(result.length / 12)+1;
+					}
 					
-					generateTd(result[key].name,key);
+					if(matchupArray.length > 0){
+						matchupArray = new Array();
+					}
+					for(var i=1;i<=total;i++){
+						matchupArray[i]=(i-1)*12;
+					}
 					
-					generateAnimTd(result[key].thumbnail,result[key].id,result[key].owner,key);
+					generatePaging();
 					
-					generateTd(result[key].createTime,key);
+					$('#total').html(total);
+					$('#current').html(1);
 					
-					generateAnimOperate(result[key].id,key);
+					getSearchAnimByPage(1);
+				}else{
+					$('#total').html(0);
+					$('#current').html(0);
 				}
+//				for(key in result){
+
+//				}
 			}
 			
 		},"json");
+	}
+}
+
+function generatePaging(){
+	$("#paging").children().remove();
+	var html = '<span id="firstPage"><a href="javascript:getFirstPage()">第一页</a></span>';
+	html+='<span id="prevPage"><a href="javascript:getPrevPage()">上一页</a></span>';
+	html+='<span id="nextPage"><a href="javascript:getNextPage()">下一页</a></span>';
+	html+='<span id="lastPage"><a href="javascript:getLastPage()">最后一页</a></span>';
+	html+='<span id="currentPage">当前第<span id="current"></span>页</span>';
+	html+='<span id="totalPage">共<span id="total"></span>页</span>';
+	$("#paging").append(html);
+}
+
+function getSearchAnimByPage(pageNum){
+	$('#animList').children().remove();
+	var begin=matchupArray[pageNum];
+	var end = begin+12;
+	var total=$('#total').text();
+	//判断如果是最后一页或者总长度小于pageSize
+	if(pageNum == total || animsList.length<12 ){
+		end = animsList.length;
+	}
+	$('#current').html(pageNum);
+	for(var i=begin;i<end;i++){
+		generateAnimTr(i);
+		
+		generateTd(parseInt(i)+1,i);
+		
+		generateTd(animsList[i].name,i);
+		
+		generateAnimTd(animsList[i].thumbnail,animsList[i].id,animsList[i].owner,i);
+		
+		generateTd(animsList[i].createTime,i);
+		
+		generateAnimOperate(animsList[i].id,i);
 	}
 }
 		
@@ -35,7 +97,6 @@ function getAllAnimation(){
 		'method' : 'getAnimCount'
 	},
 	function (result) {
-		$('#animList').children().remove();
 		if(result > 0){
 			var total = 0;
 			if(parseInt(result%12) == 0){
@@ -75,8 +136,10 @@ function generateAnimTd(thumbnail,id,user,key){
 	img.setAttribute("src",local+thumbnail);
 	img.setAttribute("height",30);
 	a.appendChild(img);
-	a.setAttribute("onclick","javascript:redirect('"+user+"','"+id+"')");
-	a.setAttribute("href", "javascript:;");
+//	a.setAttribute("onclick","javascript:redirect('"+user+"','"+id+"')");
+//	a.setAttribute("href", "javascript:redirect('"+user+"','"+id+"')");
+	var url =  "Aplayer_simple.html?userId="+user+"&animId="+id;
+	a.setAttribute("href", url);
 	a.setAttribute("target", "_blank");
 	tr.appendChild(para);
 }
@@ -198,6 +261,54 @@ function getLastpageAnim(){
 		getAnimByPage(sum);
 	}
 }
+
+function getFirstPage(){
+	var num = $('#current').text();
+	//最后一页，如果当前是最后一页
+	if(parseInt(num) == 1){
+		return;
+	}else{
+		getSearchAnimByPage(1);
+	}
+}
+
+
+function getPrevPage(){
+	var num = $('#current').text();
+	var pageNum = parseInt(num) - 1;
+	//前一页，如果当时是第一页
+	if(parseInt(num) == 1){
+		return;
+	}else{
+		getSearchAnimByPage(pageNum);
+	}
+}
+
+
+function getNextPage(){
+	var sum = $('#total').text();
+	var num = $('#current').text();
+	var pageNum = parseInt(num) + 1;
+	//后一页，如果当前是最后一页
+	if(sum == num){
+		return;
+	}else{
+		getSearchAnimByPage(pageNum);
+	}
+
+}
+
+function getLastPage(){
+	var sum = $('#total').text();
+	var num = $('#current').text();
+	//最后一页，如果当前是最后一页
+	if( sum == num){
+		return;
+	}else{
+		getSearchAnimByPage(sum);
+	}
+}
+
 
 
 	

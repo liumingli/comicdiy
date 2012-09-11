@@ -33,10 +33,10 @@ public class AssistProcess {
 		if(!GlobalController.isDebug){
 		}
 
-		if (action.equals(AppStarter.GETALLASSETS)) {
+		if (action.equals(AppStarter.GETALLASSETSCOUNT)) {
 				res.setContentType("text/plain;charset=UTF-8");
 				PrintWriter pw = res.getWriter();
-				String result= apiAdaptor.getAllAssets();
+				int result= apiAdaptor.getAllAssetsCount();
 				log.debug(result);
 				pw.print(result);
 				pw.close();
@@ -70,15 +70,14 @@ public class AssistProcess {
 			pw.print(result);
 			pw.close();
 			
-		}else if (action.equals(AppStarter.SEARCHBYCATEGORYANDTYPE)) {
-			//TODO 后面要加分页
+		}else if (action.equals(AppStarter.GETBYCATEGORYANDTYPE)) {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
-			//根据分类和类型查素材
+			//根据分类和类型分页查素材
 			String categorys = req.getParameter("categorys");
 			String type = req.getParameter("type");
 			String pageNum = req.getParameter("pageNum");
-			String result = apiAdaptor.searchByCategoryAndType(categorys,type,pageNum);
+			String result = apiAdaptor.getByCategoryAndType(categorys,type,pageNum);
 			log.debug(result);
 			pw.print(result);
 			pw.close();

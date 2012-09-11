@@ -31,7 +31,7 @@ public interface ComicServiceInterface {
 	
 	public List<Assets> searchByLabelAndType(String labels, String type);
 	
-	public List<Assets> searchByCategoryAndType(String categorys, String type, String pageNum);
+	public List<Assets>getByCategoryAndType(String categorys, String type, String pageNum);
 
 	public Assets getAssetById(String assetId);
 
@@ -86,5 +86,7 @@ public interface ComicServiceInterface {
 	public int getAnimCount();
 
 	public int getImageCount();
+
+	public int getAllAssetsCount();
 
 }

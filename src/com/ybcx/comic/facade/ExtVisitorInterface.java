@@ -10,8 +10,8 @@ package com.ybcx.comic.facade;
  */
 public interface ExtVisitorInterface {
 	
-	//获取全部可用素材
-	public static final String GETALLASSETS  = "getAllAssets";
+	//获取全部可用素材数目
+	public static final String GETALLASSETSCOUNT = "getAllAssetsCount";
 	
 	//分页获取素材
 	public static final String GETASSETSBYPAGE = "getAssetsByPage";
@@ -22,8 +22,8 @@ public interface ExtVisitorInterface {
 	//根据标签(以空格分隔多个)以及类型(element,theme,scene)搜索素材
 	public static final String SEARCHBYLABELANDTYPE = "searchByLabelAndType";
 	
-	//根据标签(以空格分隔多个)以及类型(element,theme,scene)搜索素材
-	public static final String  SEARCHBYCATEGORYANDTYPE = "searchByCategoryAndType";
+	//根据分类和类型分页查素材
+	public static final String  GETBYCATEGORYANDTYPE = "getByCategoryAndType";
 	
 	//上传一个素材
 	public static final String CREATEASSET = "createAsset";

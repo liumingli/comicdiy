@@ -46,11 +46,9 @@ public class ApiAdaptor {
 		this.comicService.saveImagePath(filePath);
 	}
 
-	public String getAllAssets() {
-		List<Assets> list = comicService.getAllAssets();
-		JSONArray jsonArray = JSONArray.fromCollection(list);
-		processPath(jsonArray);
-		return jsonArray.toString();
+	public int getAllAssetsCount() {
+		int result = comicService.getAllAssetsCount();
+		return result;
 	}
 
 	//处理返回值
@@ -120,8 +118,8 @@ public class ApiAdaptor {
 		return jsonArray.toString();
 	}
 	
-	public String searchByCategoryAndType(String categorys, String type, String pageNum) {
-		List<Assets> list = comicService.searchByCategoryAndType(categorys,type,pageNum);
+	public String getByCategoryAndType(String categorys, String type, String pageNum) {
+		List<Assets> list = comicService.getByCategoryAndType(categorys,type,pageNum);
 		JSONArray jsonArray = JSONArray.fromCollection(list);
 		processPath(jsonArray);
 		return jsonArray.toString();
@@ -370,6 +368,7 @@ public class ApiAdaptor {
 		int result = comicService.getImageCount();
 		return result;
 	}
+
 	
 	
 
