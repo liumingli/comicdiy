@@ -104,8 +104,13 @@ public class ApiAdaptor {
 		return result;
 	}
 	
-	public String searchByLabel(String labels) {
-		List<Assets> list = comicService.searchByLabel(labels);
+	public int searchByLabel(String labels) {
+		int result = comicService.searchByLabel(labels);
+		return result;
+	}
+	
+	public String searchByLabelPage(String labels, String pageNum) {
+		List<Assets> list = comicService.searchByLabelPage(labels,pageNum);
 		JSONArray jsonArray = JSONArray.fromCollection(list);
 		processPath(jsonArray);
 		return jsonArray.toString();
@@ -338,13 +343,6 @@ public class ApiAdaptor {
 		return result;
 	}
 	
-	public String searchAnim(String keys) {
-		List<Cartoon> list = comicService.searchAnimation(keys);
-		JSONArray jsonArray = JSONArray.fromCollection(list);
-		processCartoon(jsonArray);
-		return jsonArray.toString();
-	}
-	
 	public String getAnimByPage(String pageNum) {
 		List<Cartoon> list = comicService.getAmimByPage(pageNum);
 		JSONArray jsonArray = JSONArray.fromCollection(list);
@@ -367,6 +365,18 @@ public class ApiAdaptor {
 	public int getImageCount() {
 		int result = comicService.getImageCount();
 		return result;
+	}
+	
+	public int searchAnim(String keys) {
+		int result= comicService.searchAnimation(keys);
+		return result;
+	}
+	
+	public String searchAnimByPage(String keys, String pageNum) {
+		List<Cartoon> list = comicService.searchAnimationByPage(keys,pageNum);
+		JSONArray jsonArray = JSONArray.fromCollection(list);
+		processCartoon(jsonArray);
+		return jsonArray.toString();
 	}
 
 	

@@ -27,7 +27,9 @@ public interface ComicServiceInterface {
 
 	public String deleteAssetById(String assetId);
 
-	public List<Assets> searchByLabel(String labels);
+	public int searchByLabel(String labels);
+	
+	public List<Assets> searchByLabelPage(String labels, String pageNum);
 	
 	public List<Assets> searchByLabelAndType(String labels, String type);
 	
@@ -77,7 +79,7 @@ public interface ComicServiceInterface {
 
 	public String examineImage(String imgId, String imgPath);
 
-	public List<Cartoon> searchAnimation(String keys);
+	public int searchAnimation(String keys);
 
 	public List<Images> getImageByPage(String pageNum);
 
@@ -88,5 +90,8 @@ public interface ComicServiceInterface {
 	public int getImageCount();
 
 	public int getAllAssetsCount();
+
+	public List<Cartoon> searchAnimationByPage(String keys, String pageNum);
+
 
 }

@@ -54,7 +54,17 @@ public class AssistProcess {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
 			String labels = req.getParameter("keys");
-			String result = apiAdaptor.searchByLabel(labels);
+			int result = apiAdaptor.searchByLabel(labels);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.SEARCHBYLABELPAGE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String labels = req.getParameter("keys");
+			String pageNum = req.getParameter("pageNum");
+			String result = apiAdaptor.searchByLabelPage(labels,pageNum);
 			log.debug(result);
 			pw.print(result);
 			pw.close();
@@ -69,6 +79,7 @@ public class AssistProcess {
 			log.debug(result);
 			pw.print(result);
 			pw.close();
+			
 			
 		}else if (action.equals(AppStarter.GETBYCATEGORYANDTYPE)) {
 			res.setContentType("text/plain;charset=UTF-8");
@@ -318,7 +329,17 @@ public class AssistProcess {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
 			String keys = req.getParameter("keys");
-			String result= apiAdaptor.searchAnim(keys);
+			int result= apiAdaptor.searchAnim(keys);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.SEARCHANIMBYPAGE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String keys = req.getParameter("keys");
+			String pageNum = req.getParameter("pageNum");
+			String result= apiAdaptor.searchAnimByPage(keys,pageNum);
 			log.debug(result);
 			pw.print(result);
 			pw.close();

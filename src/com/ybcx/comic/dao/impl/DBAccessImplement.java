@@ -260,9 +260,24 @@ public class DBAccessImplement  implements DBAccessInterface {
 		}
 		return resList;
 	}
+	
+	@Override
+	public int searchByLabelCount(String[] labelArr) {
+		StringBuffer labelOr = new StringBuffer();
+		for(int i=0;i<labelArr.length;i++){
+			if(labelOr.length()>0){
+				labelOr.append(" or ");
+			}
+			labelOr.append("l.l_name like '%"+labelArr[i].trim()+"%'");
+		}
+		String sql = "select count(distinct a.a_id) form t_assets a, t_label,t_astlab_rel r l where a.a_id = r.alr_assets and l.l_id = r.alr_label and ("+ labelOr.toString() +")";
+		int rows = jdbcTemplate.queryForInt(sql);
+		return rows;
+	}
 
 	@Override
-	public List<Assets> searchByLabelOr(String[] labelArr) {
+	public List<Assets> searchByLabelOr(String[] labelArr, int pageSize, int pageNum) {
+		int startLine = (pageNum -1)*pageSize;
 		List<Assets> resList = new ArrayList<Assets>();
 		StringBuffer labelOr = new StringBuffer();
 		
@@ -275,7 +290,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_label l, t_astlab_rel r, t_category c, t_astcat_rel acr" +
 				" where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_id = r.alr_assets and l.l_id = r.alr_label " +
-				"and ("+ labelOr.toString() +") and a.a_enable =1 order by a.a_heat desc";
+				"and ("+ labelOr.toString() +") and a.a_enable =1 order by a.a_heat desc limit "+startLine+","+pageSize;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -680,8 +695,16 @@ public class DBAccessImplement  implements DBAccessInterface {
 		return rows;
 	}
 
+
 	@Override
-	public List<Cartoon> searchAnimation(String keys) {
+	public int searchAnimation(String keys) {
+		String sql = "select count(distinct c_id) from t_cartoon where c_enable=1 and c_name like '%"+keys+"%'";
+		int rows = jdbcTemplate.queryForInt(sql);
+		return rows;
+	}
+	
+	@Override
+	public List<Cartoon> searchAnimationByPage(String keys,int pageNum,int pageSize) {
 		List<Cartoon> list = new ArrayList<Cartoon>();
 		String sql = "select * from t_cartoon where c_enable=1 and c_name like '%"+keys+"%' order by c_createTime desc";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);

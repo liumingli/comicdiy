@@ -235,8 +235,15 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		return String.valueOf(flag);
 	}
 
+	public int searchByLabel(String labels) {
+	    String[] labelArr =labels.split(" ");
+		int result = dbVisitor.searchByLabelCount(labelArr);
+		return result;
+	}
+	
 	@Override
-	public List<Assets> searchByLabel(String labels) {
+	public List<Assets> searchByLabelPage(String labels,String pageNum) {
+		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
 //		List<Assets> resList = new ArrayList<Assets>();
 //		List<Assets> andList = new ArrayList<Assets>();
 		List<Assets> orList = new ArrayList<Assets>();
@@ -257,7 +264,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 //		 }
 //		 
 //		 andList = dbVisitor.searchByLabelAnd(labelArr);
-		 orList = dbVisitor.searchByLabelOr(labelArr);
+		 orList = dbVisitor.searchByLabelOr(labelArr,Integer.parseInt(pageNum),pageSize);
 		 
 //		 resList = combinResult(andList, orList);
 		 
@@ -689,9 +696,9 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 
 	@Override
-	public List<Cartoon> searchAnimation(String keys) {
-		List<Cartoon> list = dbVisitor.searchAnimation(keys);
-		return list;
+	public int searchAnimation(String keys) {
+		int result = dbVisitor.searchAnimation(keys);
+		return result;
 	}
 
 	@Override
@@ -718,6 +725,13 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	public int getImageCount() {
 		int rows = dbVisitor.getImageCount();
 		return rows;
+	}
+
+	@Override
+	public List<Cartoon> searchAnimationByPage(String keys, String pageNum) {
+		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize")); 
+		List<Cartoon> list = dbVisitor.searchAnimationByPage(keys,Integer.parseInt(pageNum),pageSize);
+		return list;
 	}
 
 }

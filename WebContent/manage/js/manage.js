@@ -1,7 +1,3 @@
-//存储搜索的素材结果
-var assetsList = new Array();
-//存储页面与元素下标的对应关系
-var matchupArray= new Array();
 
 //打开上传新素材页面
 function uploadAssets(){
@@ -16,7 +12,7 @@ function getAllAssets(){
 	}, 
 	//回调函数
 	function (result) {
-		if(result.length > 0){
+		if(result > 0){
 			
 			var total = 0;
 			if(parseInt(result%12) == 0){
@@ -224,39 +220,26 @@ function searchAssets(){
 		}, 
 		//回调函数
 		function (result) {
-			if(result.length > 0){
-				if(assetsList.length>0){
-					assetsList = new Array();
-				}
-				for( key in result ){
-					assetsList.push(result[key]);
-				}
-				
-				var total = 0;
-				if(parseInt(result.length % 12) == 0){
-					total = parseInt(result.length / 12);
-				}else{
-					 total = parseInt(result.length / 12)+1;
-				}
-				
-				if(matchupArray.length > 0){
-					matchupArray = new Array();
-				}
-				for(var i=1;i<=total;i++){
-					matchupArray[i]=(i-1)*12;
-				}
-				
+			if(result > 0){
 				generatePaging();
 				
+				var total = 0;
+				if(parseInt(result%12) == 0){
+					total = parseInt(result / 12);
+				}else{
+					 total = parseInt(result / 12)+1;
+				}
 				$('#total').html(total);
 				$('#current').html(1);
 				
+				
 				getSearchAssetsByPage(1);
+			
 			}else{
 				$('#total').html(0);
 				$('#current').html(0);
 			}
-		}, "json");
+		});
 	}
 }
 
@@ -273,47 +256,56 @@ function generatePaging(){
 
 function getSearchAssetsByPage(pageNum){
 	$('#assetsList').children().remove();
-	var begin=matchupArray[pageNum];
-	var end = begin+12;
-	var total=$('#total').text();
-	//判断如果是最后一页或者总长度小于pageSize
-	if(pageNum == total || assetsList.length<12 ){
-		end = assetsList.length;
-	}
-	$('#current').html(pageNum);
-	for(var i=begin;i<end;i++){
-		generateTr(i);
-		//序号
-		generateTd(parseInt(i)+1,i);
-		//名称
-		generateTd(assetsList[i].name,i);
-		//缩略图
-		generateImgTd(assetsList[i].thumbnail,assetsList[i].path,i);
-		//价钱
-		generateTd(assetsList[i].price,i);
-		//上传时间
-		generateTd(assetsList[i].uploadTime,i);
-		//类型
-		var type = assetsList[i].type;
-		if(type == 'element'){
-			type = '元件';
-		}else{
-			type = '主题';
-		}
-		generateTd(type,i);
-		//分类
-		generateTd(assetsList[i].category,i);
-		//标签
-		generateTd(assetsList[i].label,i);
-		
-		//关联节假日调用Holiday.js将英文转化成中文
-		var enHoliday = assetsList[i].holiday;
-		var h = new Holiday();
-		var val = h.convert(enHoliday);
-		generateTd(val,i);
-		
-		//修改与删除
-		generateOperate(assetsList[i].id,i);
+	var keys = $('#keys').val();
+	if(keys != "" && keys != null){
+		$("#assetsList").html("");
+		$.post('/comicdiy/comicapi', {
+			'method'  : 'searchByLabelPage',
+			'keys' : keys,
+			'pageNum' : pageNum
+		}, 
+		function(result){
+			if(result.length > 0){
+			
+			$('#current').html(pageNum);
+			
+			for( key in result ){
+				generateTr(key);
+				//序号
+				generateTd(parseInt(key)+1,key);
+				//名称
+				generateTd(result[key].name,key);
+				//缩略图
+				generateImgTd(result[key].thumbnail,result[key].path,key);
+				//价钱
+				generateTd(result[key].price,key);
+				//上传时间
+				generateTd(result[key].uploadTime,key);
+				//类型
+				var type = result[key].type;
+				if(type == 'element'){
+					type = '元件';
+				}else{
+					type = '主题';
+				}
+				generateTd(type,key);
+				//分类
+				generateTd(result[key].category,key);
+				//标签
+				generateTd(result[key].label,key);
+				
+				//关联节假日调用Holiday.js将英文转化成中文
+				var enHoliday = result[key].holiday;
+				var h = new Holiday();
+				var val = h.convert(enHoliday);
+				
+				generateTd(val,key);
+//				generateTd(result[key].holiday,key);
+				//修改与删除
+				generateOperate(result[key].id,key);
+				}
+			}
+		}, "json");
 	}
 }
 

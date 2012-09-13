@@ -12,46 +12,27 @@ function searchAnim(){
 		}, 
 		//回调函数
 		function (result) {
-			$('#animList').children().remove();
-			if(result.length > 0){
-				if(result.length > 0){
-					if(animsList.length>0){
-						animsList = new Array();
-					}
-					for( key in result ){
-						animsList.push(result[key]);
-					}
-					
-					var total = 0;
-					if(parseInt(result.length % 12) == 0){
-						total = parseInt(result.length / 12);
-					}else{
-						 total = parseInt(result.length / 12)+1;
-					}
-					
-					if(matchupArray.length > 0){
-						matchupArray = new Array();
-					}
-					for(var i=1;i<=total;i++){
-						matchupArray[i]=(i-1)*12;
-					}
-					
-					generatePaging();
-					
-					$('#total').html(total);
-					$('#current').html(1);
-					
-					getSearchAnimByPage(1);
+			if(result > 0){
+				
+				generatePaging();
+				
+				var total = 0;
+				if(parseInt(result%12) == 0){
+					total = parseInt(result / 12);
 				}else{
-					$('#total').html(0);
-					$('#current').html(0);
+					 total = parseInt(result / 12)+1;
 				}
-//				for(key in result){
-
-//				}
-			}
+				$('#total').html(total);
+				$('#current').html(1);
 			
-		},"json");
+				
+				getSearchAnimByPage(1);
+			
+			}else{
+				$('#total').html(0);
+				$('#current').html(0);
+			}
+		});
 	}
 }
 
@@ -68,27 +49,30 @@ function generatePaging(){
 
 function getSearchAnimByPage(pageNum){
 	$('#animList').children().remove();
-	var begin=matchupArray[pageNum];
-	var end = begin+12;
-	var total=$('#total').text();
-	//判断如果是最后一页或者总长度小于pageSize
-	if(pageNum == total || animsList.length<12 ){
-		end = animsList.length;
-	}
 	$('#current').html(pageNum);
-	for(var i=begin;i<end;i++){
-		generateAnimTr(i);
-		
-		generateTd(parseInt(i)+1,i);
-		
-		generateTd(animsList[i].name,i);
-		
-		generateAnimTd(animsList[i].thumbnail,animsList[i].id,animsList[i].owner,i);
-		
-		generateTd(animsList[i].createTime,i);
-		
-		generateAnimOperate(animsList[i].id,i);
-	}
+	
+	$.post("/comicdiy/comicapi",{
+		'method' : 'getSearchAnimByPage',
+		'keys' : keys,
+		'pageNum' : pageNum
+	},
+	function (result) {
+		if(result.length > 0){
+			for(key in result){
+				generateAnimTr(key);
+				
+				generateTd(parseInt(key)+1,key);
+				
+				generateTd(result[key].name,key);
+				
+				generateAnimTd(result[key].thumbnail,result[key].id,result[key].owner,key);
+				
+				generateTd(result[key].createTime,key);
+				
+				generateAnimOperate(result[key].id,key);
+			}
+		}
+	},"json");
 }
 		
 //审查动画

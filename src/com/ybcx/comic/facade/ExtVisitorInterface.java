@@ -16,11 +16,17 @@ public interface ExtVisitorInterface {
 	//分页获取素材
 	public static final String GETASSETSBYPAGE = "getAssetsByPage";
 	
-	//根据标签搜索素材
+	//根据标签搜索素材,返回数目 
 	public static final String SEARCHBYLABEL = "searchByLabel";
 	
-	//根据标签(以空格分隔多个)以及类型(element,theme,scene)搜索素材
+	//根据标签分页搜索素材
+	public static final String SEARCHBYLABELPAGE = "searchByLabelPage";
+	
+	//根据标签(以空格分隔多个)以及类型(element,theme,scene)搜索素材，返回数目
 	public static final String SEARCHBYLABELANDTYPE = "searchByLabelAndType";
+	
+	//根据标签(以空格分隔多个)以及类型(element,theme,scene)搜索素材
+	public static final String SEARCHBYLABELANDTYPEPAGE = "searchByLabelAndTypePage";
 	
 	//根据分类和类型分页查素材
 	public static final String  GETBYCATEGORYANDTYPE = "getByCategoryAndType";
@@ -113,8 +119,11 @@ public interface ExtVisitorInterface {
 	//分页取图片
 	public static final String GETIMAGEBYPAGE = "getImageByPage";
 	
-	//根据动画名称模糊查询动画
+	//根据动画名称模糊查询动画数量
 	public static final String SEARCHANIM = "searchAnim";
+	
+	//根据动画名称及分页查询
+	public static final String SEARCHANIMBYPAGE = "searchAnimByPage";
 	
 	
 	
