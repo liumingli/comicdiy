@@ -99,8 +99,8 @@ public class ApiAdaptor {
 		return result;
 	}
 	
-	public String updateAssetById(String assetId, String name, String price, String holiday, String type) {
-		String result = comicService.updateAssetById(assetId,name,price,holiday,type);
+	public String updateAssetById(String assetId, String name, String price, String holiday, String type, String labelIds) {
+		String result = comicService.updateAssetById(assetId,name,price,holiday,type,labelIds);
 		return result;
 	}
 	

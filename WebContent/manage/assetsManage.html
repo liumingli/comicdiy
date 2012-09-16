@@ -5,10 +5,14 @@
 <title>素材管理</title>
 <link rel="stylesheet" type="text/css"  charset="utf-8" href="css/popup.css" />
 <link rel="stylesheet" type="text/css"  charset="utf-8" href="css/style.css" />
+<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/tab.css" />
+
 <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/manage.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/popup.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/holiday.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/upload.js" charset="utf-8"></script>
+
 
 </head>
 <body onload="getAllAssets();">
@@ -50,12 +54,43 @@
 		<input type="hidden" id="assetId">
 		<label>名称</label>
 			<input type="text" id="name" ><br>
+			
 		<label id="typeLab">类型</label>
 			<input type="radio" name="radiobutton" id="type" value="element" >元件
 			<input type="radio" name="radiobutton" id="type" value="scene" > 场景
 			<input type="radio" name="radiobutton" id="type" value="theme" > 情景<br>
+			
 		<label>价格</label>
 			<input type="text" id="price"><br>
+			
+		<label>标签</label>
+		<span id="labelSpan" style="display:inline-block; width:202px; height:20px; border:1px solid #999; margin-left:4px;" onclick="operateLabel();"></span>
+<!-- 		<span class="help-block">最多可选三个</span> -->
+		<input type="hidden" id="label">
+		
+		 <div id="tag_wrap" style="display: none;" class="tips_tab">  
+		 	<span class="tip_left" style="display: none;">
+				<a id="leftTip" href="javascript:;">
+					<img src="imgs/tab_left.png">
+				</a>
+			</span>
+			<span class="tip_win" >
+				<a href="javascript:closePopup();">
+					<img src="imgs/close.gif">
+				</a>
+			</span>
+			<span class="tip_right" style="display: none;">
+				<a id="rightTip" href="javascript:;">
+					<img src="imgs/tab_right.png">
+				</a>
+			</span>
+	 		
+			<div class ="tipTab_sorts">
+				<div id="parentLable"></div>
+				<div class="tipTab_content" id="childLabel"></div>
+			</div>
+		</div> <br/>
+		
 		<label id="hodLab">关联节假日</label>
 		<select id="holiday">
 			<option value="Neujahr">元旦</option>
@@ -78,6 +113,7 @@
 			<option value="Christmas">圣诞节</option>
 			<option value="others">其他</option>
 		</select><br>
+		
 		<input type="button" id="submit" value="提交" onclick="updateAsset();">
 	</div>
 </div>  

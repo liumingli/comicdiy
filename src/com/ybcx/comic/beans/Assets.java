@@ -8,6 +8,7 @@ public class Assets {
 	private float price;
 	private String category;
 	private String label;
+	private String labelIds;
 	private String holiday;
 	private String path;
 	private String thumbnail;
@@ -44,6 +45,12 @@ public class Assets {
 	}
 	public String getLabel() {
 		return label;
+	}
+	public String getLabelIds() {
+		return labelIds;
+	}
+	public void setLabelIds(String labelIds) {
+		this.labelIds = labelIds;
 	}
 	public void setLabel(String label) {
 		this.label = label;

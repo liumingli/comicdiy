@@ -208,6 +208,25 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	@Override
 	public Assets getAssetById(String assetId) {
 		Assets asset = dbVisitor.getAssetById(assetId);
+		//TODO取label
+		StringBuffer labels = new StringBuffer();
+		StringBuffer ids = new StringBuffer();
+		List<Label> labelList = dbVisitor.getAssetLabelsById(assetId);
+		if (labelList.size() > 0) {
+			for (int i = 0; i < labelList.size(); i++) {
+				Label label = labelList.get(i);
+				if (labels.length() > 0) {
+					labels.append(",");
+				}
+				labels.append(label.getName());
+				if(ids.length() > 0){
+					ids.append(",");
+				}
+				ids.append(label.getId());
+			}
+		}
+		asset.setLabel(labels.toString().trim());
+		asset.setLabelIds(ids.toString().trim());
 		return asset;
 	}
 	
@@ -226,11 +245,16 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 	
 	@Override
-	public String updateAssetById(String assetId, String name, String price, String holiday, String type) {
-		boolean flag = true;
+	public String updateAssetById(String assetId, String name, String price, String holiday, String type, String labelIds) {
+		boolean flag = false;
 		int rows = dbVisitor.updateAssetById(assetId,name,price,holiday,type);
-		if(rows < 1){
-			flag = false;
+		//删除素材与标签的关联
+		int delLabRel = dbVisitor.deleteAssetLabelRel(assetId);
+		String[] labelArray = labelIds.split(",");
+		int newLabRel = this.createLabRel(assetId,labelArray);
+		
+		if(rows > 0 && delLabRel >0 && newLabRel>0){
+			flag = true;
 		}
 		return String.valueOf(flag);
 	}
@@ -264,7 +288,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 //		 }
 //		 
 //		 andList = dbVisitor.searchByLabelAnd(labelArr);
-		 orList = dbVisitor.searchByLabelOr(labelArr,Integer.parseInt(pageNum),pageSize);
+		 orList = dbVisitor.searchByLabelOr(labelArr,pageSize,Integer.parseInt(pageNum));
 		 
 //		 resList = combinResult(andList, orList);
 		 

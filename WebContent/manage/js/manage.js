@@ -79,7 +79,7 @@ function generateOperate(id,key){
 
 function getAssetById(key){
 	var assetId=$("#assetId"+key).attr("value");
-	//根据id查出广告详情并填充newAd用于修改
+	//根据id查出
 	$.post('/comicdiy/comicapi', {
 		'method'  : 'getAssetById',
 		'assetId' : assetId
@@ -102,6 +102,20 @@ function createEditWindow(result,assetId){
 	$("#price").val(result.price);
 	$("#holiday").val(result.holiday);
 	$("#assetId").val(assetId);
+	$("#label").val(result.labelIds);
+	
+	if(result.labelIds.indexOf(",")>0){
+		var idArr =new Array();
+		idArr = result.labelIds.split(",");
+		var labArr = new Array();
+		labArr = result.label.split(",");
+		for(var i =0;i<idArr.length;i++){
+			setLabelName(idArr[i],labArr[i]);
+		}
+	}else{
+		setLabelName(result.labelIds,result.label);
+	}
+	
 	var radio=document.getElementsByName("radiobutton");
 	for(var i=0;i<radio.length;i++)
 	{
@@ -143,7 +157,7 @@ function deleteAssetById(key){
 }
 
 //检查字段空值
-function checkNull(){
+function checkForm(){
 	var assetId=$("#assetId").attr("value");
 	var name=$("#name").attr("value");
 	var price=$("#price").attr("value");
@@ -173,6 +187,7 @@ function updateAsset(){
 	var name=$("#name").attr("value");
 	var price=$("#price").attr("value");
 	var holiday=$("#holiday").attr("value");
+	var labelIds=$("#label").attr("value");
 	var type='';
     var radio=document.getElementsByName("radiobutton");
 	for(var i=0;i<radio.length;i++)
@@ -184,8 +199,7 @@ function updateAsset(){
 	    	 continue;
 	     }
 	}
-	
-	if(checkNull()){
+	if(checkForm()){
 		//根据id查出广告详情并填充newAd用于修改
 		$.post('/comicdiy/comicapi', {
 			'method'  : 'updateAssetById',
@@ -193,7 +207,8 @@ function updateAsset(){
 			'name' : name,
 			'price' : price,
 			'holiday' : holiday,
-			'type' : type
+			'type' : type,
+			'labelIds': labelIds
 		}, 
 		//回调函数
 		function (result) {

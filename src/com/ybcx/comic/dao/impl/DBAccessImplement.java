@@ -270,7 +270,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 			}
 			labelOr.append("l.l_name like '%"+labelArr[i].trim()+"%'");
 		}
-		String sql = "select count(distinct a.a_id) form t_assets a, t_label,t_astlab_rel r l where a.a_id = r.alr_assets and l.l_id = r.alr_label and ("+ labelOr.toString() +")";
+		String sql = "select count(distinct a.a_id) from t_assets a, t_label l, t_astlab_rel r where a.a_id = r.alr_assets and l.l_id = r.alr_label and ("+ labelOr.toString() +")";
 		int rows = jdbcTemplate.queryForInt(sql);
 		return rows;
 	}
