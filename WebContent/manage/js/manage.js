@@ -104,6 +104,8 @@ function createEditWindow(result,assetId){
 	$("#assetId").val(assetId);
 	$("#label").val(result.labelIds);
 	
+	$("#labelSpan").children().remove();
+	
 	if(result.labelIds.indexOf(",")>0){
 		var idArr =new Array();
 		idArr = result.labelIds.split(",");
