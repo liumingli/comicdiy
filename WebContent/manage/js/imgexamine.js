@@ -19,6 +19,10 @@ function getAllImage(){
 			$('#current').html(1);
 			
 			getImgByPage(1);
+		}else{
+			$('#total').html(0);
+			$('#current').html(0);
+			$('#imgList').children().remove();
 		}
 		
 	});
@@ -85,8 +89,9 @@ function deleteImgById(path,key){
 				 alert("操作有误，请重试！");
 		     }
 		});
-	     //操作后刷新列表
-		getAllImage();
+	    //操作后刷新列表
+		var num = $('#current').text();
+		getImgByPage(num);
 	}
 }
 

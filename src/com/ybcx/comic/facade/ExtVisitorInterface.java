@@ -17,13 +17,13 @@ public interface ExtVisitorInterface {
 	public static final String GETASSETSBYPAGE = "getAssetsByPage";
 	
 	//根据标签搜索素材,返回数目 
-	public static final String SEARCHBYLABEL = "searchByLabel";
+	public static final String GETSEARCHCOUNTBYLABEL = "getSearchCountByLabel";
 	
 	//根据标签分页搜索素材
 	public static final String SEARCHBYLABELPAGE = "searchByLabelPage";
 	
 	//根据标签(以空格分隔多个)以及类型(element,theme,scene)搜索素材，返回数目
-	public static final String SEARCHBYLABELANDTYPE = "searchByLabelAndType";
+	public static final String GETSEARCHCOUNTBYLABELANDTYPE = "getSearchCountByLabelAndType";
 	
 	//根据标签(以空格分隔多个)以及类型(element,theme,scene)搜索素材
 	public static final String SEARCHBYLABELANDTYPEPAGE = "searchByLabelAndTypePage";

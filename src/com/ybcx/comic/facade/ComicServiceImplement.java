@@ -265,38 +265,88 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		return result;
 	}
 	
-	@Override
-	public List<Assets> searchByLabelPage(String labels,String pageNum) {
-		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
-//		List<Assets> resList = new ArrayList<Assets>();
-//		List<Assets> andList = new ArrayList<Assets>();
-		List<Assets> orList = new ArrayList<Assets>();
-		 String[] labelArr =labels.split(" ");
-//		 StringBuffer labelOr = new StringBuffer();
-//		 //在这里将用空格分隔的labels转变成sql可识别的'','
-//		 if(labelArr.length > 0){
-//			 for (int i = 0; i < labelArr.length; i++) {
-//					if (!"".equals(labelArr[i].trim())) {
-//						if (labelOr.length() > 0) {
-//							labelOr.append(",");
-//						}
-//						labelOr.append("'");
-//						labelOr.append(labelArr[i]);
-//						labelOr.append("'");
-//					}
-//				}
-//		 }
+	//一句sql全查出来的太耗资源，改成分批查询
+//	@Override
+//	public List<Assets> searchByLabelPage(String labels,String pageNum) {
+//		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
+////		List<Assets> resList = new ArrayList<Assets>();
+////		List<Assets> andList = new ArrayList<Assets>();
+//		List<Assets> orList = new ArrayList<Assets>();
+//		 String[] labelArr =labels.split(" ");
+////		 StringBuffer labelOr = new StringBuffer();
+////		 //在这里将用空格分隔的labels转变成sql可识别的'','
+////		 if(labelArr.length > 0){
+////			 for (int i = 0; i < labelArr.length; i++) {
+////					if (!"".equals(labelArr[i].trim())) {
+////						if (labelOr.length() > 0) {
+////							labelOr.append(",");
+////						}
+////						labelOr.append("'");
+////						labelOr.append(labelArr[i]);
+////						labelOr.append("'");
+////					}
+////				}
+////		 }
+////		 
+////		 andList = dbVisitor.searchByLabelAnd(labelArr);
+//		 orList = dbVisitor.searchByLabelOr(labelArr,pageSize,Integer.parseInt(pageNum));
 //		 
-//		 andList = dbVisitor.searchByLabelAnd(labelArr);
-		 orList = dbVisitor.searchByLabelOr(labelArr,pageSize,Integer.parseInt(pageNum));
-		 
-//		 resList = combinResult(andList, orList);
-		 
+////		 resList = combinResult(andList, orList);
+//		 
+//		List<Assets> resultList = new ArrayList<Assets>();
+//		resultList = this.combinLabels(orList);
+//		
+//		return resultList;
+//		 
+//	}
+	
+	//TODO 要做这里
+	public List<Assets> searchByLabelPage(String labels,String pageNum) {
 		List<Assets> resultList = new ArrayList<Assets>();
-		resultList = this.combinLabels(orList);
+		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
+		 String[] labelArr =labels.split(" ");
+		 StringBuffer labelIds = new StringBuffer();
+		//先返回所有的标签
+		List<Label> childLabel = dbVisitor.getAllChildLabel();
+		//再从标签中去匹配关键字，并存下id
+		for(int i=0;i<childLabel.size();i++){
+			Label label = childLabel.get(i);
+			for(int j=0;j<labelArr.length;j++){
+				if(!"".equals(labelArr[j]) && label.getName().contains(labelArr[j])){
+					if (labelIds.length() > 0) {
+						labelIds.append(",");
+					}
+					labelIds.append("'");
+					labelIds.append(label.getId());
+					labelIds.append("'");
+				}
+			}
+		}
 		
+		//取出糊糊匹配上的素材，然后拼一个assetIds
+		List<Assets> assetList = dbVisitor.getAssetByLabel(labelIds.toString());
+		
+		StringBuffer assetIds = new StringBuffer();
+		for(int i=0;i<assetList.size();i++){
+			Assets ast = assetList.get(i);
+			for(int j=0;j<labelArr.length;j++){
+				if(!"".equals(labelArr[j])){
+					if (assetIds.length() > 0) {
+						assetIds.append(",");
+					}
+					assetIds.append("'");
+					assetIds.append(ast.getId());
+					assetIds.append("'");
+				}
+			}
+		}
+		
+		//最后,根据assetIds将分类拼上,并分页返回
+		List<Assets> resList = dbVisitor.getAsssetsByIdAndPage(assetIds.toString(),Integer.parseInt(pageNum),pageSize);
+		
+		//给素材加上标签
+		resultList = this.combinLabels(resList);
 		return resultList;
-		 
 	}
 	
 //	private List<Assets> combinResult(List<Assets> andList, List<Assets> orList){
@@ -315,34 +365,93 @@ public class ComicServiceImplement implements ComicServiceInterface {
 //	}
 
 	@Override
-	public List<Assets> searchByLabelAndType(String labels, String type) {
-//		List<Assets> resList = new ArrayList<Assets>();
-//		List<Assets> andList = new ArrayList<Assets>();
-		List<Assets> orList = new ArrayList<Assets>();
-		 String[] labelArr =labels.split(" ");
-//		 StringBuffer labelOr = new StringBuffer();
-//		 //在这里将用空格分隔的labels转变成sql可识别的'','
-//		 if(labelArr.length > 0){
-//			 for (int i = 0; i < labelArr.length; i++) {
-//					if (!"".equals(labelArr[i].trim())) {
-//						if (labelOr.length() > 0) {
-//							labelOr.append(",");
-//						}
-//						labelOr.append("'");
-//						labelOr.append(labelArr[i]);
-//						labelOr.append("'");
-//					}
-//				}
-//		 }
-		 
-//		 andList = dbVisitor.searchByLabelTypeAnd(labelArr,type);
-		 orList = dbVisitor.searchByLabelTypeOr(labelArr,type);
-		 
-//		 resList = combinResult(andList, orList);
-		 
+	public int searchByLabelAndType(String labels, String type) {
+	   String[] labelArr =labels.split(" ");
+		int result = dbVisitor.searchByLabelTypeCount(labelArr,type);
+		return result;
+	}
+	
+//	@Override
+//	public List<Assets> searchByLabelAndTypePage(String labels, String type, String pageNum) {
+//		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
+////		List<Assets> resList = new ArrayList<Assets>();
+////		List<Assets> andList = new ArrayList<Assets>();
+//		List<Assets> orList = new ArrayList<Assets>();
+//		 String[] labelArr =labels.split(" ");
+////		 StringBuffer labelOr = new StringBuffer();
+////		 //在这里将用空格分隔的labels转变成sql可识别的'','
+////		 if(labelArr.length > 0){
+////			 for (int i = 0; i < labelArr.length; i++) {
+////					if (!"".equals(labelArr[i].trim())) {
+////						if (labelOr.length() > 0) {
+////							labelOr.append(",");
+////						}
+////						labelOr.append("'");
+////						labelOr.append(labelArr[i]);
+////						labelOr.append("'");
+////					}
+////				}
+////		 }
+//		 
+////		 andList = dbVisitor.searchByLabelTypeAnd(labelArr,type);
+//		 orList = dbVisitor.searchByLabelTypeOr(labelArr,type,pageSize,Integer.parseInt(pageNum));
+//		 
+////		 resList = combinResult(andList, orList);
+//		 
+//		List<Assets> resultList = new ArrayList<Assets>();
+//		resultList = this.combinLabels(orList);
+//		
+//		return resultList;
+//	}
+	
+	//TODO
+	public List<Assets> searchByLabelAndTypePage(String labels, String type, String pageNum) {
 		List<Assets> resultList = new ArrayList<Assets>();
-		resultList = this.combinLabels(orList);
+		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
+		 String[] labelArr =labels.split(" ");
+		 StringBuffer labelIds = new StringBuffer();
+		//先返回所有的标签
+		List<Label> childLabel = dbVisitor.getAllChildLabel();
+		//再从标签中去匹配关键字，并存下id
+		for(int i=0;i<childLabel.size();i++){
+			Label label = childLabel.get(i);
+			for(int j=0;j<labelArr.length;j++){
+				if(!"".equals(labelArr[j]) && label.getName().contains(labelArr[j])){
+					if (labelIds.length() > 0) {
+						labelIds.append(",");
+					}
+					labelIds.append("'");
+					labelIds.append(label.getId());
+					labelIds.append("'");
+				}
+			}
+		}
 		
+		if(labelIds.length()>0){
+			//取出糊糊匹配上的素材，然后拼一个assetIds
+			List<Assets> assetList = dbVisitor.getAssetByLabelAndType(labelIds.toString(),type);
+			
+			StringBuffer assetIds = new StringBuffer();
+			for(int i=0;i<assetList.size();i++){
+				Assets ast = assetList.get(i);
+				for(int j=0;j<labelArr.length;j++){
+					if(!"".equals(labelArr[j])){
+						if (assetIds.length() > 0) {
+							assetIds.append(",");
+						}
+						assetIds.append("'");
+						assetIds.append(ast.getId());
+						assetIds.append("'");
+					}
+				}
+			}
+			
+			//最后,根据assetIds将分类拼上,并分页返回
+			List<Assets> resList = dbVisitor.getAsssetsByIdAndPage(assetIds.toString(),Integer.parseInt(pageNum),pageSize);
+			
+			//给素材加上标签
+			resultList = this.combinLabels(resList);
+		}
 		return resultList;
 	}
 	

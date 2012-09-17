@@ -151,8 +151,9 @@ function deleteAssetById(key){
 			if(result.trim() == 'false'){
 				 alert("操作有误，请重试！");
 		     }
-		     //操作后刷新列表
-			getAllAssets();
+		    //操作后刷新列表
+			var num = $('#current').text();
+			getAssetsByPage(num);
 		});
 	}
 	
@@ -221,7 +222,8 @@ function updateAsset(){
 			//关闭编辑窗口
 			disablePopup();  
 		     //操作后刷新列表
-			getAllAssets();
+			var num = $('#current').text();
+			getAssetsByPage(num);
 		});
 	}
 }
@@ -232,7 +234,9 @@ function searchAssets(){
 	if(keys != "" && keys != null){
 		$("#assetsList").html("");
 		$.post('/comicdiy/comicapi', {
-			'method'  : 'searchByLabel',
+			'method'  : 'getSearchCountByLabel',
+//			'method' : 'getSearchCountByLabelAndType',
+//			'type' : 'element',
 			'keys' : keys
 		}, 
 		//回调函数
@@ -278,6 +282,8 @@ function getSearchAssetsByPage(pageNum){
 		$("#assetsList").html("");
 		$.post('/comicdiy/comicapi', {
 			'method'  : 'searchByLabelPage',
+//			'method' : 'searchByLabelAndTypePage',
+//			'type' : 'element',
 			'keys' : keys,
 			'pageNum' : pageNum
 		}, 
@@ -302,8 +308,10 @@ function getSearchAssetsByPage(pageNum){
 				var type = result[key].type;
 				if(type == 'element'){
 					type = '元件';
-				}else{
-					type = '主题';
+				}else if(type == 'theme'){
+					type = '情景';
+				}else if(type == "scene"){
+					type = "场景";
 				}
 				generateTd(type,key);
 				//分类
@@ -356,8 +364,10 @@ function getAssetsByPage(pageNum){
 				var type = result[key].type;
 				if(type == 'element'){
 					type = '元件';
-				}else{
-					type = '主题';
+				}else if(type == 'theme'){
+					type = '情景';
+				}else if(type == "scene"){
+					type = "场景";
 				}
 				generateTd(type,key);
 				//分类

@@ -116,12 +116,19 @@ public class ApiAdaptor {
 		return jsonArray.toString();
 	}
 	
-	public String searchByLabelAndType(String labels, String type) {
-		List<Assets> list = comicService.searchByLabelAndType(labels,type);
+	public int searchByLabelAndType(String labels, String type) {
+		int result = comicService.searchByLabelAndType(labels,type);
+		return result;
+	}
+	
+	public String searchByLabelAndTypePage(String labels, String type,
+			String pageNum) {
+		List<Assets> list = comicService.searchByLabelAndTypePage(labels,type,pageNum);
 		JSONArray jsonArray = JSONArray.fromCollection(list);
 		processPath(jsonArray);
 		return jsonArray.toString();
 	}
+
 	
 	public String getByCategoryAndType(String categorys, String type, String pageNum) {
 		List<Assets> list = comicService.getByCategoryAndType(categorys,type,pageNum);
@@ -378,7 +385,6 @@ public class ApiAdaptor {
 		processCartoon(jsonArray);
 		return jsonArray.toString();
 	}
-
 	
 	
 

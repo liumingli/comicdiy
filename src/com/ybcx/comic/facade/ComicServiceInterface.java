@@ -31,9 +31,11 @@ public interface ComicServiceInterface {
 	
 	public List<Assets> searchByLabelPage(String labels, String pageNum);
 	
-	public List<Assets> searchByLabelAndType(String labels, String type);
+	public int searchByLabelAndType(String labels, String type);
 	
-	public List<Assets>getByCategoryAndType(String categorys, String type, String pageNum);
+	public List<Assets> searchByLabelAndTypePage(String labels, String type, String pageNum);
+	
+	public List<Assets> getByCategoryAndType(String categorys, String type, String pageNum);
 
 	public Assets getAssetById(String assetId);
 

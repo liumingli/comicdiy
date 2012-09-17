@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>动画审核</title>
+<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/style.css" />
+
+<script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/animexamine.js" charset="utf-8"></script>
+
+</head>
+<body onload="getAllAnimation()">
+<input type="text" id="keys"  placeholder="请输入动画名称" />
+<input type="button" id="search" value="搜索" onclick="searchAnim();">
+<input type="button" id="all" value="显示全部动画" onclick="getAllAnimation();">
+
+<table id="mytable">
+	<thead>
+		<tr>
+		<td>序号</td><td>名称</td><td>缩略图</td><td>创建时间</td><td>操作</td>
+		</tr>
+	</thead>
+	<tbody id="animList">
+		<tr>
+			<td colspan="5"><img alt="loading" src="imgs/load.gif"></td>
+		</tr>
+	</tbody>
+</table>
+<div id="paging">
+	<span id="firstPage"><a href="javascript:getFirstpageAnim()">第一页</a></span>
+	<span id="prevPage"><a href="javascript:getPrevpageAnim()">上一页</a></span>
+	<span id="nextPage"><a href="javascript:getNextpageAnim()">下一页</a></span>
+	<span id="lastPage"><a href="javascript:getLastpageAnim()">最后一页</a></span>
+	<span id="currentPage">当前第<span id="current"></span>页</span>
+	<span id="totalPage">共<span id="total"></span>页</span>
+</div>
+
+</body>
+</html>

@@ -42,7 +42,7 @@ public interface DBAccessInterface {
 		
 		public List<Assets> searchByLabelTypeAnd(String[] labelArr,String type);
 
-		public List<Assets> searchByLabelTypeOr(String[] labelArr,String type);
+		public List<Assets> searchByLabelTypeOr(String[] labelArr,String type, int pageSize, int pageNum);
 
 		public List<Category> getAllCategory();
 
@@ -106,6 +106,18 @@ public interface DBAccessInterface {
 
 		public int searchByLabelCount(String[] labelArr);
 
+		public int searchByLabelTypeCount(String[] labelArr, String type);
+
 		public List<Cartoon> searchAnimationByPage(String keys, int pageNum,
 				int pageSize);
+
+		public List<Label> getAllChildLabel();
+
+		public List<Assets> getAssetByLabel(String labelIds);
+
+		public List<Assets> getAsssetsByIdAndPage(String assetIds, int pageNum,
+				int pageSize);
+
+		public List<Assets> getAssetByLabelAndType(String string, String type);
+
 }

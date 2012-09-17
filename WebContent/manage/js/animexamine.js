@@ -31,6 +31,7 @@ function searchAnim(){
 			}else{
 				$('#total').html(0);
 				$('#current').html(0);
+				$('#animList').children().remove();
 			}
 		});
 	}
@@ -93,6 +94,10 @@ function getAllAnimation(){
 			$('#current').html(1);
 			
 			getAnimByPage(1);
+		}else{
+			$('#total').html(0);
+			$('#current').html(0);
+			$('#animList').children().remove();
 		}
 		
 	});
@@ -122,7 +127,7 @@ function generateAnimTd(thumbnail,id,user,key){
 	a.appendChild(img);
 //	a.setAttribute("onclick","javascript:redirect('"+user+"','"+id+"')");
 //	a.setAttribute("href", "javascript:redirect('"+user+"','"+id+"')");
-	var url =  "Aplayer_simple.html?userId="+user+"&animId="+id;
+	var url =  "../animclient/Aplayer_simple.html?userId="+user+"&animId="+id;
 	a.setAttribute("href", url);
 	a.setAttribute("target", "_blank");
 	tr.appendChild(para);
@@ -166,7 +171,8 @@ function deleteAnimById(key){
 				 alert("操作有误，请重试！");
 		     }
 		     //操作后刷新列表
-			getAllAnimation();
+			var num = $('#current').text();
+			getAnimByPage(num);
 		});
 	}
 }
