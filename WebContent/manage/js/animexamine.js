@@ -138,7 +138,7 @@ function generateAnimOperate(id,key){
 	
 	$('<td></td>').appendTo($('#line'+key))
 	.append($('<a></a>')
-		.append($('<img>').attr("src","assets/del.png"))
+		.append($('<img>').attr("src","imgs/del.png"))
 		.attr("href","javascript:deleteAnimById("+key+");"))
 	.append($('<input type="hidden"></input>')
 		.attr("id","animId"+key)
