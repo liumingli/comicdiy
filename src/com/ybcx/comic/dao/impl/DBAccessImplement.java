@@ -67,7 +67,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	
 	@Override
 	public int getAssetCount() {
-		String sql = "select count(a_id) from t_assets where a_enable=1 order by a_heat desc";
+		String sql = "select count(a_id) from t_assets where a_enable=1";
 		int rows = jdbcTemplate.queryForInt(sql);
 		return rows;
 	}
@@ -237,7 +237,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_label l, t_astlab_rel alr, t_category c, t_astcat_rel acr " +
 				"where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_id = alr.alr_assets and l.l_id = alr.alr_label " +
-				"and "+ labelAnd.toString() +" and a.a_enable =1 order by a.a_heat desc";
+				"and "+ labelAnd.toString() +" and a.a_enable =1 order by a.a_heat desc, a.a_uploadTime desc";
 		
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
@@ -290,7 +290,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_label l, t_astlab_rel r, t_category c, t_astcat_rel acr" +
 				" where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_id = r.alr_assets and l.l_id = r.alr_label " +
-				"and ("+ labelOr.toString() +") and a.a_enable =1 order by a.a_heat desc limit "+startLine+","+pageSize;
+				"and ("+ labelOr.toString() +") and a.a_enable =1 order by a.a_heat desc, a.a_uploadTime desc limit "+startLine+","+pageSize;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -329,7 +329,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_label l, t_astlab_rel alr, t_category c, t_astcat_rel acr " +
 				"where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_id = alr.alr_assets and l.l_id = alr.alr_label " +
-				"and "+ labelAnd.toString() +" and a.a_type='"+type+"' and a.a_enable =1 order by a.a_heat desc";
+				"and "+ labelAnd.toString() +" and a.a_type='"+type+"' and a.a_enable =1 order by a.a_heat desc, a.a_uploadTime desc";
 		
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
@@ -383,7 +383,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_label l, t_astlab_rel r, t_category c, t_astcat_rel acr" +
 				" where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_id = r.alr_assets and l.l_id = r.alr_label " +
-				"and ("+ labelOr.toString() +") and a.a_type='"+type+"' and a.a_enable =1 order by a.a_heat desc limit "+startLine+","+pageSize;
+				"and ("+ labelOr.toString() +") and a.a_type='"+type+"' and a.a_enable =1 order by a.a_heat desc, a.a_uploadTime desc limit "+startLine+","+pageSize;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -496,7 +496,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	public List<Assets> getAsssetsByType(String type, int page, int pageSize) {
 		List<Assets> resList = new ArrayList<Assets>();
 		int startLine = (page -1)*pageSize;
-		String sql = "select * from t_assets where a_type='"+type+"' and a_enable=1 order by a_heat desc limit "+startLine+","+pageSize;
+		String sql = "select * from t_assets where a_type='"+type+"' and a_enable=1 order by a_heat desc, a_uploadTime desc limit "+startLine+","+pageSize;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -520,7 +520,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	
 	@Override
 	public int getAssetCountByType(String type) {
-		String sql = "select count(a_id) from t_assets where a_type='"+type+"' and a_enable=1 order by a_heat desc";
+		String sql = "select count(a_id) from t_assets where a_type='"+type+"' and a_enable=1";
 		int rows = jdbcTemplate.queryForInt(sql);
 		return rows;
 	}
@@ -529,7 +529,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	public int getAssetCountByTypeAndCategory(String type, String category) {
 		String sql = "select count(a.a_id) from t_assets a, t_category c, t_astcat_rel r " +
 				"where a.a_id=r.acr_assets and c.c_id =r.acr_category and c.c_name='" +category+"' " +
-				"and a.a_type='"+type+"' and a.a_enable=1 order by a.a_heat desc";
+				"and a.a_type='"+type+"' and a.a_enable=1 order by a.a_heat desc, a.a_uploadTime desc";
 		int rows = jdbcTemplate.queryForInt(sql);
 		return rows;
 	}
@@ -820,7 +820,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_category c, t_astcat_rel acr " +
 				"where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_type='"+type +"' "+
-				"and a.a_enable =1 order by a.a_heat desc limit "+startLine+","+pageSize;
+				"and a.a_enable =1 order by a.a_heat desc, a.a_uploadTime desc limit "+startLine+","+pageSize;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -851,7 +851,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 		String sql ="select distinct a.a_id,a.a_holiday,a.a_name,a.a_type,a.a_thumbnail,a.a_path,a.a_uploadTime,a.a_price,a.a_heat,a.a_enable,c.c_name" +
 				" from t_assets a, t_category c, t_astcat_rel acr " +
 				"where a.a_id=acr.acr_assets and c.c_id=acr.acr_category and a.a_type='"+type +"' "+
-				"and c.c_name='"+categorys+"' and a.a_enable =1 order by a.a_heat desc limit "+startLine+","+pageSize;
+				"and c.c_name='"+categorys+"' and a.a_enable =1 order by a.a_heat desc, a.a_uploadTime desc limit "+startLine+","+pageSize;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {

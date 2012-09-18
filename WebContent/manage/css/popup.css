@@ -16,7 +16,7 @@
 	position:fixed;   
 	_position:absolute;   
 	height:auto;   
-	width:320px;   
+	width:360px;   
 	background:#FFFFFF;   
 	border:0px solid #c0c0c0;   
 	z-index:2;   
@@ -24,7 +24,9 @@
 	font-size:13px;   
 	box-shadow:3px 3px 3px #000;
 	border-radius: 5px;
-	text-align:center;
+	text-align:left;
+	padding-left:10px;
+	padding-right:30px;
 	padding-bottom:20px;
 }
 
@@ -34,15 +36,7 @@
 	font-size:20px;   
 	font-weight:700;   
 	border-bottom:1px dotted #D3D3D3;   
-	margin-left:8px;
-}
-
-#hodLab{   
-	margin-left:-45px;
-}
-
-#typeLab{   
-	margin-left:-52px;
+/* 	margin-left:8px; */
 }
 
 #popupContactClose{   
@@ -55,4 +49,8 @@
 	font-weight:700;   
 	display:block;   
 	cursor: pointer;
+}
+
+#submit{
+	margin-left:50px;
 }
