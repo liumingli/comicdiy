@@ -95,9 +95,8 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 
 		
 		//微博接入有关api
-		if(action.equals(AppStarter.GETACCESSTOKENBYCODE) 
-				||(action.equals(AppStarter.FORWARDTOWEIBO)) 
-				||(action.equals(AppStarter.IMPROVEWEIBOUSER))){
+		if(action.equals(AppStarter.OPERATEWEIBOUSER) 
+				||(action.equals(AppStarter.GETUSERINFOBYID)) ){
 			
 			weiboProcess(action,req,res);
 		}
@@ -128,11 +127,19 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 	private void weiboProcess(String action, HttpServletRequest req,
 			HttpServletResponse res) throws IOException {
 		
-		if(action.equals(AppStarter.GETACCESSTOKENBYCODE)){
+		if(action.equals(AppStarter.OPERATEWEIBOUSER)){
+			//判断用户是存在，存在更新，否则新建
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String userId =req.getParameter("userId");
+			String accessToken = req.getParameter("accessToken");
+			//TODO 测试这里
+			String result = apiAdaptor.operateWeiboUser(userId,accessToken);
+			pw.print(result);
+			pw.close();
 			
-		}else if(action.equals(AppStarter.FORWARDTOWEIBO)){
+		}else if(action.equals(AppStarter.GETUSERINFOBYID)){
 			
-		}else if(action.equals(AppStarter.IMPROVEWEIBOUSER)){
 			
 		}
 		

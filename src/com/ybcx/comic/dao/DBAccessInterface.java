@@ -8,6 +8,7 @@ import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
+import com.ybcx.comic.beans.User;
 
 
 
@@ -119,5 +120,11 @@ public interface DBAccessInterface {
 				int pageSize);
 
 		public List<Assets> getAssetByLabelAndType(String string, String type);
+
+		public int checkUserExist(String userId);
+
+		public int createNewUser(User user);
+
+		public int updateUserById(String userId, String accessToken);
 
 }

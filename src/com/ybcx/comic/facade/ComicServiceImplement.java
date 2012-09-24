@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.util.Streams;
 
+import com.ybcx.comic.beans.User;
 import com.sun.image.codec.jpeg.ImageFormatException;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageDecoder;
@@ -300,7 +301,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 //		 
 //	}
 	
-	//TODO 要做这里
+	
 	public List<Assets> searchByLabelPage(String labels,String pageNum) {
 		List<Assets> resultList = new ArrayList<Assets>();
 		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
@@ -404,7 +405,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 //		return resultList;
 //	}
 	
-	//TODO
+
 	public List<Assets> searchByLabelAndTypePage(String labels, String type, String pageNum) {
 		List<Assets> resultList = new ArrayList<Assets>();
 		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
@@ -867,4 +868,33 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		return list;
 	}
 
+	@Override
+	public String operateWeiboUser(String userId, String accessToken) {
+		boolean flag = false;
+		//先判断用户是否存在
+		int rows = dbVisitor.checkUserExist(userId);
+		//存在即更新数据，不存在就插入新记录
+		if(rows >0){
+			int udpRows = dbVisitor.updateUserById(userId,accessToken);
+			if(udpRows > 0){
+				flag = true;
+			}
+		}else{
+			User user = this.generateUser(userId, accessToken);
+			int crtRows = dbVisitor.createNewUser(user);
+			if(crtRows > 0){
+				flag = true;
+			}
+		}
+		return String.valueOf(flag);
+	}
+
+	private User generateUser(String userId, String accessToken){
+		User user = new User();
+		user.setId(userId);
+		user.setCreateTime(ComicUtils.getFormatNowTime());
+		user.setAccessToken(accessToken);
+		user.setWealth(100);
+		return user;
+	}
 }

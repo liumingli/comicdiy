@@ -95,5 +95,7 @@ public interface ComicServiceInterface {
 
 	public List<Cartoon> searchAnimationByPage(String keys, String pageNum);
 
+	public String operateWeiboUser(String userId, String accessToken);
+
 
 }

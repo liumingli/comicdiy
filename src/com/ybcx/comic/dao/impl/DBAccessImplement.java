@@ -17,6 +17,7 @@ import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
+import com.ybcx.comic.beans.User;
 import com.ybcx.comic.dao.DBAccessInterface;
 import com.ybcx.comic.utils.ComicUtils;
 
@@ -956,6 +957,42 @@ public class DBAccessImplement  implements DBAccessInterface {
 			}
 		}
 		return resList;
+	}
+
+	@Override
+	public int checkUserExist(String userId) {
+		String sql = "select count(u_id) from t_weibouser where u_id='"+userId+"'";
+		int rows = jdbcTemplate.queryForInt(sql);
+		return rows;
+	}
+
+	@Override
+	public int createNewUser(final User user) {
+		String sql = "insert into t_weibouser(u_id,u_accessToken,u_createTime,u_wealth,u_memo) values (?,?,?,?,?)";
+		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) {
+				try {
+					ps.setString(1, user.getId());
+					ps.setString(2, user.getAccessToken());
+					ps.setString(3, user.getCreateTime());
+					ps.setInt(4, user.getWealth());
+					ps.setString(5, "");
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			}
+		});
+
+		return res;
+	}
+
+	@Override
+	public int updateUserById(String userId, String accessToken) {
+		String sql = "update t_weibouser set u_accessToken='"+accessToken+"' where u_id='"+userId+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
 	}
 
 

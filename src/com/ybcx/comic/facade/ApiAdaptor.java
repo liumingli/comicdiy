@@ -386,6 +386,11 @@ public class ApiAdaptor {
 		return jsonArray.toString();
 	}
 	
+	public String operateWeiboUser(String userId, String accessToken) {
+		String result = comicService.operateWeiboUser(userId,accessToken);
+		return result;
+	}
+	
 	
 
 } // end of class

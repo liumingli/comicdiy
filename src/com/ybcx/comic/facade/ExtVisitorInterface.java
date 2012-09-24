@@ -125,19 +125,15 @@ public interface ExtVisitorInterface {
 	//根据动画名称及分页查询
 	public static final String SEARCHANIMBYPAGE = "searchAnimByPage";
 	
-	
-	
     
     //--------接微博相关方法
-    
-    //根据code获取access token
-    public static final String GETACCESSTOKENBYCODE = "getAccessTokenByCode";
-    
-    //转发到微博
-    public static final String FORWARDTOWEIBO = "forwardToWeibo";
-    
-    //完善资料(使用weibo账户登录，完善账号密码)
-    public static final String IMPROVEWEIBOUSER = "improveWeiboUser";
-    
+   //操作微博连接上的用户
+	public static final String OPERATEWEIBOUSER = "operateWeiboUser";
+	
+	//根据id获取用户信息
+	//（包括三步，首先去新浪取用户返回昵称和头像等，再到支付账户里去查到钱数，最后从库里取wealth累加）
+	public static final String GETUSERINFOBYID = "getUserInfoById";
+	
+   
     
 }
