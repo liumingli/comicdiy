@@ -131,9 +131,12 @@ public interface ExtVisitorInterface {
 	public static final String OPERATEWEIBOUSER = "operateWeiboUser";
 	
 	//根据id获取用户信息
-	//（包括三步，首先去新浪取用户返回昵称和头像等，再到支付账户里去查到钱数，最后从库里取wealth累加）
-	public static final String GETUSERINFOBYID = "getUserInfoById";
+	public static final String GETUSERINFO= "getUserInfo";
 	
-   
+    //转发到微博
+    public static final String FORWARDTOWEIBO = "forwardToWeibo"; 
+	
+   //获取好友列表包括昵称和头像
+    public static final String GETFRIENDLIST = "getFriendList";
     
 }

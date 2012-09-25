@@ -18,6 +18,7 @@ import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
+import com.ybcx.comic.beans.UserDetail;
 
 
 
@@ -388,6 +389,16 @@ public class ApiAdaptor {
 	
 	public String operateWeiboUser(String userId, String accessToken) {
 		String result = comicService.operateWeiboUser(userId,accessToken);
+		return result;
+	}
+	
+	public String getUserInfo(String userId) {
+		UserDetail detail= comicService.getUserInfo(userId);
+		return JSONArray.fromObject(detail).toString();
+	}
+	
+	public String forwardToWeibo(String userId, String animId, String content) {
+		String result = comicService.forwardToWeibo(userId,animId,content);
 		return result;
 	}
 	

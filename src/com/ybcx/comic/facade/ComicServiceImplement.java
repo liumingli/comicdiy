@@ -20,6 +20,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.util.Streams;
+import org.apache.log4j.Logger;
+
+import weibo4j.Timeline;
+import weibo4j.Users;
+import weibo4j.Weibo;
+import weibo4j.http.ImageItem;
+import weibo4j.model.Status;
+import weibo4j.model.WeiboException;
 
 import com.ybcx.comic.beans.User;
 import com.sun.image.codec.jpeg.ImageFormatException;
@@ -31,13 +39,15 @@ import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
+import com.ybcx.comic.beans.UserDetail;
 import com.ybcx.comic.dao.DBAccessInterface;
 import com.ybcx.comic.tools.ImageHelper;
 import com.ybcx.comic.utils.ComicUtils;
 
 @SuppressWarnings("restriction")
 public class ComicServiceImplement implements ComicServiceInterface {
-
+	
+	private Logger log = Logger.getLogger(ComicServiceImplement.class);
 	// 由Spring注入
 	private DBAccessInterface dbVisitor;
 	
@@ -735,6 +745,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	public String createAnimation(FileItem shotData, String userId, String name,
 			String content) {
 		boolean flag = true;
+		String rawPath = this.saveAnimationRaw(shotData);
+		log.info("Animation raw imagePath  is : "+rawPath);
 		
 		String thumbnail = this.saveThumbnailOf(shotData);
 		
@@ -749,7 +761,22 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}
 	}
 		
-	
+	//FIXME 这里加了一步保存动画的时候生成一个大图并取名为类似abc_Raw.jpg
+	private String saveAnimationRaw(FileItem imgData) {
+		String fileName = imgData.getName();
+		int position = fileName.lastIndexOf(".");
+		String extend = fileName.substring(position);
+		String newName = fileName.substring(0,position)+"_Raw"+extend;
+		String filePath = imagePath + File.separator + newName;
+		File file = new File(filePath);
+		try {
+			imgData.write(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return filePath;
+	}
+
 	private Cartoon generateCartoon(String userId, String name, String content,
 			String thumbnail){
 		Cartoon cartoon = new Cartoon();
@@ -897,4 +924,105 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		user.setWealth(100);
 		return user;
 	}
+
+	@Override
+	public UserDetail getUserInfo(String userId) {
+		//（包括三步，首先从库里取token,wealth 再到去新浪取用户返回昵称和头像等 最后支付账户里去查到钱数累加）
+		UserDetail userDetail = new UserDetail();
+		User dbUser = new User();
+		dbUser = dbVisitor.getUserById(userId);
+		String accessToken = dbUser.getAccessToken();
+		
+		weibo4j.model.User weiboUser = this.getUserByIdAndToken(userId, accessToken);
+		
+		userDetail.setId(dbUser.getId());
+		userDetail.setAccessToken(accessToken);
+		if(weiboUser != null){
+			userDetail.setAvatarLarge(weiboUser.getAvatarLarge());
+			userDetail.setNickName(weiboUser.getName());
+			userDetail.setAvatarMini(weiboUser.getProfileImageUrl());
+		}
+		//TODO 这个财富后面要加上与支付账户中的累加
+		userDetail.setWealth(dbUser.getWealth());
+
+		return userDetail;
+	}
+	
+	//根据token和uid获取用户信息
+	private weibo4j.model.User  getUserByIdAndToken(String userId, String accessToken) {
+		weibo4j.model.User wbUser = null;
+		Weibo weibo = new Weibo();
+		weibo.setToken(accessToken);
+		Users um = new Users();
+		try {
+			wbUser = um.showUserById(userId);
+		} catch (WeiboException e) {
+			e.printStackTrace();
+		}
+		return wbUser;
+	}
+	
+	@Override
+	public String forwardToWeibo(String userId, String animId ,String content) {
+		// 这里主要分两步 1、根据userId去找token 2、根据animId取动画，以用于取图片 最后再转发内容到微博
+		User user = dbVisitor.getUserById(userId);
+		String token = user.getAccessToken();
+		
+		Cartoon cartoon= dbVisitor.getAnimationBy(userId, animId);
+		
+		String thumbnailPath = cartoon.getThumbnail();
+	
+		int position = thumbnailPath.lastIndexOf(".");
+		String extend = thumbnailPath.substring(position);
+		String imgPath = thumbnailPath.substring(0,position)+"_Raw"+extend;	
+		
+		boolean flag = uploadToWeibo(token,imgPath,content);
+		return String.valueOf(flag);
+	}
+	
+	//FIXME 转发内容到新浪微博
+	private boolean uploadToWeibo(String token, String imgPath, String text) {
+		
+		try{
+			Weibo weibo = new Weibo();
+			weibo.setToken(token);
+			try{
+				byte[] content= readFileImage(imgPath);
+				System.out.println("content length:" + content.length);
+				ImageItem pic=new ImageItem("pic",content);
+
+				String s=java.net.URLEncoder.encode( text,"utf-8");
+				Timeline tl = new Timeline();
+				Status status=tl.UploadStatus(s, pic);
+
+				log.info("Successfully upload the status to ["
+						+status.getText()+"].");
+			}catch(Exception e1){
+				e1.printStackTrace();
+				log.info("WeiboException: invalid_access_token.");
+				return false;
+			}
+		}catch(Exception ioe){
+			ioe.printStackTrace();
+			log.info("Failed to read the system input.");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private static byte[] readFileImage(String filename)throws IOException{
+		BufferedInputStream bufferedInputStream=new BufferedInputStream(
+				new FileInputStream(filename));
+		int len =bufferedInputStream.available();
+		byte[] bytes=new byte[len];
+		int r=bufferedInputStream.read(bytes);
+		if(len !=r){
+			bytes=null;
+			throw new IOException("读取文件不正确");
+		}
+		bufferedInputStream.close();
+		return bytes;
+	}
+	
 }

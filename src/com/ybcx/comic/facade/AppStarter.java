@@ -96,7 +96,7 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 		
 		//微博接入有关api
 		if(action.equals(AppStarter.OPERATEWEIBOUSER) 
-				||(action.equals(AppStarter.GETUSERINFOBYID)) ){
+				||(action.equals(AppStarter.GETUSERINFO)) ){
 			
 			weiboProcess(action,req,res);
 		}
@@ -126,21 +126,36 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 	 */
 	private void weiboProcess(String action, HttpServletRequest req,
 			HttpServletResponse res) throws IOException {
-		
+		//TODO 现在做这里
 		if(action.equals(AppStarter.OPERATEWEIBOUSER)){
 			//判断用户是存在，存在更新，否则新建
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
 			String userId =req.getParameter("userId");
 			String accessToken = req.getParameter("accessToken");
-			//TODO 测试这里
 			String result = apiAdaptor.operateWeiboUser(userId,accessToken);
 			pw.print(result);
 			pw.close();
 			
-		}else if(action.equals(AppStarter.GETUSERINFOBYID)){
+		}else if(action.equals(AppStarter.GETUSERINFO)){
+			//取用户信息
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String userId =req.getParameter("userId");
+			String result = apiAdaptor.getUserInfo(userId);
+			pw.print(result);
+			pw.close();
 			
-			
+		}else if(action.equals(AppStarter.FORWARDTOWEIBO)){
+			//转发内容到微博
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String userId = req.getParameter("userId");
+			String animId = req.getParameter("animId");
+			String content = req.getParameter("content");
+			String result = apiAdaptor.forwardToWeibo(userId,animId,content);
+			pw.print(result);
+			pw.close();
 		}
 		
 	}

@@ -11,6 +11,7 @@ import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
+import com.ybcx.comic.beans.UserDetail;
 
 public interface ComicServiceInterface {
 	
@@ -96,6 +97,10 @@ public interface ComicServiceInterface {
 	public List<Cartoon> searchAnimationByPage(String keys, String pageNum);
 
 	public String operateWeiboUser(String userId, String accessToken);
+
+	public UserDetail getUserInfo(String userId);
+
+	public String forwardToWeibo(String userId, String animId, String content);
 
 
 }

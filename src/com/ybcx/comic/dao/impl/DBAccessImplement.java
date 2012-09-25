@@ -995,5 +995,22 @@ public class DBAccessImplement  implements DBAccessInterface {
 		return rows;
 	}
 
+	@Override
+	public User getUserById(String userId) {
+		User user = new User();
+		String sql = "select * from t_weibouser where u_id='"+userId+"'";
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				user.setId(map.get("u_id").toString());
+				user.setAccessToken(map.get("u_accessToken").toString());
+				user.setCreateTime(map.get("u_createTime").toString());
+				user.setWealth(Integer.parseInt(map.get("u_wealth").toString()));
+			}
+		}
+		return user;
+	}
+
 
 }

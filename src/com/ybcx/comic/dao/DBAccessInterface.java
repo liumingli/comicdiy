@@ -127,4 +127,6 @@ public interface DBAccessInterface {
 
 		public int updateUserById(String userId, String accessToken);
 
+		public User getUserById(String userId);
+
 }
