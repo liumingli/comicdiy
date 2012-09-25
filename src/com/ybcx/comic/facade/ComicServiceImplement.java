@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.util.Streams;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 
 import weibo4j.Timeline;
@@ -941,6 +942,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			userDetail.setAvatarLarge(weiboUser.getAvatarLarge());
 			userDetail.setNickName(weiboUser.getName());
 			userDetail.setAvatarMini(weiboUser.getProfileImageUrl());
+		}else{
+			log.warn("weibo user is null");
 		}
 		//TODO 这个财富后面要加上与支付账户中的累加
 		userDetail.setWealth(dbUser.getWealth());
@@ -958,6 +961,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			wbUser = um.showUserById(userId);
 		} catch (WeiboException e) {
 			e.printStackTrace();
+			log.info("catch WeiboException : "+ExceptionUtils.getStackTrace(e));
 		}
 		return wbUser;
 	}
@@ -975,6 +979,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		int position = thumbnailPath.lastIndexOf(".");
 		String extend = thumbnailPath.substring(position);
 		String imgPath = thumbnailPath.substring(0,position)+"_Raw"+extend;	
+		log.info("Cartoon image path : "+imgPath);
 		
 		boolean flag = uploadToWeibo(token,imgPath,content);
 		return String.valueOf(flag);

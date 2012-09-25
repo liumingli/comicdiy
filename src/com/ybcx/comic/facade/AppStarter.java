@@ -96,9 +96,11 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 		
 		//微博接入有关api
 		if(action.equals(AppStarter.OPERATEWEIBOUSER) 
-				||(action.equals(AppStarter.GETUSERINFO)) ){
+				||(action.equals(AppStarter.GETUSERINFO))
+				||(action.equals(AppStarter.FORWARDTOWEIBO))) {
 			
 			weiboProcess(action,req,res);
+			return;
 		}
 		
 		
