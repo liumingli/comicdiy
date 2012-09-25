@@ -6,6 +6,6 @@
 <title>Home Page</title>
 </head>
 <body>
-	<% response.sendRedirect("animclient/Main.swf"); %>
+	<% response.sendRedirect("animclient/Main.html"); %>
 </body>
 </html>
