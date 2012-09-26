@@ -35,8 +35,9 @@
 	<div>
 		<input type="hidden" id="parent">
 		<label>名称</label>
-			<input type="text" id="name">
+			<input type="text" id="name" onblur="checkLabelLength();">
 			<input type="button" id="submit" value="确定" onclick="createLabel();">
+			<div  style="display: none;" id="prompt"></div>
 	</div>
 </div>  
 
