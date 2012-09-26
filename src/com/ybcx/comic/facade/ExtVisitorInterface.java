@@ -136,7 +136,7 @@ public interface ExtVisitorInterface {
     //转发到微博
     public static final String FORWARDTOWEIBO = "forwardToWeibo"; 
 	
-   //获取好友列表包括昵称和头像
-    public static final String GETFRIENDLIST = "getFriendList";
+    //分页获取好友列表包括昵称和头像
+    public static final String GETFRIENDBYPAGE = "getFriendByPage";
     
 }

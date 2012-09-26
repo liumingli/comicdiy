@@ -23,14 +23,17 @@ import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 
+import weibo4j.Friendships;
+import weibo4j.ShortUrl;
 import weibo4j.Timeline;
 import weibo4j.Users;
-import weibo4j.Weibo;
 import weibo4j.http.ImageItem;
+import weibo4j.model.Paging;
 import weibo4j.model.Status;
+import weibo4j.model.UserWapper;
 import weibo4j.model.WeiboException;
+import weibo4j.org.json.JSONObject;
 
-import com.ybcx.comic.beans.User;
 import com.sun.image.codec.jpeg.ImageFormatException;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageDecoder;
@@ -38,8 +41,10 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
+import com.ybcx.comic.beans.Friend;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
+import com.ybcx.comic.beans.User;
 import com.ybcx.comic.beans.UserDetail;
 import com.ybcx.comic.dao.DBAccessInterface;
 import com.ybcx.comic.tools.ImageHelper;
@@ -335,29 +340,34 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			}
 		}
 		
-		//取出糊糊匹配上的素材，然后拼一个assetIds
-		List<Assets> assetList = dbVisitor.getAssetByLabel(labelIds.toString());
-		
-		StringBuffer assetIds = new StringBuffer();
-		for(int i=0;i<assetList.size();i++){
-			Assets ast = assetList.get(i);
-			for(int j=0;j<labelArr.length;j++){
-				if(!"".equals(labelArr[j])){
-					if (assetIds.length() > 0) {
-						assetIds.append(",");
+		if(labelIds.length() > 0){
+			//取出糊糊匹配上的素材，然后拼一个assetIds
+			List<Assets> assetList = dbVisitor.getAssetByLabel(labelIds.toString());
+			
+			StringBuffer assetIds = new StringBuffer();
+			for(int i=0;i<assetList.size();i++){
+				Assets ast = assetList.get(i);
+				for(int j=0;j<labelArr.length;j++){
+					if(!"".equals(labelArr[j])){
+						if (assetIds.length() > 0) {
+							assetIds.append(",");
+						}
+						assetIds.append("'");
+						assetIds.append(ast.getId());
+						assetIds.append("'");
 					}
-					assetIds.append("'");
-					assetIds.append(ast.getId());
-					assetIds.append("'");
 				}
 			}
+			
+			//这里需要加一个判断如果没有素材就不去搜索返回了
+			if(assetIds.length()>0){
+				//最后,根据assetIds将分类拼上,并分页返回
+				List<Assets> resList = dbVisitor.getAsssetsByIdAndPage(assetIds.toString(),Integer.parseInt(pageNum),pageSize);
+				
+				//给素材加上标签
+				resultList = this.combinLabels(resList);
+			}
 		}
-		
-		//最后,根据assetIds将分类拼上,并分页返回
-		List<Assets> resList = dbVisitor.getAsssetsByIdAndPage(assetIds.toString(),Integer.parseInt(pageNum),pageSize);
-		
-		//给素材加上标签
-		resultList = this.combinLabels(resList);
 		return resultList;
 	}
 	
@@ -458,11 +468,14 @@ public class ComicServiceImplement implements ComicServiceInterface {
 				}
 			}
 			
-			//最后,根据assetIds将分类拼上,并分页返回
-			List<Assets> resList = dbVisitor.getAsssetsByIdAndPage(assetIds.toString(),Integer.parseInt(pageNum),pageSize);
-			
-			//给素材加上标签
-			resultList = this.combinLabels(resList);
+			//这里需要加一个判断如果没有素材就不去搜索返回了
+			if(assetIds.length()>0){
+				//最后,根据assetIds将分类拼上,并分页返回
+				List<Assets> resList = dbVisitor.getAsssetsByIdAndPage(assetIds.toString(),Integer.parseInt(pageNum),pageSize);
+				
+				//给素材加上标签
+				resultList = this.combinLabels(resList);
+			}
 		}
 		return resultList;
 	}
@@ -762,7 +775,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}
 	}
 		
-	//FIXME 这里加了一步保存动画的时候生成一个大图并取名为类似abc_Raw.jpg
+	//这里加了一步保存动画的时候生成一个大图并取名为类似abc_Raw.jpg
 	private String saveAnimationRaw(FileItem imgData) {
 		String fileName = imgData.getName();
 		int position = fileName.lastIndexOf(".");
@@ -940,7 +953,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		userDetail.setAccessToken(accessToken);
 		if(weiboUser != null){
 			userDetail.setAvatarLarge(weiboUser.getAvatarLarge());
-			userDetail.setNickName(weiboUser.getName());
+			userDetail.setNickName(weiboUser.getScreenName());
 			userDetail.setAvatarMini(weiboUser.getProfileImageUrl());
 		}else{
 			log.warn("weibo user is null");
@@ -954,9 +967,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	//根据token和uid获取用户信息
 	private weibo4j.model.User  getUserByIdAndToken(String userId, String accessToken) {
 		weibo4j.model.User wbUser = null;
-		Weibo weibo = new Weibo();
-		weibo.setToken(accessToken);
 		Users um = new Users();
+		um.client.setToken(accessToken);
 		try {
 			wbUser = um.showUserById(userId);
 		} catch (WeiboException e) {
@@ -981,23 +993,33 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		String imgPath = thumbnailPath.substring(0,position)+"_Raw"+extend;	
 		log.info("Cartoon image path : "+imgPath);
 		
-		boolean flag = uploadToWeibo(token,imgPath,content);
+		String longUrl = "http://diy.produ.cn/comicdiy/animclient/Aplayer_simple.html?userId="+userId+"&animId="+animId;
+		
+		boolean flag = uploadToWeibo(token,imgPath,content,longUrl);
 		return String.valueOf(flag);
 	}
 	
-	//FIXME 转发内容到新浪微博
-	private boolean uploadToWeibo(String token, String imgPath, String text) {
+	//转发内容到新浪微博
+	private boolean uploadToWeibo(String token, String imgPath, String text, String longUrl) {
 		
 		try{
-			Weibo weibo = new Weibo();
-			weibo.setToken(token);
+			//将长地址生成短地址
+			ShortUrl su = new ShortUrl();
+			su.client.setToken(token);
+			JSONObject result = su.longToShortUrl(longUrl);
+			weibo4j.org.json.JSONArray url = result.getJSONArray("urls");
+			weibo4j.org.json.JSONObject object =url.getJSONObject(0);
+			String shortUrl = object.getString("url_short");
+			
 			try{
 				byte[] content= readFileImage(imgPath);
-				System.out.println("content length:" + content.length);
 				ImageItem pic=new ImageItem("pic",content);
+				
+				String resultText = "  观看地址："+text+shortUrl;
 
-				String s=java.net.URLEncoder.encode( text,"utf-8");
+				String s=java.net.URLEncoder.encode(resultText,"utf-8");
 				Timeline tl = new Timeline();
+				tl.client.setToken(token);
 				Status status=tl.UploadStatus(s, pic);
 
 				log.info("Successfully upload the status to ["
@@ -1028,6 +1050,47 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}
 		bufferedInputStream.close();
 		return bytes;
+	}
+
+
+	private List<Friend> generateFriendList(List<weibo4j.model.User> userList,int totalNum) {
+		List<Friend> friendList = new ArrayList<Friend>();
+		for(int i=0;i<userList.size();i++){
+			Friend friend = new Friend();
+			weibo4j.model.User usr = userList.get(i);
+			friend.setId(usr.getId());
+			friend.setNickName(usr.getScreenName());
+			friend.setAvatarLarge(usr.getAvatarLarge());
+			friend.setAvatarMini(usr.getProfileImageUrl());
+			friend.setTotalNumber(totalNum);
+			friendList.add(friend);
+		}
+		return friendList;
+	}
+
+	@Override
+	public List<Friend> getFriendByPage(String userId, String page) {
+		List<Friend> list = new ArrayList<Friend>();
+		User user = dbVisitor.getUserById(userId);
+		String token = user.getAccessToken();
+		try {
+			Friendships fship = new Friendships();
+			fship.client.setToken(token);
+			
+			Paging pageing = new Paging(Integer.parseInt(page));
+			UserWapper friends = fship.getFriendsBilateral(userId,0,pageing);
+			
+			int totalNum = (int)friends.getTotalNumber();
+			List<weibo4j.model.User> userList = friends.getUsers();
+			
+			if(userList.size()>0){
+				list = generateFriendList(userList,totalNum);
+			}
+		} catch (WeiboException e) {
+			e.printStackTrace();
+			log.info("catch WeiboException : "+ExceptionUtils.getStackTrace(e));
+		}
+		return list;
 	}
 	
 }

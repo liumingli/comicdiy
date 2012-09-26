@@ -9,6 +9,7 @@ import org.apache.commons.fileupload.FileItem;
 import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
+import com.ybcx.comic.beans.Friend;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.UserDetail;
@@ -101,6 +102,8 @@ public interface ComicServiceInterface {
 	public UserDetail getUserInfo(String userId);
 
 	public String forwardToWeibo(String userId, String animId, String content);
+
+	public List<Friend> getFriendByPage(String userId, String page);
 
 
 }

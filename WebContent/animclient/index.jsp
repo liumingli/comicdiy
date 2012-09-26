@@ -8,6 +8,13 @@
  <title>自己动手做动画</title>
  <meta name="google" value="notranslate" />         
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ 
+ <style type="text/css" media="screen"> 
+       html, body  { height:100%; }
+       body { margin:0; padding:0; overflow:auto; text-align:center; 
+              background-color: #ffffff; background-image: assets/paper.png; background-repeat: repeat; }   
+       object:focus { outline:none; }
+ </style>
      
  <script src="http://tjs.sjs.sinajs.cn/t35/apps/opent/js/frames/client.js" language="JavaScript"></script>
  <script type="text/javascript" src="jquery.js"></script>
@@ -43,9 +50,9 @@
   	//弹出授权层
   	function authLoad(){
   		App.AuthDialog.show({
-   		client_id : '2264908245',    //必选，appkey
-   		redirect_uri : 'http://apps.weibo.com/wwwproducn',     //必选，授权后的回调地址
-   		height: 100    //可选，默认距顶端120px
+	   		client_id : '2264908245',    //必选，appkey
+	   		redirect_uri : 'http://apps.weibo.com/wwwproducn',     //必选，授权后的回调地址
+	   		height: 60    //可选，默认距顶端120px
   		});
   	}
   	
@@ -73,6 +80,7 @@
            params.bgcolor = "#ffffff";
            params.allowscriptaccess = "always";
            params.allowfullscreen = "true";
+           params.wmode="transparent";
            var attributes = {};
            attributes.id = divId;
            attributes.name = divId;

@@ -16,6 +16,7 @@ import org.apache.commons.fileupload.FileItem;
 import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
+import com.ybcx.comic.beans.Friend;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.UserDetail;
@@ -400,6 +401,11 @@ public class ApiAdaptor {
 	public String forwardToWeibo(String userId, String animId, String content) {
 		String result = comicService.forwardToWeibo(userId,animId,content);
 		return result;
+	}
+	
+	public String getFriendByPage(String userId, String page) {
+		List<Friend> resList = comicService.getFriendByPage(userId,page);
+		return JSONArray.fromCollection(resList).toString();
 	}
 	
 	

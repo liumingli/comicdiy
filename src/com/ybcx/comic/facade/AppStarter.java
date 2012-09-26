@@ -97,7 +97,8 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 		//微博接入有关api
 		if(action.equals(AppStarter.OPERATEWEIBOUSER) 
 				||(action.equals(AppStarter.GETUSERINFO))
-				||(action.equals(AppStarter.FORWARDTOWEIBO))) {
+				||(action.equals(AppStarter.FORWARDTOWEIBO))
+				||(action.equals(AppStarter.GETFRIENDBYPAGE))) {
 			
 			weiboProcess(action,req,res);
 			return;
@@ -158,6 +159,17 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 			String result = apiAdaptor.forwardToWeibo(userId,animId,content);
 			pw.print(result);
 			pw.close();
+			
+		}else if(action.equals(AppStarter.GETFRIENDBYPAGE)){
+			//取互粉的好友用户信息
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String userId =req.getParameter("userId");
+			String page = req.getParameter("page");
+			String result = apiAdaptor.getFriendByPage(userId,page);
+			pw.print(result);
+			pw.close();
+		
 		}
 		
 	}
