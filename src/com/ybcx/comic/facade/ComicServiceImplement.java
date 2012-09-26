@@ -1015,7 +1015,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 				byte[] content= readFileImage(imgPath);
 				ImageItem pic=new ImageItem("pic",content);
 				
-				String resultText = "  观看地址："+text+shortUrl;
+				String resultText =text+"  观看地址："+shortUrl;
 
 				String s=java.net.URLEncoder.encode(resultText,"utf-8");
 				Timeline tl = new Timeline();
