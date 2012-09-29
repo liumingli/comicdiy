@@ -465,7 +465,7 @@ function chooseLable(num,key){
 		
 		var child = document.getElementById("labelSpan").childNodes.length;
 		
-		if(old == null && child < 3){
+		if(old == null && child < 4){
 			
 			//将要用来传参的标签id以逗号分隔的方式填入
 			setLabelId(labelId);
