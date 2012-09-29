@@ -356,6 +356,65 @@ public class AssistProcess {
 			log.debug(result);
 			pw.print(result);
 			pw.close();
+			
+		 //添加商品到购物车
+		}else if (action.equals(AppStarter.ADDASSETTOCART)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String userId = req.getParameter("userId");
+			String assetId = req.getParameter("assetId");
+			String result= apiAdaptor.addAssetToCart(userId,assetId);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.DELETEASSETFROMCART)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String userId = req.getParameter("userId");
+			String assetId = req.getParameter("assetId");
+			String result= apiAdaptor.deleteAssetFromCart(userId,assetId);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.GETASSETSTATE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String userId = req.getParameter("userId");
+			String assetId = req.getParameter("assetId");
+		    int result= apiAdaptor.getAssetState(userId,assetId);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.CHANGEASSETSTATE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String userId = req.getParameter("userId");
+			String assetId = req.getParameter("assetId");
+		    String result= apiAdaptor.changeAssetState(userId,assetId);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.GETUSERCARTSTATE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String userId = req.getParameter("userId");
+		    String result= apiAdaptor.getUserCartState(userId);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.CHANGEUSERCARTSTATE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String userId = req.getParameter("userId");
+		    String result= apiAdaptor.changeUserCartState(userId);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
 		
 		}else{
 			

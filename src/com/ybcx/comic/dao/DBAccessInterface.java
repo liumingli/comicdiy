@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ybcx.comic.beans.Assets;
+import com.ybcx.comic.beans.Cart;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Images;
@@ -128,5 +129,21 @@ public interface DBAccessInterface {
 		public int updateUserById(String userId, String accessToken);
 
 		public User getUserById(String userId);
+
+		public int checkAssetExist(String userId, String assetId);
+
+		public int updateCartAsset(String userId, String assetId);
+
+		public int addAssetToCart(Cart cart);
+
+		public int deleteAssetFromCart(String userId, String assetId);
+
+		public int getAssetState(String userId, String assetId);
+
+		public int changeAssetState(String userId, String assetId);
+
+		public List<Cart> getUserCartState(String userId);
+
+		public int changeCartState(String userId);
 
 }

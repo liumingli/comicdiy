@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 
 import com.ybcx.comic.beans.Assets;
+import com.ybcx.comic.beans.Cart;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Images;
@@ -1010,6 +1011,92 @@ public class DBAccessImplement  implements DBAccessInterface {
 			}
 		}
 		return user;
+	}
+
+	@Override
+	public int checkAssetExist(String userId, String assetId) {
+		String sql = "select count(s_id) from t_shoppingcart where s_asset='"+assetId+"' and s_owner='"+userId+"'";
+		int result = jdbcTemplate.queryForInt(sql);
+		return result;
+	}
+
+	@Override
+	public int updateCartAsset(String userId, String assetId) {
+		String sql = "update t_shoppingcart set s_count=s_count + 1 where s_asset='"+assetId+"' and s_owner='"+userId+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
+	@Override
+	public int addAssetToCart(final Cart cart) {
+		String sql = "insert into t_shoppingcart(s_id,s_asset,s_owner,s_count,s_state,s_memo) values (?,?,?,?,?,?)";
+		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) {
+				try {
+					ps.setString(1, cart.getId());
+					ps.setString(2, cart.getAsset());
+					ps.setString(3, cart.getOwner());
+					ps.setInt(4, cart.getCount());
+					ps.setInt(5, cart.getState());
+					ps.setString(6, "");
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+		return res;
+	}
+
+	@Override
+	public int deleteAssetFromCart(String userId, String assetId) {
+		String sql = "delete from t_shoppingcart where s_asset='"+assetId+"' and s_owner='"+userId+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
+	@Override
+	public int getAssetState(String userId, String assetId) {
+		String sql = "select s_state from t_shoppingcart where s_asset='"+assetId+"' and s_owner='"+userId+"'";
+		int state = jdbcTemplate.queryForInt(sql);
+		return state;
+	}
+
+	@Override
+	public int changeAssetState(String userId, String assetId) {
+		String sql = "update t_shoppingcart set s_state=1 where s_asset='"+assetId+"' and s_owner='"+userId+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
+	@Override
+	public List<Cart> getUserCartState(String userId) {
+		List<Cart> list = new ArrayList<Cart>();
+		String sql = "select s.s_id,s.s_asset,s.s_owner,s.s_count,s.s_state, a.a_price from t_shoppingcart s, t_assets a " +
+				"where s.s_asset = a.a_id and s_owner='"+userId+"' and s_state=0";
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				Cart cart = new Cart();
+				cart.setId(map.get("s_id").toString());
+				cart.setAsset(map.get("s_asset").toString());
+				cart.setOwner(map.get("s_owner").toString());
+				cart.setPrice(Float.parseFloat(map.get("a_price").toString()));
+				cart.setCount(Integer.parseInt(map.get("s_count").toString()));
+				cart.setState(Integer.parseInt(map.get("s_state").toString()));
+				list.add(cart);
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public int changeCartState(String userId) {
+		String sql = "update t_shoppingcart set s_state=1 where s_owner='"+userId+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
 	}
 
 

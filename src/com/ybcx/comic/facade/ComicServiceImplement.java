@@ -39,6 +39,7 @@ import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageDecoder;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import com.ybcx.comic.beans.Assets;
+import com.ybcx.comic.beans.Cart;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Friend;
@@ -1091,6 +1092,72 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			log.info("catch WeiboException : "+ExceptionUtils.getStackTrace(e));
 		}
 		return list;
+	}
+
+	@Override
+	public String addAssetToCart(String userId, String assetId) {
+		boolean flag = false;
+		int exist = dbVisitor.checkAssetExist(userId,assetId);
+		if(exist > 0){
+			int updRows = dbVisitor.updateCartAsset(userId,assetId);
+			if(updRows > 0)
+				flag = true;
+		}else{
+			Cart cart = this.generateCartAsset(userId,assetId);
+			int newRows = dbVisitor.addAssetToCart(cart);
+			if(newRows > 0)
+				flag = true;
+		}
+		return String.valueOf(flag);
+	}
+
+	private Cart generateCartAsset(String userId, String assetId) {
+		Cart cart = new Cart();
+		cart.setId(ComicUtils.generateUID());
+		cart.setOwner(userId);
+		cart.setAsset(assetId);
+		cart.setCount(1);
+		cart.setState(0);
+		return cart;
+	}
+
+	@Override
+	public String deleteAssetFromCart(String userId, String assetId) {
+		boolean flag = false;
+		int rows = dbVisitor.deleteAssetFromCart(userId,assetId);
+		if(rows > 0)
+			flag = true;
+		return String.valueOf(flag);
+	}
+
+	@Override
+	public int getAssetState(String userId, String assetId) {
+		int result = dbVisitor.getAssetState(userId,assetId);
+		return result;
+	}
+
+	@Override
+	public String changeAssetState(String userId, String assetId) {
+		boolean flag = false;
+		int rows = dbVisitor.changeAssetState(userId,assetId);
+		if(rows > 0)
+			flag = true;
+		return String.valueOf(flag);
+	}
+
+	@Override
+	public List<Cart> getUserCartState(String userId) {
+		List<Cart> list = dbVisitor.getUserCartState(userId);
+		return list;
+	}
+
+	@Override
+	public String changeAssetState(String userId) {
+		boolean flag = false;
+		int rows = dbVisitor.changeCartState(userId);
+		if(rows > 0)
+			flag = true;
+		return String.valueOf(flag);
 	}
 	
 }

@@ -139,4 +139,27 @@ public interface ExtVisitorInterface {
     //分页获取好友列表包括昵称和头像
     public static final String GETFRIENDBYPAGE = "getFriendByPage";
     
+    
+    //---------购物车相关api
+    //添加商品
+    public static final String ADDASSETTOCART = "addAssetToCart";
+    
+    //删除商品
+    public static final String DELETEASSETFROMCART = "deleteAssetFromCart";
+    
+    //查看当前商品的付费状态
+    public static final String GETASSETSTATE = "getAssetState";
+    
+    //修改付费状态
+    public static final String CHANGEASSETSTATE = "changeAssetState";
+    
+    //查看某人购物车的商品状态(需要付费的)
+    public static final String GETUSERCARTSTATE = "getUserCartState";
+    
+    //修改购物车里所有商品的状态
+    public static final String CHANGEUSERCARTSTATE = "changeUserCartState";
+    
+    
+    //----------支付相关api
+    
 }

@@ -73,26 +73,15 @@ function addLabel(parent){
 	$("#name").focus();
 }
 
-function checkLabelLength(){
-	var name = $('#name').val();
-	if(getByteLen(name) > 8){
-		$("#name").focus();
-		$('#prompt').show().html('<font color="red" size="2">标签名称限制四个字内</font>');
-	}
-}
-
 function getByteLen(val) {    //传入一个字符串
     var len = 0;
     for (var i = 0; i < val.length; i++) {
         if (val[i].match(/[^\x00-\xff]/ig) != null){ //全角 
             len += 2; //如果是全角，占用两个字节
-        	console.log("全角："+len);
     	}else{
             len += 1; //半角占用一个字节
-            console.log("半角："+len);
     	}
     }
-    console.log(len);
     return len;
  } 
 

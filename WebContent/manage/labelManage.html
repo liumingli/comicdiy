@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Expires" Content="0">
 <title>标签管理</title>
 <link rel="stylesheet" type="text/css"  charset="utf-8" href="css/popup.css" />
 <link rel="stylesheet" type="text/css"  charset="utf-8" href="css/label.css" />
@@ -35,9 +36,8 @@
 	<div>
 		<input type="hidden" id="parent">
 		<label>名称</label>
-			<input type="text" id="name" onblur="checkLabelLength();">
+			<input type="text" id="name" maxlength="4">
 			<input type="button" id="submit" value="确定" onclick="createLabel();">
-			<div  style="display: none;" id="prompt"></div>
 	</div>
 </div>  
 

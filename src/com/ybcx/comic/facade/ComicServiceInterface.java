@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 
 import com.ybcx.comic.beans.Assets;
+import com.ybcx.comic.beans.Cart;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Friend;
@@ -104,6 +105,18 @@ public interface ComicServiceInterface {
 	public String forwardToWeibo(String userId, String animId, String content);
 
 	public List<Friend> getFriendByPage(String userId, String page);
+
+	public String addAssetToCart(String userId, String assetId);
+
+	public String deleteAssetFromCart(String userId, String assetId);
+
+	public int getAssetState(String userId, String assetId);
+
+	public String changeAssetState(String userId, String assetId);
+
+	public List<Cart> getUserCartState(String userId);
+
+	public String changeAssetState(String userId);
 
 
 }

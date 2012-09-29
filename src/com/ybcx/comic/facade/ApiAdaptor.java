@@ -14,6 +14,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.fileupload.FileItem;
 
 import com.ybcx.comic.beans.Assets;
+import com.ybcx.comic.beans.Cart;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Friend;
@@ -406,6 +407,37 @@ public class ApiAdaptor {
 	public String getFriendByPage(String userId, String page) {
 		List<Friend> resList = comicService.getFriendByPage(userId,page);
 		return JSONArray.fromCollection(resList).toString();
+	}
+	
+	// TODO 开始购物车
+	public String addAssetToCart(String userId, String assetId) {
+		String result = comicService.addAssetToCart(userId,assetId);
+		return result;
+	}
+	
+	public String deleteAssetFromCart(String userId, String assetId) {
+		String result = comicService.deleteAssetFromCart(userId,assetId);
+		return result;
+	}
+	
+	public int getAssetState(String userId, String assetId) {
+		int result = comicService.getAssetState(userId,assetId);
+		return result;
+	}
+	
+	public String changeAssetState(String userId, String assetId) {
+		String result = comicService.changeAssetState(userId,assetId);
+		return result;
+	}
+	
+	public String getUserCartState(String userId) {
+		List<Cart> list = comicService.getUserCartState(userId);
+		return JSONArray.fromCollection(list).toString();
+	}
+	
+	public String changeUserCartState(String userId) {
+		String result = comicService.changeAssetState(userId);
+		return result;
 	}
 	
 	
