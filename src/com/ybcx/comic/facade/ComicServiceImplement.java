@@ -278,8 +278,29 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 
 	public int searchByLabel(String labels) {
-	    String[] labelArr =labels.split(" ");
-		int result = dbVisitor.searchByLabelCount(labelArr);
+		int result =0;
+		 String[] labelArr =labels.split(" ");
+		 StringBuffer labelIds = new StringBuffer();
+		//先返回所有的标签
+		List<Label> childLabel = dbVisitor.getAllChildLabel();
+		//再从标签中去匹配关键字，并存下id
+		for(int i=0;i<childLabel.size();i++){
+			Label label = childLabel.get(i);
+			for(int j=0;j<labelArr.length;j++){
+				if(!"".equals(labelArr[j]) && label.getName().contains(labelArr[j])){
+					if (labelIds.length() > 0) {
+						labelIds.append(",");
+					}
+					labelIds.append("'");
+					labelIds.append(label.getId());
+					labelIds.append("'");
+				}
+			}
+		}
+		
+		if(labelIds.length() > 0){
+			result = dbVisitor.searchByLabelCount(labelIds.toString());
+		}
 		return result;
 	}
 	
@@ -389,9 +410,32 @@ public class ComicServiceImplement implements ComicServiceInterface {
 
 	@Override
 	public int searchByLabelAndType(String labels, String type) {
+	   //TODO
+	   int result = 0 ;
 	   String[] labelArr =labels.split(" ");
-		int result = dbVisitor.searchByLabelTypeCount(labelArr,type);
+		 StringBuffer labelIds = new StringBuffer();
+		//先返回所有的标签
+		List<Label> childLabel = dbVisitor.getAllChildLabel();
+		//再从标签中去匹配关键字，并存下id
+		for(int i=0;i<childLabel.size();i++){
+			Label label = childLabel.get(i);
+			for(int j=0;j<labelArr.length;j++){
+				if(!"".equals(labelArr[j]) && label.getName().contains(labelArr[j])){
+					if (labelIds.length() > 0) {
+						labelIds.append(",");
+					}
+					labelIds.append("'");
+					labelIds.append(label.getId());
+					labelIds.append("'");
+				}
+			}
+		}
+		
+		if(labelIds.length()>0){
+			result = dbVisitor.searchByLabelTypeCount(labelIds.toString(),type);
+		}
 		return result;
+		
 	}
 	
 //	@Override

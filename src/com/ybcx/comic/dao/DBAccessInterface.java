@@ -106,9 +106,9 @@ public interface DBAccessInterface {
 		public List<Assets> getByCategoryAndType(String categorys, String type,
 				int num, int pageSize);
 
-		public int searchByLabelCount(String[] labelArr);
+		public int searchByLabelCount(String labelIds);
 
-		public int searchByLabelTypeCount(String[] labelArr, String type);
+		public int searchByLabelTypeCount(String labelIds, String type);
 
 		public List<Cartoon> searchAnimationByPage(String keys, int pageNum,
 				int pageSize);
@@ -120,7 +120,7 @@ public interface DBAccessInterface {
 		public List<Assets> getAsssetsByIdAndPage(String assetIds, int pageNum,
 				int pageSize);
 
-		public List<Assets> getAssetByLabelAndType(String string, String type);
+		public List<Assets> getAssetByLabelAndType(String labelIds, String type);
 
 		public int checkUserExist(String userId);
 

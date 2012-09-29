@@ -264,15 +264,9 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 	
 	@Override
-	public int searchByLabelCount(String[] labelArr) {
-		StringBuffer labelOr = new StringBuffer();
-		for(int i=0;i<labelArr.length;i++){
-			if(labelOr.length()>0){
-				labelOr.append(" or ");
-			}
-			labelOr.append("l.l_name like '%"+labelArr[i].trim()+"%'");
-		}
-		String sql = "select count(distinct a.a_id) from t_assets a, t_label l, t_astlab_rel r where a.a_id = r.alr_assets and l.l_id = r.alr_label and ("+ labelOr.toString() +")";
+	public int searchByLabelCount(String labelIds) {
+		String sql = "select count(distinct a.a_id) from t_assets a, t_label l, t_astlab_rel r " +
+				"where a.a_id = r.alr_assets and l.l_id = r.alr_label and  l.l_id in ("+ labelIds +")";
 		int rows = jdbcTemplate.queryForInt(sql);
 		return rows;
 	}
@@ -356,17 +350,12 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 	
 	@Override
-	public int searchByLabelTypeCount(String[] labelArr, String type) {
-		StringBuffer labelOr = new StringBuffer();
-		for(int i=0;i<labelArr.length;i++){
-			if(labelOr.length()>0){
-				labelOr.append(" or ");
-			}
-			labelOr.append("l.l_name like '%"+labelArr[i].trim()+"%'");
-		}
-		String sql = "select count(distinct a.a_id) from t_assets a, t_label l, t_astlab_rel r where a.a_id = r.alr_assets and l.l_id = r.alr_label and a.a_type='"+type+"' and ("+ labelOr.toString() +")";
-		int rows = jdbcTemplate.queryForInt(sql);
-		return rows;
+	public int searchByLabelTypeCount(String labelIds, String type) {
+		String sql ="select count(distinct a.a_id) from t_assets a, t_label l, t_astlab_rel alr " +
+				"where l.l_id in("+labelIds+") and a.a_type = '"+type+"' " +
+				"and l.l_id = alr.alr_label and a.a_id=alr.alr_assets and a.a_enable =1";
+		int count = jdbcTemplate.queryForInt(sql);
+		return count;
 	}
 
 
