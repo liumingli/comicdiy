@@ -5,10 +5,24 @@ public class Cart {
 	private String id;
 	private String owner;
 	private String asset;
+	private String name;
 	private int state;
 	private float price;
+	private String thumbnail;
 	private int count;
 	
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
 	public String getId() {
 		return id;
 	}

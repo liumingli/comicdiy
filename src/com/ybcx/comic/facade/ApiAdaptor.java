@@ -5,6 +5,7 @@ package com.ybcx.comic.facade;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -425,6 +426,11 @@ public class ApiAdaptor {
 		return result;
 	}
 	
+	public String getStateByAssetIds(String userId, String assetIds) {
+		Map<String,Integer> resMap = comicService.getStateByAssetIds(userId,assetIds);
+		return JSONObject.fromObject(resMap).toString();
+	}
+	
 	public String changeAssetState(String userId, String assetId) {
 		String result = comicService.changeAssetState(userId,assetId);
 		return result;
@@ -432,14 +438,15 @@ public class ApiAdaptor {
 	
 	public String getUserCartState(String userId) {
 		List<Cart> list = comicService.getUserCartState(userId);
-		return JSONArray.fromCollection(list).toString();
+		JSONArray jsonArray = JSONArray.fromCollection(list);
+		processCartoon(jsonArray);
+		return jsonArray.toString();
 	}
 	
-	public String changeUserCartState(String userId) {
-		String result = comicService.changeAssetState(userId);
+	public String changeUserCartState(String userId, String totalPrice) {
+		String result = comicService.changeAssetState(userId,Integer.parseInt(totalPrice));
 		return result;
 	}
-	
 	
 
 } // end of class

@@ -146,4 +146,6 @@ public interface DBAccessInterface {
 
 		public int changeCartState(String userId);
 
+		public int minusUserWealth(String userId, int totalPrice);
+
 }

@@ -388,6 +388,16 @@ public class AssistProcess {
 			pw.print(result);
 			pw.close();
 			
+		}else if (action.equals(AppStarter.GETSTATEBYASSETIDS)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String userId = req.getParameter("userId");
+			String assetIds = req.getParameter("assetIds");
+		    String result= apiAdaptor.getStateByAssetIds(userId,assetIds);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
 		}else if (action.equals(AppStarter.CHANGEASSETSTATE)) {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
@@ -411,7 +421,8 @@ public class AssistProcess {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
 			String userId = req.getParameter("userId");
-		    String result= apiAdaptor.changeUserCartState(userId);
+			String totalPrice = req.getParameter("totalPrice");
+		    String result= apiAdaptor.changeUserCartState(userId,totalPrice);
 			log.debug(result);
 			pw.print(result);
 			pw.close();

@@ -150,6 +150,9 @@ public interface ExtVisitorInterface {
     //查看当前商品的付费状态
     public static final String GETASSETSTATE = "getAssetState";
     
+    //获取一组素材的状态（assetIds:以逗号分隔的assetId）
+    public static final String GETSTATEBYASSETIDS = "getStateByAssetIds";
+    
     //修改付费状态
     public static final String CHANGEASSETSTATE = "changeAssetState";
     

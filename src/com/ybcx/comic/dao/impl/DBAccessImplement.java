@@ -1040,7 +1040,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 
 	@Override
 	public int deleteAssetFromCart(String userId, String assetId) {
-		String sql = "delete from t_shoppingcart where s_asset='"+assetId+"' and s_owner='"+userId+"'";
+		String sql = "delete from t_shoppingcart where s_state=0 and s_asset='"+assetId+"' and s_owner='"+userId+"'";
 		int rows = jdbcTemplate.update(sql);
 		return rows;
 	}
@@ -1062,7 +1062,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public List<Cart> getUserCartState(String userId) {
 		List<Cart> list = new ArrayList<Cart>();
-		String sql = "select s.s_id,s.s_asset,s.s_owner,s.s_count,s.s_state, a.a_price from t_shoppingcart s, t_assets a " +
+		String sql = "select s.s_id,s.s_asset,s.s_owner,s.s_count,s.s_state, a.a_name, a.a_price, a.a_thumbnail from t_shoppingcart s, t_assets a " +
 				"where s.s_asset = a.a_id and s_owner='"+userId+"' and s_state=0";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
@@ -1072,7 +1072,9 @@ public class DBAccessImplement  implements DBAccessInterface {
 				cart.setId(map.get("s_id").toString());
 				cart.setAsset(map.get("s_asset").toString());
 				cart.setOwner(map.get("s_owner").toString());
+				cart.setName(map.get("a_name").toString());
 				cart.setPrice(Float.parseFloat(map.get("a_price").toString()));
+				cart.setThumbnail(map.get("a_thumbnail").toString());
 				cart.setCount(Integer.parseInt(map.get("s_count").toString()));
 				cart.setState(Integer.parseInt(map.get("s_state").toString()));
 				list.add(cart);
@@ -1084,6 +1086,13 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public int changeCartState(String userId) {
 		String sql = "update t_shoppingcart set s_state=1 where s_owner='"+userId+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
+	@Override
+	public int minusUserWealth(String userId, int totalPrice) {
+		String sql = "update t_weibouser set u_wealth = u_wealth - "+totalPrice+" where u_id='"+userId+"'";
 		int rows = jdbcTemplate.update(sql);
 		return rows;
 	}

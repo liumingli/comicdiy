@@ -1196,12 +1196,33 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 
 	@Override
-	public String changeAssetState(String userId) {
+	public String changeAssetState(String userId,int totalPrice) {
 		boolean flag = false;
 		int rows = dbVisitor.changeCartState(userId);
-		if(rows > 0)
-			flag = true;
+		int res = 0;
+		if(totalPrice > 0){
+		   res = dbVisitor.minusUserWealth(userId,totalPrice);
+		   if(rows > 0 && res > 0){
+				flag = true;
+			}
+		}else{
+			if(rows > 0){
+				flag = true;
+			}
+		}
 		return String.valueOf(flag);
+	}
+
+	@Override
+	public Map<String, Integer> getStateByAssetIds(String userId, String assetIds) {
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		String[] idArr =assetIds.split(",");
+		for(int i=0;i<idArr.length;i++){
+			String assetId = idArr[i];
+			int state = dbVisitor.getAssetState(userId, assetId);
+			map.put(assetId, state);
+		}
+		return map;
 	}
 	
 }

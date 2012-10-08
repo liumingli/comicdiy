@@ -1,6 +1,7 @@
 package com.ybcx.comic.facade;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -116,7 +117,9 @@ public interface ComicServiceInterface {
 
 	public List<Cart> getUserCartState(String userId);
 
-	public String changeAssetState(String userId);
+	public String changeAssetState(String userId, int totalPrice);
+
+	public Map<String, Integer> getStateByAssetIds(String userId, String assetIds);
 
 
 }
