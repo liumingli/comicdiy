@@ -1168,9 +1168,17 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	@Override
 	public String deleteAssetFromCart(String userId, String assetId) {
 		boolean flag = false;
-		int rows = dbVisitor.deleteAssetFromCart(userId,assetId);
-		if(rows > 0)
-			flag = true;
+		//删除购物车素材时，判断使用次数是否大于1，大于则减1，否则直接删除
+		int count = dbVisitor.checkAssetCount(userId, assetId);
+		if(count > 1){
+			int udpRows = dbVisitor.updateAssetFromCart(userId,assetId);
+			if(udpRows > 0)
+				flag = true;
+		}else{
+			int rows = dbVisitor.deleteAssetFromCart(userId,assetId);
+			if(rows > 0)
+				flag = true;
+		}
 		return String.valueOf(flag);
 	}
 

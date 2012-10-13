@@ -148,4 +148,8 @@ public interface DBAccessInterface {
 
 		public int minusUserWealth(String userId, int totalPrice);
 
+		public int checkAssetCount(String userId, String assetId);
+
+		public int updateAssetFromCart(String userId, String assetId);
+
 }

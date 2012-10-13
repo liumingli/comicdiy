@@ -1041,6 +1041,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public int deleteAssetFromCart(String userId, String assetId) {
 		String sql = "delete from t_shoppingcart where s_state=0 and s_asset='"+assetId+"' and s_owner='"+userId+"'";
+		
 		int rows = jdbcTemplate.update(sql);
 		return rows;
 	}
@@ -1093,6 +1094,20 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public int minusUserWealth(String userId, int totalPrice) {
 		String sql = "update t_weibouser set u_wealth = u_wealth - "+totalPrice+" where u_id='"+userId+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
+	@Override
+	public int checkAssetCount(String userId, String assetId) {
+		String sql = "select s_count from t_shoppingcart where s_asset='"+assetId+"' and s_owner='"+userId+"'";
+		int result = jdbcTemplate.queryForInt(sql);
+		return result;
+	}
+
+	@Override
+	public int updateAssetFromCart(String userId, String assetId) {
+		String sql = "update t_shoppingcart set s_count = s_count - 1 where s_asset='"+assetId+"' and s_owner='"+userId+"'";
 		int rows = jdbcTemplate.update(sql);
 		return rows;
 	}
