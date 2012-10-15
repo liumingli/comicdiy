@@ -43,7 +43,7 @@
   	    	  //看用户是否存在,存库或更新库
    	    	  operateUser(userId,accessToken);
   	    	  //动态创建应用
-    	     createSWFById('flashContent', userId, "950", "602");
+    	     createSWFById('flashContent', userId, "760", "602");
   	      }
   	};
   	
