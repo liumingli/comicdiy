@@ -1227,8 +1227,14 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		String[] idArr =assetIds.split(",");
 		for(int i=0;i<idArr.length;i++){
 			String assetId = idArr[i];
-			int state = dbVisitor.getAssetState(userId, assetId);
-			map.put(assetId, state);
+			int count = dbVisitor.checkAssetExist(userId, assetId);
+			//在购物车里的去取付费状态，不在的就默认已付费，其实是免费的
+			if(count > 0){
+				int state = dbVisitor.getAssetState(userId, assetId);
+				map.put(assetId, state);
+			}else{
+				map.put(assetId, 1);
+			}
 		}
 		return map;
 	}

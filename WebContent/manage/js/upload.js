@@ -240,7 +240,7 @@ function emptyForm(){
 }
 
 function themeClick(){
-    $('#price').val("");
+    $('#price').val("0");
 	  $('#category').children().remove();
     for(var i=0;i<themeArray.length;i++){
     	  $('#category').append("<option value='"+themeArray[i].id+"'>"+themeArray[i].name+"</option>");
@@ -256,7 +256,7 @@ function elementClick(){
 }
 
 function sceneClick(){
-	 $('#price').val("");
+	 $('#price').val("0");
 	  $('#category').children().remove();
 	    for(var i=0;i<sceneArray.length;i++){
 	    	  $('#category').append("<option value='"+sceneArray[i].id+"'>"+sceneArray[i].name+"</option>");
