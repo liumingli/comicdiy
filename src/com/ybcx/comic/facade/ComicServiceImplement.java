@@ -1038,8 +1038,9 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		String imgPath = thumbnailPath.substring(0,position)+"_Raw"+extend;	
 		log.info("Cartoon image path : "+imgPath);
 		
-		String longUrl = "http://diy.produ.cn/comicdiy/animclient/Aplayer_simple.html?userId="+userId+"&animId="+animId;
-		
+		//FIXME 分享内容链接请指向站内应用页面
+		//String longUrl = "http://diy.produ.cn/comicdiy/animclient/Aplayer_simple.html?userId="+userId+"&animId="+animId;
+		String longUrl = "http://apps.weibo.com/wwwproducn";
 		boolean flag = uploadToWeibo(token,imgPath,content,longUrl);
 		return String.valueOf(flag);
 	}
@@ -1060,7 +1061,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 				byte[] content= readFileImage(imgPath);
 				ImageItem pic=new ImageItem("pic",content);
 				
-				String resultText =text+"  观看地址："+shortUrl;
+				//String resultText =text+"  观看地址："+shortUrl;
+				String resultText = text + "  应用地址："+longUrl;
 
 				String s=java.net.URLEncoder.encode(resultText,"utf-8");
 				Timeline tl = new Timeline();

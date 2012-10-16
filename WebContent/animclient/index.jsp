@@ -11,8 +11,11 @@
  
  <style type="text/css" media="screen"> 
        html, body  { height:100%; }
-       body { margin:0; padding:0; overflow:auto; text-align:center; 
-              background-color: #ffffff; background-image: assets/paper.png; background-repeat: repeat; }   
+       body {  margin:0;
+       			   padding:0;
+       			   overflow:auto;
+       			   text-align:center; 
+            	   background: url("assets/wood40.png") repeat scroll 0 0 transparent;}   
        object:focus { outline:none; }
  </style>
      
@@ -43,7 +46,7 @@
   	    	  //看用户是否存在,存库或更新库
    	    	  operateUser(userId,accessToken);
   	    	  //动态创建应用
-    	     createSWFById('flashContent', userId, "760", "602");
+    	      createSWFById('flashContent', userId, "760", "602");
   	      }
   	};
   	
