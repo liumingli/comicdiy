@@ -66,6 +66,8 @@ public interface DBAccessInterface {
 
 		public Cartoon getAnimationBy(String userId, String animId);
 		
+		public Cartoon getAnimationById(String animId);
+		
 		public List<Cartoon> getAnimationsOf(String userId);
 
 		public int saveAnimation(Cartoon cartoon);

@@ -1029,7 +1029,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		User user = dbVisitor.getUserById(userId);
 		String token = user.getAccessToken();
 		
-		Cartoon cartoon= dbVisitor.getAnimationBy(userId, animId);
+		Cartoon cartoon= dbVisitor.getAnimationById(animId);
 		
 		String thumbnailPath = cartoon.getThumbnail();
 	

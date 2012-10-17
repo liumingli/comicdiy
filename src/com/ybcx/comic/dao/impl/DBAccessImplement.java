@@ -544,6 +544,27 @@ public class DBAccessImplement  implements DBAccessInterface {
 		}
 		return cartoon;
 	}
+	
+	@Override
+	public Cartoon getAnimationById(String animId) {
+		Cartoon cartoon = new Cartoon();
+		String sql = "select * from t_cartoon where c_id='"+animId+"' and c_enable=1";
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				cartoon.setId(map.get("c_id").toString());
+				cartoon.setName(map.get("c_name").toString());
+				cartoon.setOwner(map.get("c_owner").toString());
+				cartoon.setContent(map.get("c_content").toString());
+				cartoon.setCreateTime(map.get("c_createTime").toString());
+				cartoon.setThumbnail(map.get("c_thumbnail").toString());
+				cartoon.setEnable(Integer.parseInt(map.get("c_enable").toString()));
+			}
+		}
+		return cartoon;
+	}
+
 
 	@Override
 	public List<Cartoon> getAnimationsOf(String userId) {
