@@ -164,5 +164,7 @@ public interface ExtVisitorInterface {
     
     
     //----------支付相关api
+    //取支付token
+    public static final String GETPAYTOKEN = "getPayToken";
     
 }

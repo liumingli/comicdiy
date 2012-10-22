@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,8 +28,11 @@ import weibo4j.Friendships;
 import weibo4j.ShortUrl;
 import weibo4j.Timeline;
 import weibo4j.Users;
+import weibo4j.http.HttpClient;
 import weibo4j.http.ImageItem;
+import weibo4j.http.Response;
 import weibo4j.model.Paging;
+import weibo4j.model.PostParameter;
 import weibo4j.model.Status;
 import weibo4j.model.UserWapper;
 import weibo4j.model.WeiboException;
@@ -50,6 +54,7 @@ import com.ybcx.comic.beans.UserDetail;
 import com.ybcx.comic.dao.DBAccessInterface;
 import com.ybcx.comic.tools.ImageHelper;
 import com.ybcx.comic.utils.ComicUtils;
+import com.ybcx.comic.utils.MD5Util;
 
 @SuppressWarnings("restriction")
 public class ComicServiceImplement implements ComicServiceInterface {
@@ -410,7 +415,6 @@ public class ComicServiceImplement implements ComicServiceInterface {
 
 	@Override
 	public int searchByLabelAndType(String labels, String type) {
-	   //TODO
 	   int result = 0 ;
 	   String[] labelArr =labels.split(" ");
 		 StringBuffer labelIds = new StringBuffer();
@@ -1032,6 +1036,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		Cartoon cartoon= dbVisitor.getAnimationById(animId);
 		
 		String thumbnailPath = cartoon.getThumbnail();
+		
+		String cname = cartoon.getName();
 	
 		int position = thumbnailPath.lastIndexOf(".");
 		String extend = thumbnailPath.substring(position);
@@ -1041,12 +1047,12 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		//FIXME 分享内容链接请指向站内应用页面
 		//String longUrl = "http://diy.produ.cn/comicdiy/animclient/Aplayer_simple.html?userId="+userId+"&animId="+animId;
 		String longUrl = "http://apps.weibo.com/wwwproducn";
-		boolean flag = uploadToWeibo(token,imgPath,content,longUrl);
+		boolean flag = uploadToWeibo(token,imgPath,cname,content,longUrl);
 		return String.valueOf(flag);
 	}
 	
 	//转发内容到新浪微博
-	private boolean uploadToWeibo(String token, String imgPath, String text, String longUrl) {
+	private boolean uploadToWeibo(String token, String imgPath,String cname, String text, String longUrl) {
 		
 		try{
 			//将长地址生成短地址
@@ -1062,7 +1068,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 				ImageItem pic=new ImageItem("pic",content);
 				
 				//String resultText =text+"  观看地址："+shortUrl;
-				String resultText = text + "  应用地址："+longUrl;
+				String resultText = text + "  "+cname+"  "+longUrl;
 
 				String s=java.net.URLEncoder.encode(resultText,"utf-8");
 				Timeline tl = new Timeline();
@@ -1240,5 +1246,84 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}
 		return map;
 	}
+
+	@Override
+	public String getPayToken(String userId, String amount) {
+		//FIXME  
+		String redirectUrl = "";
+		String paymentId = systemConfigurer.getProperty("paymentId");
+		String orderId = paymentId + UUID.randomUUID().toString().replace("-", "").substring(0,9);;
+		String desc = systemConfigurer.getProperty("desc");
+		String url = systemConfigurer.getProperty("getTokenUrl");
+		String appKey = systemConfigurer.getProperty("appKey");
+		String appSecret = systemConfigurer.getProperty("appSecret");
+		//sign=md5（order_id|amount|desc|app_secret）
+		String sign = MD5Util.MD5(orderId+"|"+amount+"|"+desc+"|"+appSecret);
 	
+		User user = dbVisitor.getUserById(userId);
+		String token = user.getAccessToken();
+		try {
+			HttpClient client = new HttpClient();
+			client.setToken(token);
+			PostParameter idparams = new PostParameter("order_id",orderId);
+			PostParameter amountparams = new PostParameter("amount",Integer.parseInt(amount));
+			PostParameter descparams = new PostParameter("desc",desc);
+			PostParameter signparams = new PostParameter("sign",sign);
+			PostParameter sourceparams = new PostParameter("source",appKey);
+			PostParameter accessparams = new PostParameter("access_token",token);
+			
+			PostParameter[] params = new PostParameter[]{idparams,amountparams,descparams,signparams,sourceparams,accessparams};
+			Response response = client.post(url, params);
+			
+			JSONObject payJson = response.asJSONObject();
+			
+			//调支付接口
+			redirectUrl = checkToRedirect(orderId,desc,appKey,amount,token,payJson);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return redirectUrl;
+	}
+	
+	private String checkToRedirect(String orderId, String desc, String appKey,
+			String amount, String token, JSONObject payJson) {
+		String location ="";
+		String payUrl = systemConfigurer.getProperty("payUrl");
+		String returnUrl = systemConfigurer.getProperty("returnUrl");
+		
+		try{
+			HttpClient client = new HttpClient();
+			client.setToken(token);
+			
+			String payToken = payJson.get("token").toString();
+			String orderUid = payJson.get("order_uid").toString();
+			
+			PostParameter urlparams = new PostParameter("return_url",returnUrl);
+			PostParameter idparams = new PostParameter("order_id",orderId);
+			PostParameter amountparams = new PostParameter("amount",Integer.parseInt(amount));
+			PostParameter descparams = new PostParameter("desc",desc);
+			PostParameter sourceparams = new PostParameter("version","1.0");
+			PostParameter keyparams = new PostParameter("appKey",appKey);
+			PostParameter tokenparams = new PostParameter("token",payToken);
+			PostParameter uidparams = new PostParameter("order_uid",orderUid);
+			
+			PostParameter[] params = new PostParameter[]{urlparams,idparams,amountparams,descparams,sourceparams,keyparams,tokenparams,uidparams};
+			
+			Response response = client.post(payUrl, params);
+			int statusCode = response.getStatusCode();
+			if(statusCode == 301 || statusCode == 302){
+				location = response.getResponseHeader("Location");
+				if (location != null) {
+		        	System.out.println("The page was redirected to:" + location);
+		        } else {
+		        	System.err.println("Location field value is null.");
+		        }
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return location;
+	}
 }

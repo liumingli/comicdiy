@@ -448,5 +448,10 @@ public class ApiAdaptor {
 		return result;
 	}
 	
+	public String getPayToken(String userId, String amount) {
+		String result = comicService.getPayToken(userId,amount);
+		return result;
+	}
+	
 
 } // end of class

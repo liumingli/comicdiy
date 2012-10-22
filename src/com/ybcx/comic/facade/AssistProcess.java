@@ -426,6 +426,17 @@ public class AssistProcess {
 			log.debug(result);
 			pw.print(result);
 			pw.close();
+			
+		}else if (action.equals(AppStarter.GETPAYTOKEN)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String userId = req.getParameter("userId");
+			String amount = req.getParameter("amount");
+		    String result= apiAdaptor.getPayToken(userId,amount);
+		    //res.sendRedirect("http://open.weibo.com:80/paytest/"+result);
+			log.debug(result);
+			pw.print(result);
+			pw.close();
 		
 		}else{
 			

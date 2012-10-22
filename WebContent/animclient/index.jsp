@@ -1,3 +1,4 @@
+<%@page import="javax.swing.text.Document"%>
 <%@ page language="java" import="java.util.*, weibo4j.Oauth"
 	contentType="text/html; charset=UTF-8"%>
 <%response.setHeader("P3P","CP=CAO PSA OUR"); %>	
@@ -26,7 +27,6 @@
      
   	//加载页面的时候先看token
   	window.onload = function(){
-  		<%response.setHeader("P3P","CP=CAO PSA OUR"); %>	
   		 <%
   	        String signed= request.getParameter("signed_request");
   		  	String access_token="";
@@ -44,9 +44,9 @@
   	    	  authLoad();
   	      }else{
   	    	  //看用户是否存在,存库或更新库
-   	    	  operateUser(userId,accessToken);
+   	    	 operateUser(userId,accessToken);
   	    	  //动态创建应用
-    	      createSWFById('flashContent', userId, "760", "602");
+    	     createSWFById('flashContent', userId, "760", "602");
   	      }
   	};
   	
@@ -92,7 +92,41 @@
            swfobject.createCSS("#"+divId, "display:block;text-align:left;");	
 	}
   	
-     </script>
+  	
+  	//生成
+  	function generatePurchasePage(cent){
+  		$('#flashContent').attr("style","display:none");
+  		$('#purchasePage').attr("style","display:block");
+  		$('#amount').attr("value",cent);
+  	}
+  	
+  	//付款
+  	function getPayToken(){
+  		var amount = $('#amount').val();
+  		var userId = $('#userId').val();
+  		$.post("/comicdiy/comicapi",{
+			'method' : 'getPayToken',
+			'userId' : userId,
+			'amount' : amount
+		},
+		function (result) {
+			//返回token和order_uid
+			$('#redirectUrl').attr("value",result);
+			$('#fm').submit();
+		});
+  	}
+  	
+	
+	<% 
+ 		String url = request.getParameter("redirectUrl"); 
+  		System.out.println(">>>>>>>>>>>>"+url);
+  		if(url != null && !"".equals(url)){
+  			response.sendRedirect("http://open.weibo.com:80/paytest/"+url);
+  		}
+  	%> 
+	
+  	
+</script>
      
 </head>
 
@@ -103,6 +137,15 @@
              To view this page ensure that Adobe Flash Player version need flash player11...
          </p>
      </div>
+     
+     <div id="purchasePage" style="display:none">
+     	点券数：<input type="text"  id="amount" value="">
+     	<input type="hidden" value="1964124547"  id="userId">
+     	<input type="button" id="submit" value="充值" onclick="getPayToken();">
+     </div>
+     <form action="index.jsp" method="post" name="fm" id="fm">
+		<input type="hidden" id="redirectUrl" name="redirectUrl">
+	</form>
      
 </body>
 </html>

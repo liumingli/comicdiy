@@ -121,5 +121,7 @@ public interface ComicServiceInterface {
 
 	public Map<String, Integer> getStateByAssetIds(String userId, String assetIds);
 
+	public String getPayToken(String userId, String amount);
+
 
 }
