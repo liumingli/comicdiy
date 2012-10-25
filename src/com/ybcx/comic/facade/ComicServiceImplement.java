@@ -19,6 +19,8 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -757,7 +759,12 @@ public class ComicServiceImplement implements ComicServiceInterface {
 
 	@Override
 	public Cartoon getAnimationBy(String userId, String animId) {
-		Cartoon cartoon = dbVisitor.getAnimationBy(userId,animId);
+		Cartoon cartoon = new Cartoon();
+		if("null".equals(userId)){
+			cartoon = dbVisitor.getAnimationById(animId);
+		}else{
+			cartoon = dbVisitor.getAnimationBy(userId,animId);
+		}
 		return cartoon;
 	}
 
@@ -1046,7 +1053,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		
 		//FIXME 分享内容链接请指向站内应用页面
 		//String longUrl = "http://diy.produ.cn/comicdiy/animclient/Aplayer_simple.html?userId="+userId+"&animId="+animId;
-		String longUrl = "http://apps.weibo.com/wwwproducn";
+		String longUrl = "http://apps.weibo.com/wwwproducn?id="+animId;
 		boolean flag = uploadToWeibo(token,imgPath,cname,content,longUrl);
 		return String.valueOf(flag);
 	}
@@ -1058,17 +1065,17 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			//将长地址生成短地址
 			ShortUrl su = new ShortUrl();
 			su.client.setToken(token);
-			JSONObject result = su.longToShortUrl(longUrl);
-			weibo4j.org.json.JSONArray url = result.getJSONArray("urls");
-			weibo4j.org.json.JSONObject object =url.getJSONObject(0);
-			String shortUrl = object.getString("url_short");
+//			JSONObject result = su.longToShortUrl(longUrl);
+//			weibo4j.org.json.JSONArray url = result.getJSONArray("urls");
+//			weibo4j.org.json.JSONObject object =url.getJSONObject(0);
+//			String shortUrl = object.getString("url_short");
 			
 			try{
 				byte[] content= readFileImage(imgPath);
 				ImageItem pic=new ImageItem("pic",content);
 				
 				//String resultText =text+"  观看地址："+shortUrl;
-				String resultText = text + "  "+cname+"  "+longUrl;
+				String resultText = text + "  "+cname+" : "+longUrl;
 
 				String s=java.net.URLEncoder.encode(resultText,"utf-8");
 				Timeline tl = new Timeline();
@@ -1250,7 +1257,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	@Override
 	public String getPayToken(String userId, String amount) {
 		//FIXME  
-		String redirectUrl = "";
+		Map<String,String> map = new HashMap<String,String>();
 		String paymentId = systemConfigurer.getProperty("paymentId");
 		String orderId = paymentId + UUID.randomUUID().toString().replace("-", "").substring(0,9);;
 		String desc = systemConfigurer.getProperty("desc");
@@ -1276,54 +1283,26 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			Response response = client.post(url, params);
 			
 			JSONObject payJson = response.asJSONObject();
-			
-			//调支付接口
-			redirectUrl = checkToRedirect(orderId,desc,appKey,amount,token,payJson);
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		return redirectUrl;
-	}
-	
-	private String checkToRedirect(String orderId, String desc, String appKey,
-			String amount, String token, JSONObject payJson) {
-		String location ="";
-		String payUrl = systemConfigurer.getProperty("payUrl");
-		String returnUrl = systemConfigurer.getProperty("returnUrl");
-		
-		try{
-			HttpClient client = new HttpClient();
-			client.setToken(token);
-			
 			String payToken = payJson.get("token").toString();
 			String orderUid = payJson.get("order_uid").toString();
 			
-			PostParameter urlparams = new PostParameter("return_url",returnUrl);
-			PostParameter idparams = new PostParameter("order_id",orderId);
-			PostParameter amountparams = new PostParameter("amount",Integer.parseInt(amount));
-			PostParameter descparams = new PostParameter("desc",desc);
-			PostParameter sourceparams = new PostParameter("version","1.0");
-			PostParameter keyparams = new PostParameter("appKey",appKey);
-			PostParameter tokenparams = new PostParameter("token",payToken);
-			PostParameter uidparams = new PostParameter("order_uid",orderUid);
+			String returnUrl = systemConfigurer.getProperty("returnUrl");
 			
-			PostParameter[] params = new PostParameter[]{urlparams,idparams,amountparams,descparams,sourceparams,keyparams,tokenparams,uidparams};
+			map.put("returnUrl", returnUrl);
+			map.put("payToken", payToken);
+			map.put("orderUid", orderUid);
+			map.put("orderId", orderId);
+			map.put("amount", amount);
+			map.put("appKey", appKey);
+			map.put("desc", desc);
+			map.put("version", "1.0");
 			
-			Response response = client.post(payUrl, params);
-			int statusCode = response.getStatusCode();
-			if(statusCode == 301 || statusCode == 302){
-				location = response.getResponseHeader("Location");
-				if (location != null) {
-		        	System.out.println("The page was redirected to:" + location);
-		        } else {
-		        	System.err.println("Location field value is null.");
-		        }
-			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return location;
+		return JSONArray.fromObject(map).toString();
 	}
+	
+	
+
 }

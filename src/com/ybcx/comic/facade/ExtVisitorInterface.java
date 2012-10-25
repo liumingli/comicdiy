@@ -107,6 +107,9 @@ public interface ExtVisitorInterface {
 	//分页取动画
 	public static final String GETANIMBYPAGE = "getAnimByPage";
 	
+	//分页取动画加一个参数callback
+	public static final String GETWEBANIM = "getWebAnim";
+	
 	//查看所有图片待审核
 	public static final String GETALLIMAGE = "getAllImage";
 	

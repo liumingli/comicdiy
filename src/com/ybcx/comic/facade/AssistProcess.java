@@ -286,6 +286,16 @@ public class AssistProcess {
 			pw.print(result);
 			pw.close();
 			
+		}else if (action.equals(AppStarter.GETWEBANIM)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String pageNum = req.getParameter("pageNum");
+			String callBack = req.getParameter("callback");
+			String result = callBack+"("+apiAdaptor.getAnimByPage(pageNum)+")";
+			log.debug(result);
+			pw.print(result);
+			pw.close();
+			
 		}else if (action.equals(AppStarter.GETANIMCOUNT)) {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
@@ -433,7 +443,6 @@ public class AssistProcess {
 			String userId = req.getParameter("userId");
 			String amount = req.getParameter("amount");
 		    String result= apiAdaptor.getPayToken(userId,amount);
-		    //res.sendRedirect("http://open.weibo.com:80/paytest/"+result);
 			log.debug(result);
 			pw.print(result);
 			pw.close();
