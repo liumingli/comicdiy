@@ -123,5 +123,7 @@ public interface ComicServiceInterface {
 
 	public String getPayToken(String userId, String amount);
 
+	public int getOrderStatus();
+
 
 }

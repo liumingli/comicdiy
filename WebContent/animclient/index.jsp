@@ -38,7 +38,7 @@ object:focus {
 <script type="text/javascript">
      
   	//加载页面的时候先看token
-  	window.onload = function(){
+	window.onload = function(){
   		 <%String signed = request.getParameter("signed_request");
 			String access_token = "";
 			String user_id = "";
@@ -128,7 +128,7 @@ object:focus {
 		}, function(result) {
 			if (result.length > 0) {
 				for (key in result) {
-					//$('#return_url').attr("value", result[key].returnUrl);
+					$('#return_url').attr("value", result[key].returnUrl);
 					$('#order_id').attr("value", result[key].orderId);
 					$('#order_uid').attr("value", result[key].orderUid);
 					$('#desc').attr("value", result[key].desc);
@@ -138,9 +138,9 @@ object:focus {
 					$('#version').attr("value", result[key].version);
 				}
 			}
+			//提交form
+			$('#fmPay').submit();
 		}, "json");
-		//提交form
-		$('#fmPay').submit();
 	}
 </script>
 
@@ -161,14 +161,14 @@ object:focus {
 
 	<form action="http://open.weibo.com/paytest/payTestPay.php"
 		method="post" target="_top" style="display: none;" id="fmPay">
-		<input type="hidden" id="return_url"  value="http://apps.weibo.com/wwwproducn"/> 
-		<input type="text" id="order_id" readonly /> 
-		<input type="hidden" id="order_uid" /> 
-		<input type="text" id="desc" readonly /> 
-		<input type="hidden" id="appkey" />
-		<input type="hidden" id="amount" /> 
-		<input type="hidden" id="version"/> 
-		<input type="text" id="token" readonly />
+		<input type="hidden" id="return_url" name="return_url"/> 
+		<input type="text" id="order_id" name="order_id" readonly /> 
+		<input type="hidden" id="order_uid" name="order_uid" /> 
+		<input type="text" id="desc" name="desc" readonly /> 
+		<input type="hidden" id="appkey" name="appkey" />
+		<input type="hidden" id="amount" name="amount" /> 
+		<input type="hidden" id="version" name="version" /> 
+		<input type="text" id="token" name="token" readonly />
 	</form>
 
 </body>

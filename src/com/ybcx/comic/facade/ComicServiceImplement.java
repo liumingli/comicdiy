@@ -38,6 +38,7 @@ import weibo4j.model.PostParameter;
 import weibo4j.model.Status;
 import weibo4j.model.UserWapper;
 import weibo4j.model.WeiboException;
+import weibo4j.org.json.JSONException;
 import weibo4j.org.json.JSONObject;
 
 import com.sun.image.codec.jpeg.ImageFormatException;
@@ -92,6 +93,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	private static final String PNG = "image/png;charset=UTF-8";
 	
 	private static final String SWF = "application/x-shockwave-flash;charset=UTF-8";
+	
+	private static Map<String,String> payMap = new HashMap<String,String>();
 
 	@Override
 	public List<Assets> getAllAssets() {
@@ -1257,7 +1260,6 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	@Override
 	public String getPayToken(String userId, String amount) {
 		//FIXME  
-		Map<String,String> map = new HashMap<String,String>();
 		String paymentId = systemConfigurer.getProperty("paymentId");
 		String orderId = paymentId + UUID.randomUUID().toString().replace("-", "").substring(0,9);;
 		String desc = systemConfigurer.getProperty("desc");
@@ -1288,19 +1290,56 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			
 			String returnUrl = systemConfigurer.getProperty("returnUrl");
 			
-			map.put("returnUrl", returnUrl);
-			map.put("payToken", payToken);
-			map.put("orderUid", orderUid);
-			map.put("orderId", orderId);
-			map.put("amount", amount);
-			map.put("appKey", appKey);
-			map.put("desc", desc);
-			map.put("version", "1.0");
+			payMap.put("returnUrl", returnUrl);
+			payMap.put("payToken", payToken);
+			payMap.put("orderUid", orderUid);
+			payMap.put("orderId", orderId);
+			payMap.put("amount", amount);
+			payMap.put("appKey", appKey);
+			payMap.put("desc", desc);
+			payMap.put("version", "1.0");
+			payMap.put("token", token);
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return JSONArray.fromObject(map).toString();
+		return JSONArray.fromObject(payMap).toString();
+	}
+
+	@Override
+	public int getOrderStatus() {
+		int status = 0;
+		
+		String url = systemConfigurer.getProperty("callbackUrl");
+		String appSecret = systemConfigurer.getProperty("appSecret");
+		
+		String orderId = payMap.get("orderId");
+		String appKey = payMap.get("appKey");
+		String token = payMap.get("token");
+		//	sign = md5(order_id|app_secret)
+		String sign =  MD5Util.MD5(orderId+"|"+appSecret);
+		
+		HttpClient client = new HttpClient();
+		client.setToken(token);
+		
+		PostParameter idparams = new PostParameter("order_id",orderId);
+		PostParameter signparams = new PostParameter("sign",sign);
+		PostParameter sourceparams = new PostParameter("source",appKey);
+		PostParameter accessparams = new PostParameter("access_token",token);
+		
+		PostParameter[] params = new PostParameter[]{idparams,signparams,sourceparams,accessparams};
+		try {
+			Response response = client.post(url, params);
+			JSONObject json = response.asJSONObject();
+			status = Integer.parseInt(json.get("order_status").toString());
+			
+		} catch (WeiboException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return status;
 	}
 	
 	

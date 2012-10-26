@@ -170,4 +170,7 @@ public interface ExtVisitorInterface {
     //取支付token
     public static final String GETPAYTOKEN = "getPayToken";
     
+    //获取订单状态
+    public static final String GETORDERSTATUS = "getOrderStatus";
+    
 }

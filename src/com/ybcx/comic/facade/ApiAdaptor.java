@@ -453,5 +453,10 @@ public class ApiAdaptor {
 		return result;
 	}
 	
+	public int getOrderStatus() {
+		int result = comicService.getOrderStatus();
+		return result;
+	}
+	
 
 } // end of class
