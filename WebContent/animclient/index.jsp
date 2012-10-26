@@ -128,8 +128,7 @@ object:focus {
 		}, function(result) {
 			if (result.length > 0) {
 				for (key in result) {
-					console.log(result[key].amount);
-					$('#return_url').attr("value", result[key].returnUrl);
+					//$('#return_url').attr("value", result[key].returnUrl);
 					$('#order_id').attr("value", result[key].orderId);
 					$('#order_uid').attr("value", result[key].orderUid);
 					$('#desc').attr("value", result[key].desc);
@@ -162,7 +161,7 @@ object:focus {
 
 	<form action="http://open.weibo.com/paytest/payTestPay.php"
 		method="post" target="_top" style="display: none;" id="fmPay">
-		<input type="hidden" id="return_url" /> 
+		<input type="hidden" id="return_url"  value="http://apps.weibo.com/wwwproducn"/> 
 		<input type="text" id="order_id" readonly /> 
 		<input type="hidden" id="order_uid" /> 
 		<input type="text" id="desc" readonly /> 
