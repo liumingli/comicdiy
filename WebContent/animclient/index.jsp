@@ -39,6 +39,11 @@ object:focus {
      
   	//加载页面的时候先看token
 	window.onload = function(){
+  		
+		<%String orderId = request.getParameter("order_id");%>
+		var orderId = "<%=orderId%>";
+		console.log(orderId);
+  		
   		 <%String signed = request.getParameter("signed_request");
 			String access_token = "";
 			String user_id = "";
@@ -126,20 +131,19 @@ object:focus {
 			'amount' : amount
 			
 		}, function(result) {
-			if (result.length > 0) {
-				for (key in result) {
-					$('#return_url').attr("value", result[key].returnUrl);
-					$('#order_id').attr("value", result[key].orderId);
-					$('#order_uid').attr("value", result[key].orderUid);
-					$('#desc').attr("value", result[key].desc);
-					$('#appkey').attr("value", result[key].appKey);
-					$('#amount').attr("value", result[key].amount);
-					$('#token').attr("value", result[key].payToken);
-					$('#version').attr("value", result[key].version);
-				}
+			if (result!="[]") {
+				$('#return_url').attr("value", result.returnUrl);
+				$('#order_id').attr("value", result.orderId);
+				$('#order_uid').attr("value", result.orderUid);
+				$('#desc').attr("value", result.desc);
+				$('#appkey').attr("value", result.appKey);
+				$('#amount').attr("value", result.amount);
+				$('#token').attr("value", result.payToken);
+				$('#version').attr("value", result.version);
 			}
 			//提交form
 			$('#fmPay').submit();
+		
 		}, "json");
 	}
 </script>

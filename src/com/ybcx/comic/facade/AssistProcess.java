@@ -450,7 +450,9 @@ public class AssistProcess {
 		}else if (action.equals(AppStarter.GETORDERSTATUS)) {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
-		    int result= apiAdaptor.getOrderStatus();
+			String userId = req.getParameter("userId");
+			String orderId = req.getParameter("orderId");
+		    int result= apiAdaptor.getOrderStatus(userId,orderId);
 			log.info(result);
 			pw.print(result);
 			pw.close();

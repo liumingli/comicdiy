@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +20,6 @@ import java.util.Properties;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONArray;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.util.Streams;
@@ -94,9 +94,6 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	
 	private static final String SWF = "application/x-shockwave-flash;charset=UTF-8";
 	
-	private static Map<String,String> payMap = new HashMap<String,String>();
-
-	@Override
 	public List<Assets> getAllAssets() {
 		List<Assets> assetsList = dbVisitor.getAllAssets();
 		List<Assets> resultList = new ArrayList<Assets>();
@@ -1260,72 +1257,92 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	@Override
 	public String getPayToken(String userId, String amount) {
 		//FIXME  
+		JSONObject jsonObject = new JSONObject();
+		String returnUrl = systemConfigurer.getProperty("returnUrl");
+		String payToken ="";
+		String orderUid ="";
+		
 		String paymentId = systemConfigurer.getProperty("paymentId");
-		String orderId = paymentId + UUID.randomUUID().toString().replace("-", "").substring(0,9);;
+		String orderId = paymentId + UUID.randomUUID().toString().replace("-", "").substring(0,9);
 		String desc = systemConfigurer.getProperty("desc");
 		String url = systemConfigurer.getProperty("getTokenUrl");
 		String appKey = systemConfigurer.getProperty("appKey");
 		String appSecret = systemConfigurer.getProperty("appSecret");
+		
 		//sign=md5（order_id|amount|desc|app_secret）
-		String sign = MD5Util.MD5(orderId+"|"+amount+"|"+desc+"|"+appSecret);
+		String encodeDesc = "";
+		try {
+			encodeDesc = URLEncoder.encode(desc,"UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
+		String sign = MD5Util.MD5( orderId+"|"+amount+"|"+desc+"|"+appSecret);
 	
 		User user = dbVisitor.getUserById(userId);
-		String token = user.getAccessToken();
+		String accessToken = user.getAccessToken();
 		try {
 			HttpClient client = new HttpClient();
-			client.setToken(token);
+			client.setToken(accessToken);
 			PostParameter idparams = new PostParameter("order_id",orderId);
 			PostParameter amountparams = new PostParameter("amount",Integer.parseInt(amount));
 			PostParameter descparams = new PostParameter("desc",desc);
 			PostParameter signparams = new PostParameter("sign",sign);
 			PostParameter sourceparams = new PostParameter("source",appKey);
-			PostParameter accessparams = new PostParameter("access_token",token);
+			PostParameter accessparams = new PostParameter("access_token",accessToken);
 			
 			PostParameter[] params = new PostParameter[]{idparams,amountparams,descparams,signparams,sourceparams,accessparams};
 			Response response = client.post(url, params);
 			
+			log.info(response.toString());
+			
 			JSONObject payJson = response.asJSONObject();
-			String payToken = payJson.get("token").toString();
-			String orderUid = payJson.get("order_uid").toString();
-			
-			String returnUrl = systemConfigurer.getProperty("returnUrl");
-			
-			payMap.put("returnUrl", returnUrl);
-			payMap.put("payToken", payToken);
-			payMap.put("orderUid", orderUid);
-			payMap.put("orderId", orderId);
-			payMap.put("amount", amount);
-			payMap.put("appKey", appKey);
-			payMap.put("desc", desc);
-			payMap.put("version", "1.0");
-			payMap.put("token", token);
+			if(payJson.has("token")){
+				payToken = payJson.get("token").toString();
+			}	
+			if(payJson.has("order_uid")){
+				orderUid = payJson.get("order_uid").toString();
+			}	
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return JSONArray.fromObject(payMap).toString();
+		
+		try {
+			jsonObject.append("returnUrl", returnUrl);
+			jsonObject.append("payToken", payToken);
+			jsonObject.append("orderUid", orderUid);
+			jsonObject.append("orderId", orderId);
+			jsonObject.append("amount", amount);
+			jsonObject.append("appKey", appKey);
+			jsonObject.append("desc", desc);
+			jsonObject.append("version", "1.0");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsonObject.toString();
 	}
 
 	@Override
-	public int getOrderStatus() {
+	public int getOrderStatus(String userId,String orderId) {
 		int status = 0;
 		
 		String url = systemConfigurer.getProperty("callbackUrl");
 		String appSecret = systemConfigurer.getProperty("appSecret");
+		String appKey = systemConfigurer.getProperty("appKey");
 		
-		String orderId = payMap.get("orderId");
-		String appKey = payMap.get("appKey");
-		String token = payMap.get("token");
+		User user = dbVisitor.getUserById(userId);
+		String accessToken = user.getAccessToken();
 		//	sign = md5(order_id|app_secret)
 		String sign =  MD5Util.MD5(orderId+"|"+appSecret);
 		
 		HttpClient client = new HttpClient();
-		client.setToken(token);
+		client.setToken(accessToken);
 		
 		PostParameter idparams = new PostParameter("order_id",orderId);
 		PostParameter signparams = new PostParameter("sign",sign);
 		PostParameter sourceparams = new PostParameter("source",appKey);
-		PostParameter accessparams = new PostParameter("access_token",token);
+		PostParameter accessparams = new PostParameter("access_token",accessToken);
 		
 		PostParameter[] params = new PostParameter[]{idparams,signparams,sourceparams,accessparams};
 		try {

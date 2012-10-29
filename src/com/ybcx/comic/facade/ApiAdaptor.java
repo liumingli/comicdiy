@@ -453,8 +453,8 @@ public class ApiAdaptor {
 		return result;
 	}
 	
-	public int getOrderStatus() {
-		int result = comicService.getOrderStatus();
+	public int getOrderStatus(String userId,String orderId) {
+		int result = comicService.getOrderStatus(userId,orderId);
 		return result;
 	}
 	

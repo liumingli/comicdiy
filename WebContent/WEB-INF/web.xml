@@ -88,13 +88,13 @@
     </servlet-mapping>
     
     
-<servlet>  
-    <servlet-name>callbackServer</servlet-name>  
-    <servlet-class>com.ybcx.comic.facade.CallBackServlet</servlet-class>  
-</servlet>  
-<servlet-mapping>  
-    <servlet-name>callbackServer</servlet-name>  
-    <url-pattern>/callback</url-pattern>  
-</servlet-mapping>  
+	<servlet>  
+	    <servlet-name>callbackServer</servlet-name>  
+	    <servlet-class>com.ybcx.comic.facade.CallBackServlet</servlet-class>  
+	</servlet>  
+	<servlet-mapping>  
+	    <servlet-name>callbackServer</servlet-name>  
+	    <url-pattern>/callback</url-pattern>  
+	</servlet-mapping>  
     
 </web-app>

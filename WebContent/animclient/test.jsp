@@ -21,30 +21,19 @@
 			'amount' : amount
 			
 		}, function(result) {
-			if (result.length > 0) {
-				for (key in result) {
-					console.log(key);
-					$('#return_url').attr("value", result[key].returnUrl);
-					$('#order_id').attr("value", result[key].orderId);
-					$('#order_uid').attr("value", result[key].orderUid);
-					$('#desc').attr("value", result[key].desc);
-					$('#appkey').attr("value", result[key].appKey);
-					$('#amount').attr("value", result[key].amount);
-					$('#token').attr("value", result[key].payToken);
-					$('#version').attr("value", result[key].version);
-				}
+			if (result!="[]") {
+					$('#return_url').attr("value", result.returnUrl);
+					$('#order_id').attr("value", result.orderId);
+					$('#order_uid').attr("value", result.orderUid);
+					$('#desc').attr("value", result.desc);
+					$('#appkey').attr("value", result.appKey);
+					$('#amount').attr("value", result.amount);
+					$('#token').attr("value", result.payToken);
+					$('#version').attr("value", result.version);
 			}
 			//提交form
-			console.log("return_url : "+$('#return_url').val());
-			console.log("order_id : "+$('#order_id').val());
-			console.log("order_uid : "+$('#order_uid').val());
-			console.log("desc : "+$('#desc').val());
-			console.log("appkey : "+$('#appkey').val());
-			console.log("amount : "+$('#amount').val());
-			console.log("token : "+$('#token').val());
-			console.log("version : "+$('#version').val());
 					
-			//$('#fmPay').submit();
+			$('#fmPay').submit();
 			
 		}, "json");
 	}

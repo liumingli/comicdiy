@@ -123,7 +123,7 @@ public interface ComicServiceInterface {
 
 	public String getPayToken(String userId, String amount);
 
-	public int getOrderStatus();
+	public int getOrderStatus(String userId,String orderId);
 
 
 }

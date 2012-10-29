@@ -5,7 +5,8 @@ public class MD5Util {
     public final static String MD5(String s) {
         char hexDigits[] = { '0', '1', '2', '3', '4',
                              '5', '6', '7', '8', '9',
-                             'A', 'B', 'C', 'D', 'E', 'F' };
+                           //  'A', 'B', 'C', 'D', 'E', 'F' };
+                             'a', 'b', 'c', 'd', 'e', 'f' };
         try {
             byte[] btInput = s.getBytes();
      //获得MD5摘要算法的 MessageDigest 对象
@@ -31,6 +32,7 @@ public class MD5Util {
         }
     }
     public static void main(String[] args) {
-        System.out.print(MD5Util.MD5("password"));
+    	//ab56b4d92b40713acc5af89985d4b786
+        System.out.print(MD5Util.MD5("abcde"));
     }
 }
