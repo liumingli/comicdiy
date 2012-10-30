@@ -125,5 +125,7 @@ public interface ComicServiceInterface {
 
 	public int getOrderStatus(String userId,String orderId);
 
+	public String loginSystem(String account, String password);
+
 
 }

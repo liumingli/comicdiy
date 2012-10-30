@@ -458,5 +458,10 @@ public class ApiAdaptor {
 		return result;
 	}
 	
+	public String loginSystem(String account, String password) {
+		String result = comicService.loginSystem(account,password);
+		return result;
+	}
+	
 
 } // end of class

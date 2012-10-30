@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -457,7 +458,24 @@ public class AssistProcess {
 			pw.print(result);
 			pw.close();
 			
+	   }else if (action.equals(AppStarter.LOGINSYSTEM)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String account = req.getParameter("account");
+			String password = req.getParameter("password");
+		    String result= apiAdaptor.loginSystem(account,password);
+		    if(result.equals("true")){
+		    	HttpSession session = req.getSession(false);
+				session.setAttribute("user", account);
+				session.setMaxInactiveInterval(2*60*60);
+		    }
+			log.info(result);
+			pw.print(result);
+			pw.close();
+			
 		}
+		
+		
 
 	}
 

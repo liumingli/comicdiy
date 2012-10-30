@@ -6,6 +6,6 @@
 <title>Home Page</title>
 </head>
 <body>
-	<% response.sendRedirect("animclient/Main.html"); %>
+	<% response.sendRedirect("manage/login.jsp"); %>
 </body>
 </html>

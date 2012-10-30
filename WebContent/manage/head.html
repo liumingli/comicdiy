@@ -2,56 +2,52 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/head.css" />
+<link rel="stylesheet" type="text/css" charset="utf-8"
+	href="css/head.css" />
 <title></title>
 </head>
 <script type="text/javascript">
 	var staticVal = "";
 	function changeMainPage(val) {
-		var id = val.substring(0,val.lastIndexOf("."));
-		if(id != "assetsUpload"){
-			document.getElementById("assetsUpload").style.color="#eee";
+		var id = val.substring(0, val.lastIndexOf("."));
+		if (id != "assetsUpload") {
+			document.getElementById("assetsUpload").style.color = "#eee";
 		}
-		if(staticVal !=id && staticVal !="" ){
-			document.getElementById(staticVal).style.color="#eee";
+		if (staticVal != id && staticVal != "") {
+			document.getElementById(staticVal).style.color = "#eee";
 		}
-		document.getElementById(id).style.color="#ff9966";
+		document.getElementById(id).style.color = "#ff9966";
 		staticVal = id;
-		
-		window.parent.frames['mainFrame'].location.href =val; 
+
+		window.parent.frames['mainFrame'].location.href = val;
 	}
 </script>
 
 <body>
-<div class="xft">
-	<div class="xq" id="xit">
-		<a href="#" class="xdt" id="zh-top-link-logo"></a>
-		<div id="zg-top-nav" class="xls">
-			<ul class="xjs">
-			<li class="xis">
-				<a class="xhs" id="assetsUpload" href="#" onclick="changeMainPage('assetsUpload.html')">素材上传</a>
-			</li>
-			<li class="xis">
-				<a class="xhs" id="assetsManage"  href="#" onclick="changeMainPage('assetsManage.html')">素材管理</a>
-			</li>
-			<li class="xis">
-				<a class="xhs" id="labelManage" href="#" onclick="changeMainPage('labelManage.html')">标签管理</a>
-			</li>
-			<li class="xis">
-				<a class="xhs" id="imageExamine" href="#" onclick="changeMainPage('imageExamine.html')">图片审核</a>
-			</li>
-			<li class="xis">
-				<a class="xhs" id ="animExamine" href="#" onclick="changeMainPage('animExamine.html')">动画审核</a>
-			</li>
-			<li class="xis">
-				<a class="xhs" id="../animclient/Main" href="#" onclick="changeMainPage('../animclient/Main.html')">动画制作</a>
-			</li>
-<!-- 			<li class="xis"> -->
-<!-- 				<a class="xhs"  href="javascript:changeMainPage('imageUpload.html')">背景上传测试</a> -->
-<!-- 			</li> -->
-			</ul>
+	<div class="xft">
+		<div class="xq" id="xit">
+			<a href="#" class="xdt" id="zh-top-link-logo"></a>
+			<div id="zg-top-nav" class="xls">
+				<ul class="xjs">
+					<li class="xis"><a class="xhs" id="assetsUpload" href="#"
+						onclick="changeMainPage('assetsUpload.html')">素材上传</a></li>
+					<li class="xis"><a class="xhs" id="assetsManage" href="#"
+						onclick="changeMainPage('assetsManage.html')">素材管理</a></li>
+					<li class="xis"><a class="xhs" id="labelManage" href="#"
+						onclick="changeMainPage('labelManage.html')">标签管理</a></li>
+					<li class="xis"><a class="xhs" id="imageExamine" href="#"
+						onclick="changeMainPage('imageExamine.html')">图片审核</a></li>
+					<li class="xis"><a class="xhs" id="animExamine" href="#"
+						onclick="changeMainPage('animExamine.html')">动画审核</a></li>
+					<li class="xis"><a class="xhs" id="../animclient/Main"
+						href="#" onclick="changeMainPage('../animclient/Main.html')">动画制作</a>
+					</li>
+					<!-- 			<li class="xis"> -->
+					<!-- 				<a class="xhs"  href="javascript:changeMainPage('imageUpload.html')">背景上传测试</a> -->
+					<!-- 			</li> -->
+				</ul>
+			</div>
 		</div>
 	</div>
-</div>
 </body>
 </html>

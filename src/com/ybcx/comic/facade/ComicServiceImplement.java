@@ -1358,6 +1358,17 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		
 		return status;
 	}
+
+	@Override
+	public String loginSystem(String account, String password) {
+		boolean flag = false;
+		String user = systemConfigurer.getProperty("account");
+		String pwd = systemConfigurer.getProperty("password");
+		if(account.equals(user) && password.equals(pwd)){
+			flag = true;
+		}
+		return String.valueOf(flag);
+	}
 	
 	
 

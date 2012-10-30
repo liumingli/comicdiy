@@ -173,4 +173,8 @@ public interface ExtVisitorInterface {
     //获取订单状态
     public static final String GETORDERSTATUS = "getOrderStatus";
     
+    
+    //登录系统
+    public static final String LOGINSYSTEM = "loginSystem";
+    
 }

@@ -65,12 +65,6 @@ object:focus {
 		}
 	};
 	
-	//为了取到站内应用的浏览器地址
-	function showBrowserURL(){
-  		var url = (window.location != window.parent.location) ? document.referrer : document.location;
-  		return url;
-  	}
-
 	//弹出授权层
 	function authLoad() {
 		App.AuthDialog.show({
@@ -109,7 +103,7 @@ object:focus {
 		attributes.id = divId;
 		attributes.name = divId;
 		attributes.align = "middle";
-		swfobject.embedSWF("Main.swf", divId, w, h, swfVersionStr, xiSwfUrlStr,
+		swfobject.embedSWF("Main.swf?v=1.01&date=1029", divId, w, h, swfVersionStr, xiSwfUrlStr,
 				flashvars, params, attributes);
 		swfobject.createCSS("#" + divId, "display:block;text-align:left;");
 	}

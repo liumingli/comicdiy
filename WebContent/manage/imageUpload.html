@@ -1,17 +1,18 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-	<head>
-		<title>背景上传</title>
+<head>
+<title>背景上传</title>
 
-		<meta http-equiv="pragma" content="no-cache">
-		<meta http-equiv="cache-control" content="no-cache">
-		<meta http-equiv="expires" content="0">
-		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-		<meta http-equiv="description" content="This is my page">
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/style.css" />
-		</head>
-		<script type="text/javascript" language="javascript">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="This is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" charset="utf-8"
+	href="css/style.css" />
+</head>
+<script type="text/javascript" language="javascript">
 	function CheckFileType() {		 
 		var objFileUpload = document.getElementById('file1');//FileUpload 
 		var objMSG = document.getElementById('msg');//显示提示信息用的DIV 
@@ -61,22 +62,28 @@
 	
 </script>
 <body>
-<!-- 	<div id="legend">背景上传</div> -->
-	<div id="content" >
-		<form name="uploadForm" id="uploadForm" 
-		onsubmit="return checkBlank();" onreset="clearMsg();"
-		action="../comicapi" method="post" enctype="multipart/form-data">
-		<ul>
-			<li><input type="hidden" name ="method"  value="uploadLocalImage"/></li>
-			
-			<li>用户 <input type="text" name="userId" value="admin"></li>
-	<!-- 		名称 <input type="text" name="name" ><br/> -->
-	<!-- 		xm内容 <input type="text" name="content"><br/> -->
-			<li>上传文件<input type="file" name="file1" id="file1" size="30" onchange="CheckFileType();"/></li>
-			<li><div id="msg"></div></li>
-			<li><input type="submit" name="submit" value="上传">
-			<input type="reset" name="reset" value="重置"><br /></li>
-		</ul>
+	<!-- 	<div id="legend">背景上传</div> -->
+	<div id="content">
+		<form name="uploadForm" id="uploadForm"
+			onsubmit="return checkBlank();" onreset="clearMsg();"
+			action="../comicapi" method="post" enctype="multipart/form-data">
+			<ul>
+				<li><input type="hidden" name="method" value="uploadLocalImage" />
+				</li>
+
+				<li>用户 <input type="text" name="userId" value="admin">
+				</li>
+				<!-- 		名称 <input type="text" name="name" ><br/> -->
+				<!-- 		xm内容 <input type="text" name="content"><br/> -->
+				<li>上传文件<input type="file" name="file1" id="file1" size="30"
+					onchange="CheckFileType();" />
+				</li>
+				<li><div id="msg"></div>
+				</li>
+				<li><input type="submit" name="submit" value="上传"> <input
+					type="reset" name="reset" value="重置"><br />
+				</li>
+			</ul>
 		</form>
 	</div>
 </html>
