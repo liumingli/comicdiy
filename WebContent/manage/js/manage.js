@@ -13,7 +13,6 @@ function getAllAssets(){
 	//回调函数
 	function (result) {
 		if(result > 0){
-			
 			var total = 0;
 			if(parseInt(result%12) == 0){
 				total = parseInt(result / 12);
@@ -25,6 +24,10 @@ function getAllAssets(){
 			
 			getAssetsByPage(1);
 		
+		}else{
+			$('#total').html(0);
+			$('#current').html(0);
+			$('#assetsList').children().remove();
 		}
 	});
 }
@@ -344,9 +347,8 @@ function getAssetsByPage(pageNum){
 	}, 
 	//回调函数
 	function (result) {
+		$('#current').html(pageNum);
 		if(result.length > 0){
-			
-			$('#current').html(pageNum);
 			
 			for( key in result ){
 				generateTr(key);

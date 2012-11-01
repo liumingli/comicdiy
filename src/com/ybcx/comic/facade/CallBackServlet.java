@@ -23,7 +23,7 @@ public class CallBackServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		response.setContentType("text/plain;charset=UTF-8");
-		log.info("call back page");
+		log.info("call back page>>>>>>>>>>>>>>>>>>>>");
 		
 		String order_id = request.getParameter("order_id");
 	 	String appkey = request.getParameter("appkey");

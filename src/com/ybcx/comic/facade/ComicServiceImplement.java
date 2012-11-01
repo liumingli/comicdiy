@@ -57,6 +57,7 @@ import com.ybcx.comic.beans.UserDetail;
 import com.ybcx.comic.dao.DBAccessInterface;
 import com.ybcx.comic.tools.ImageHelper;
 import com.ybcx.comic.utils.ComicUtils;
+import com.ybcx.comic.utils.IKAnalzyerUtil;
 import com.ybcx.comic.utils.MD5Util;
 
 @SuppressWarnings("restriction")
@@ -417,8 +418,9 @@ public class ComicServiceImplement implements ComicServiceInterface {
 
 	@Override
 	public int searchByLabelAndType(String labels, String type) {
+	   String reslabels = IKAnalzyerUtil.analyzerKeys(labels);
 	   int result = 0 ;
-	   String[] labelArr =labels.split(" ");
+	   String[] labelArr =reslabels.split(" ");
 		 StringBuffer labelIds = new StringBuffer();
 		//先返回所有的标签
 		List<Label> childLabel = dbVisitor.getAllChildLabel();
@@ -479,9 +481,10 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	
 
 	public List<Assets> searchByLabelAndTypePage(String labels, String type, String pageNum) {
+		 String reslabels = IKAnalzyerUtil.analyzerKeys(labels);
 		List<Assets> resultList = new ArrayList<Assets>();
 		int pageSize = Integer.parseInt(systemConfigurer.getProperty("pageSize"));
-		 String[] labelArr =labels.split(" ");
+		 String[] labelArr =reslabels.split(" ");
 		 StringBuffer labelIds = new StringBuffer();
 		//先返回所有的标签
 		List<Label> childLabel = dbVisitor.getAllChildLabel();

@@ -91,7 +91,7 @@ object:focus {
 		//获取URL参数
 		var flashvars = {};
 		flashvars.userId = userId;
-		var swfVersionStr = "11.2.0";
+		var swfVersionStr = "11.1.0";
 		var xiSwfUrlStr = "playerProductInstall.swf";
 		var params = {};
 		params.quality = "high";

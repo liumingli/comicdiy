@@ -53,11 +53,11 @@ function loginSystem(){
 			if(result == "true"){
 				window.location.href = "manage.html";
 			}else{
-				$('#msg').text("提示：账户或密码输入错误");
+				$('#msg').html('<font color="red" size="2">提示：账户或密码输入错误</font>');
 			}
 		});
 	}else{
-		$('#msg').text("提示：账户和密码不能为空");
+		$('#msg').html('<font color="red" size="2">提示：账户和密码不能为空</font>');
 	}
 }
 
@@ -81,7 +81,7 @@ function clearMsg(){
 				<input type="button" value="登录" name="submit" class="button" id="submit" onclick="loginSystem()"/> 
 				<input type="reset" value="重置" name="reset" class="button" id="reset" onclick="clearMsg()"/>
 			</div>
-			<div id ="line"><span id="msg"  style="font-size: 8pt;font-color: red;"></span></div>
+			<div id ="line"><span id="msg" ></span></div>
 		</form>
 	</div>
 </body>
