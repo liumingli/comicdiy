@@ -1,36 +1,34 @@
 package com.ybcx.comic.utils;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class MD5Util {
+	
     public final static String MD5(String s) {
-        char hexDigits[] = { '0', '1', '2', '3', '4',
-                             '5', '6', '7', '8', '9',
-                           //  'A', 'B', 'C', 'D', 'E', 'F' };
-                             'a', 'b', 'c', 'd', 'e', 'f' };
-        try {
-            byte[] btInput = s.getBytes();
-     //获得MD5摘要算法的 MessageDigest 对象
-            MessageDigest mdInst = MessageDigest.getInstance("MD5");
-     //使用指定的字节更新摘要
-            mdInst.update(btInput);
-     //获得密文
-            byte[] md = mdInst.digest();
-     //把密文转换成十六进制的字符串形式
-            int j = md.length;
-            char str[] = new char[j * 2];
-            int k = 0;
-            for (int i = 0; i < j; i++) {
-                byte byte0 = md[i];
-                str[k++] = hexDigits[byte0 >>> 4 & 0xf];
-                str[k++] = hexDigits[byte0 & 0xf];
-            }
-            return new String(str);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    	try {
+			MessageDigest md5 = MessageDigest.getInstance("md5");
+			byte[] btyes = md5.digest(s.getBytes("utf-8"));
+			int b = 0;
+			StringBuffer buf = new StringBuffer();
+			for (int offset = 0; offset < btyes.length; offset++) {
+				b = btyes[offset];
+				if (b < 0)
+					b += 256;
+				if (b < 16)
+					buf.append("0");
+				buf.append(Integer.toHexString(b));
+			}
+			return buf.toString();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return null;
     }
+    
     public static void main(String[] args) {
     	//ab56b4d92b40713acc5af89985d4b786
         System.out.print(MD5Util.MD5("abcde"));

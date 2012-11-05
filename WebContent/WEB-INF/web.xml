@@ -87,7 +87,7 @@
     	<url-pattern>/fileupload</url-pattern>
     </servlet-mapping>
     
-    
+    <!-- 微博支付回调接口 -->
 	<servlet>  
 	    <servlet-name>callbackServer</servlet-name>  
 	    <servlet-class>com.ybcx.comic.facade.CallBackServlet</servlet-class>  
@@ -97,6 +97,7 @@
 	    <url-pattern>/callback</url-pattern>  
 	</servlet-mapping>  
 	
+	<!-- 限制后台管理不能直接访问.html，必须登录 -->
 	<filter>
 		<filter-name>AuthFilter</filter-name>
 		<filter-class>com.ybcx.comic.utils.AuthFilter</filter-class>

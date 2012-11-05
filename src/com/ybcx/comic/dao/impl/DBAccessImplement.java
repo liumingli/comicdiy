@@ -1133,5 +1133,4 @@ public class DBAccessImplement  implements DBAccessInterface {
 		return rows;
 	}
 
-
 }

@@ -3,6 +3,7 @@ package com.ybcx.comic.facade;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,6 +22,10 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
+
+import com.ybcx.comic.beans.Label;
+import com.ybcx.comic.jobs.LabelToCache;
+import com.ybcx.comic.jobs.TaskStarter;
 
 
 /**
@@ -42,10 +47,17 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 	
 	private AssistProcess assistProcess;
 
+	// 启动自动任务，由Spring注入
+	private TaskStarter taskStarter;
+
+	private LabelToCache startSync;
+
 	// 最大文件上传尺寸设置
 	private int fileMaxSize = 4 * 1024 * 1024;
 	// 上传组件
 	private ServletFileUpload upload;
+	//缓存标签，服务启动时存上，0点更新
+	public static List<Label> labelList = new ArrayList<Label>();
 
 	public AppStarter() {
 		// do nothing...
@@ -55,12 +67,18 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 		this.apiAdaptor = apiAdaptor;
 	}
 
-
-
 	public void setAssistProcess(AssistProcess assistProcess) {
 		this.assistProcess = assistProcess;
 	}
+	
+	public void setTaskStarter(TaskStarter taskStarter) {
+		this.taskStarter = taskStarter;
+	}
 
+	public void setStartSync(LabelToCache startSync) {
+		this.startSync = startSync;
+	}
+	
 	@Override
 	public void service(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
@@ -129,7 +147,7 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 	 */
 	private void weiboProcess(String action, HttpServletRequest req,
 			HttpServletResponse res) throws IOException {
-		//TODO 现在做这里
+		
 		if(action.equals(AppStarter.OPERATEWEIBOUSER)){
 			//判断用户是存在，存在更新，否则新建
 			res.setContentType("text/plain;charset=UTF-8");
@@ -271,6 +289,16 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 				} else {
 					log.warn(">>>>> !!! File upload path filePath environment variable is null, can not initialize the upload component!");
 				}
+			}
+			
+			if (taskStarter != null) {
+				log.debug(">>> taskStarter is ready to start...");
+				taskStarter.runAutoTasks();
+			}
+			
+			if (startSync != null) {
+				log.debug(">>> startSync is ready to start...");
+				startSync.start();
 			}
 			
 			//为flash增加843的socket端口 socketFlash.jar

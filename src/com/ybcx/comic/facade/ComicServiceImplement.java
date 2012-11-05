@@ -423,7 +423,9 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	   String[] labelArr =reslabels.split(" ");
 		 StringBuffer labelIds = new StringBuffer();
 		//先返回所有的标签
-		List<Label> childLabel = dbVisitor.getAllChildLabel();
+		//List<Label> childLabel = dbVisitor.getAllChildLabel();
+		//FIXME 这里改为从缓存中取标签
+		List<Label> childLabel = AppStarter.labelList;
 		//再从标签中去匹配关键字，并存下id
 		for(int i=0;i<childLabel.size();i++){
 			Label label = childLabel.get(i);
@@ -487,7 +489,10 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		 String[] labelArr =reslabels.split(" ");
 		 StringBuffer labelIds = new StringBuffer();
 		//先返回所有的标签
-		List<Label> childLabel = dbVisitor.getAllChildLabel();
+		//List<Label> childLabel = dbVisitor.getAllChildLabel();
+		//FIXME 这里改为从缓存中取标签
+		List<Label> childLabel = AppStarter.labelList;
+		
 		//再从标签中去匹配关键字，并存下id
 		for(int i=0;i<childLabel.size();i++){
 			Label label = childLabel.get(i);
@@ -1272,6 +1277,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		String appKey = systemConfigurer.getProperty("appKey");
 		String appSecret = systemConfigurer.getProperty("appSecret");
 		
+		String sign = MD5Util.MD5( orderId+"|"+amount+"|"+desc+"|"+appSecret);
+		
 		//sign=md5（order_id|amount|desc|app_secret）
 		String encodeDesc = "";
 		try {
@@ -1279,8 +1286,6 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
-		
-		String sign = MD5Util.MD5( orderId+"|"+amount+"|"+desc+"|"+appSecret);
 	
 		User user = dbVisitor.getUserById(userId);
 		String accessToken = user.getAccessToken();
@@ -1289,7 +1294,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			client.setToken(accessToken);
 			PostParameter idparams = new PostParameter("order_id",orderId);
 			PostParameter amountparams = new PostParameter("amount",Integer.parseInt(amount));
-			PostParameter descparams = new PostParameter("desc",desc);
+			PostParameter descparams = new PostParameter("desc",encodeDesc);
 			PostParameter signparams = new PostParameter("sign",sign);
 			PostParameter sourceparams = new PostParameter("source",appKey);
 			PostParameter accessparams = new PostParameter("access_token",accessToken);
@@ -1351,7 +1356,9 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		try {
 			Response response = client.post(url, params);
 			JSONObject json = response.asJSONObject();
-			status = Integer.parseInt(json.get("order_status").toString());
+			if(json.has("order_status")){
+				status = Integer.parseInt(json.get("order_status").toString());
+			}
 			
 		} catch (WeiboException e) {
 			e.printStackTrace();

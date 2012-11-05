@@ -29,6 +29,8 @@
 	<bean id="appStarter" class="com.ybcx.comic.facade.AppStarter">
 		<property name="apiAdaptor" ref="apiAdaptor" />
 		<property name="assistProcess" ref="assistProcess" />
+		<property name="taskStarter" ref="taskStarter" />
+	   	<property name="startSync" ref="startSync" />
 	</bean>
 	
 	<bean id="assistProcess" class="com.ybcx.comic.facade.AssistProcess">
@@ -49,5 +51,16 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
+	<bean id="taskStarter" class="com.ybcx.comic.jobs.TaskStarter">
+		<property name="dbVisitor" ref="dbAcess" />
+	</bean>
+	
+	<bean id="worker" class="com.ybcx.comic.jobs.ServerStartSync">
+		<property name="dbVisitor" ref="dbAcess" />
+	</bean>
+	
+	<bean id="startSync" class="com.ybcx.comic.jobs.LabelToCache">
+		<property name="executor" ref="worker" />
+	</bean>
 	
 </beans>
