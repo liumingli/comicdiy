@@ -22,12 +22,47 @@ body {
 	padding: 0;
 	overflow: auto;
 	text-align: center;
-	background: url("assets/wood40.png") repeat scroll 0 0 transparent;
+	background: url("assets/icon_web/wood40.png") repeat scroll 0 0 transparent;
 }
 
 object:focus {
 	outline: none;
 }
+
+#purchasePage{	
+	padding-top: 60px;
+	height:435px;
+	width:760px;
+	background: url("assets/icon_web/recharge_center.png") no-repeat ;
+	background-position: center;
+}
+
+img{
+	cursor:pointer;
+}
+
+#backImg{
+	padding-top:30px;
+	padding-left:370px;
+}
+
+#btnImg1{
+	padding-top:42px;
+	padding-left:280px;
+}
+#btnImg2{
+	padding-top:32px;
+	padding-left:280px;
+}
+#btnImg5{
+	padding-top:32px;
+	padding-left:280px;
+}
+#btnImg10{
+	padding-top:32px;
+	padding-left:280px;
+}
+
 </style>
 
 <script
@@ -38,12 +73,7 @@ object:focus {
 <script type="text/javascript">
      
   	//加载页面的时候先看token
-	window.onload = function(){
-  		
-		<%String orderId = request.getParameter("order_id");%>
-		var orderId = "<%=orderId%>";
-		console.log(orderId);
-  		
+ 	 window.onload = function(){
   		 <%String signed = request.getParameter("signed_request");
 			String access_token = "";
 			String user_id = "";
@@ -109,16 +139,27 @@ object:focus {
 	}
 
 	//生成
-	function generatePurchasePage(cent) {
+	function generatePurchasePage(userId) {
 		$('#flashContent').attr("style", "display:none");
 		$('#purchasePage').attr("style", "display:block");
-		$('#count').attr("value", cent);
+		$('#userId').attr("value", userId);
 	}
-
+	
+	//返回(不想充值了，直接退回去)
+	function backToApplication(){
+		$('#flashContent').attr("style", "display:block");
+		$('#purchasePage').attr("style", "display:none");
+	}
+	
+	function generateLoading(count){
+		$('#load'+count).attr("style","visibility:visible");
+	}
+	
 	//付款
-	function getPayToken() {
-		var amount = $('#count').val();
+	function getPayToken(count) {
+		generateLoading(count);
 		var userId = $('#userId').val();
+		var amount = count*100;
 		$.post("/comicdiy/comicapi", {
 			'method' : 'getPayToken',
 			'userId' : userId,
@@ -151,12 +192,45 @@ object:focus {
 			flash player11...</p>
 	</div>
 
+	<!-- 购买窗口 -->
 	<div id="purchasePage" style="display: none">
-		点券数：<input type="text" id="count" value=""> <input
-			type="hidden" value="1964124547" id="userId"> <input
-			type="button" id="submit" value="充值" onclick="getPayToken();">
+		<input type="hidden"id="userId">
+		<div id="backImg" onclick="backToApplication();">
+			<input type="image" alt ="返回" src="assets/icon_web/back.png" 
+					onmousedown="this.src='assets/icon_web/back_on.png';" 
+					onmouseup="this.src='assets/icon_web/back.png'">
+		</div>
+		
+		<div id="btnImg1" onclick="getPayToken(1);">
+			<span  id="load1"  style="visibility:hidden"><img src="assets/icon_web/loading.gif"></span>
+			<input type="image" alt ="充值" src="assets/icon_web/recharge.png" 
+					onmousedown="this.src='assets/icon_web/recharge_on.png';" 
+					onmouseup="this.src='assets/icon_web/recharge.png'">
+		</div>
+		
+		<div id="btnImg2" onclick="getPayToken(2);">
+			<span  id="load2"  style="visibility:hidden"><img src="assets/icon_web/loading.gif"></span>
+			<input type="image" alt ="充值" src="assets/icon_web/recharge.png" 
+					onmousedown="this.src='assets/icon_web/recharge_on.png';" 
+					onmouseup="this.src='assets/icon_web/recharge.png'">
+		</div>
+		
+		<div id="btnImg5" onclick="getPayToken(5);">
+			<span  id="load5"  style="visibility:hidden"><img src="assets/icon_web/loading.gif"></span>
+			<input type="image" alt ="充值" src="assets/icon_web/recharge.png" 
+					onmousedown="this.src='assets/icon_web/recharge_on.png';" 
+					onmouseup="this.src='assets/icon_web/recharge.png'">
+		</div>
+		
+		<div id="btnImg10" onclick="getPayToken(10);">
+			<span  id="load10"  style="visibility:hidden"><img src="assets/icon_web/loading.gif"></span>
+			<input type="image" alt ="充值" src="assets/icon_web/recharge.png" 
+					onmousedown="this.src='assets/icon_web/recharge_on.png';" 
+					onmouseup="this.src='assets/icon_web/recharge.png'">
+		</div>
 	</div>
-
+	
+	<!-- 提交订单支付 -->
 	<form action="http://open.weibo.com/paytest/payTestPay.php"
 		method="post" target="_top" style="display: none;" id="fmPay">
 		<input type="hidden" id="return_url" name="return_url"/> 
