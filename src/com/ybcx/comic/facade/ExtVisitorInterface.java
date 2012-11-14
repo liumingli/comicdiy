@@ -177,4 +177,13 @@ public interface ExtVisitorInterface {
     //登录系统
     public static final String LOGINSYSTEM = "loginSystem";
     
+    //--------------四格漫画相关
+    //上传主动画素材
+    public static final String CREATEPRIMARY = "createPrimary";
+    
+    //上传结局动画素材
+    public static final String CREATEENDING = "createEnding";
+    
+    //获取某一主动画的所有结局
+    public static final String GETENDINGBYPRIMARY = "getEndingByPrimary";
 }

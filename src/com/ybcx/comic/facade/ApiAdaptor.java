@@ -22,6 +22,7 @@ import com.ybcx.comic.beans.Friend;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.UserDetail;
+import com.ybcx.comic.beans.Yonkoma;
 
 
 
@@ -461,6 +462,22 @@ public class ApiAdaptor {
 	public String loginSystem(String account, String password) {
 		String result = comicService.loginSystem(account,password);
 		return result;
+	}
+	
+	public String createPrimary(String name, String frame, String swf,
+			String thumbnail) {
+		String result = comicService.createPrimary(name,frame,swf,thumbnail);
+		return result;
+	}
+	
+	public String createEnding(String name, String swf, String thumbnail, String parent) {
+		String result = comicService.createEnding(name,swf,thumbnail,parent);
+		return result;
+	}
+	
+	public String getEndingByPrimary(String primary) {
+		List<Yonkoma> list = comicService.getEndingByPrimary(primary);
+		return JSONArray.fromCollection(list).toString();
 	}
 	
 

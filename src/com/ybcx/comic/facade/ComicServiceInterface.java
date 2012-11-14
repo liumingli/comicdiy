@@ -15,6 +15,7 @@ import com.ybcx.comic.beans.Friend;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.UserDetail;
+import com.ybcx.comic.beans.Yonkoma;
 
 public interface ComicServiceInterface {
 	
@@ -126,6 +127,13 @@ public interface ComicServiceInterface {
 	public int getOrderStatus(String userId,String orderId);
 
 	public String loginSystem(String account, String password);
+
+	public String createPrimary(String name, String frame, String swf,
+			String thumbnail);
+
+	public String createEnding(String name, String swf, String thumbnail, String parent);
+
+	public List<Yonkoma> getEndingByPrimary(String primary);
 
 
 }

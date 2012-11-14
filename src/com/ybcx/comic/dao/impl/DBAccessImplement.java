@@ -19,6 +19,7 @@ import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.User;
+import com.ybcx.comic.beans.Yonkoma;
 import com.ybcx.comic.dao.DBAccessInterface;
 import com.ybcx.comic.utils.ComicUtils;
 
@@ -1131,6 +1132,56 @@ public class DBAccessImplement  implements DBAccessInterface {
 		String sql = "update t_shoppingcart set s_count = s_count - 1 where s_asset='"+assetId+"' and s_owner='"+userId+"'";
 		int rows = jdbcTemplate.update(sql);
 		return rows;
+	}
+
+	@Override
+	public int createYonkoma(final Yonkoma yonkoma) {
+		String sql = "INSERT INTO t_yonkoma "
+				+ "(y_id, y_name, y_swf, y_thumbnail, y_createTime, y_frame, y_type, y_parent, y_memo) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? )";
+		
+		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) {
+				try {
+					ps.setString(1, yonkoma.getId());
+					ps.setString(2, yonkoma.getName());
+					ps.setString(3, yonkoma.getSwf());
+					ps.setString(4, yonkoma.getThumbnail());
+					ps.setString(5, yonkoma.getCreateTime());
+					ps.setInt(6,yonkoma.getFrame());
+					ps.setString(7, yonkoma.getType());
+					ps.setString(8, yonkoma.getParent());
+					ps.setString(9, "");
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		return res;
+	}
+
+	@Override
+	public List<Yonkoma> getEndingByPrimary(String primary) {
+		List<Yonkoma> list = new ArrayList<Yonkoma>();
+		String sql = "select * from t_yonkoma where y_parent='"+primary+"'";
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				Yonkoma yonkoma = new Yonkoma();
+				yonkoma.setId(map.get("y_id").toString());
+				yonkoma.setName(map.get("y_name").toString());
+				yonkoma.setSwf(map.get("y_swf").toString());
+				yonkoma.setThumbnail(map.get("y_thumbnail").toString());
+				yonkoma.setCreateTime(map.get("y_createTime").toString());
+				yonkoma.setParent(map.get("y_parent").toString());
+				yonkoma.setFrame(Integer.parseInt(map.get("y_frame").toString()));
+				yonkoma.setType(map.get("y_type").toString());
+				list.add(yonkoma);
+			}
+		}
+		return list;
 	}
 
 }

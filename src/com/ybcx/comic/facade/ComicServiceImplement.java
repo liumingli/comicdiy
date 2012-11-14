@@ -54,13 +54,13 @@ import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.User;
 import com.ybcx.comic.beans.UserDetail;
+import com.ybcx.comic.beans.Yonkoma;
 import com.ybcx.comic.dao.DBAccessInterface;
 import com.ybcx.comic.tools.ImageHelper;
 import com.ybcx.comic.utils.ComicUtils;
 import com.ybcx.comic.utils.IKAnalzyerUtil;
 import com.ybcx.comic.utils.MD5Util;
 
-@SuppressWarnings("restriction")
 public class ComicServiceImplement implements ComicServiceInterface {
 	
 	private Logger log = Logger.getLogger(ComicServiceImplement.class);
@@ -1379,7 +1379,53 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}
 		return String.valueOf(flag);
 	}
+
+	@Override
+	public String createPrimary(String name, String frame, String swf,
+			String thumbnail) {
+		boolean flag = false;
+		String type = "Primary";
+		String parent = "parent";
+		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, type, parent);
+		int rows = dbVisitor.createYonkoma(yonkoma);
+		if(rows > 0){
+			return yonkoma.getId();
+		}else{
+			return String.valueOf(flag);
+		}	
+	}
 	
-	
+	private Yonkoma generateYonkoma(String name, String frame, String swf,String thumbnail,String type,String parent){
+		Yonkoma yonkoma = new Yonkoma();
+		yonkoma.setId(ComicUtils.generateUID());
+		yonkoma.setName(name);
+		yonkoma.setSwf(swf);
+		yonkoma.setThumbnail(thumbnail);
+		yonkoma.setCreateTime(ComicUtils.getFormatNowTime());
+		yonkoma.setFrame(Integer.parseInt(frame));
+		yonkoma.setType(type);
+		yonkoma.setParent(parent);
+		return yonkoma;
+	}
+
+	@Override
+	public String createEnding(String name, String swf, String thumbnail, String parent) {
+		boolean flag = false;
+		String type = "Ending";
+		String frame = "0";
+		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, type, parent);
+		int rows = dbVisitor.createYonkoma(yonkoma);
+		if(rows > 0){
+			return yonkoma.getId();
+		}else{
+			return String.valueOf(flag);
+		}	
+	}
+
+	@Override
+	public List<Yonkoma> getEndingByPrimary(String primary) {
+		List<Yonkoma> list  = dbVisitor.getEndingByPrimary(primary);
+		return list;
+	}
 
 }

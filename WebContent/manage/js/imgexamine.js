@@ -1,8 +1,6 @@
 
 //审查图片
 function getAllImage(){
-	var logger = new Logger();
-	logger.trace("getImageCount<<<");
 	$.post("/comicdiy/comicapi",{
 		'method' : 'getImageCount'
 	},

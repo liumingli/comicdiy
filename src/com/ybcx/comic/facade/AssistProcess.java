@@ -473,6 +473,39 @@ public class AssistProcess {
 			pw.print(result);
 			pw.close();
 			
+		}else if (action.equals(AppStarter.CREATEPRIMARY)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String name = req.getParameter("name");
+			String frame = req.getParameter("frame");
+			String swf = req.getParameter("swf");
+			String thumbnail = req.getParameter("thumbnail");
+		    String result= apiAdaptor.createPrimary(name,frame,swf,thumbnail);
+			log.info(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.CREATEENDING)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String name = req.getParameter("name");
+			String swf = req.getParameter("swf");
+			String thumbnail = req.getParameter("thumbnail");
+			String parent = req.getParameter("parent");
+		    String result= apiAdaptor.createEnding(name,swf,thumbnail,parent);
+			log.info(result);
+			pw.print(result);
+			pw.close();
+			
+			
+		}else if (action.equals(AppStarter.GETENDINGBYPRIMARY)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String primary = req.getParameter("primary");
+		    String result= apiAdaptor.getEndingByPrimary(primary);
+			log.info(result);
+			pw.print(result);
+			pw.close();
 		}
 		
 		

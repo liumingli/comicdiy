@@ -29,6 +29,13 @@ body {
 <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
 
 <script type="text/javascript">
+document.onkeydown=function(event){
+    var e = event || window.event || arguments.callee.caller.arguments[0];
+     if(e && e.keyCode==13){ // enter 键
+    	 loginSystem();
+    }
+};
+
 function checkNull(){
 	var account = $("#account").attr("value");
 	var password =  $("#password").attr("value");

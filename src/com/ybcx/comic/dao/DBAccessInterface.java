@@ -10,6 +10,7 @@ import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.User;
+import com.ybcx.comic.beans.Yonkoma;
 
 
 
@@ -153,5 +154,10 @@ public interface DBAccessInterface {
 		public int checkAssetCount(String userId, String assetId);
 
 		public int updateAssetFromCart(String userId, String assetId);
+
+		public int createYonkoma(Yonkoma yonkoma);
+		
+		public List<Yonkoma> getEndingByPrimary(String primary);
+
 
 }

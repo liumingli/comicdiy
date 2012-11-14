@@ -69,8 +69,6 @@ window.onload = function(){
 
 //获取所有分类
 function getAllCategory(){
-	var logger = new Logger();
-	logger.trace(">>>get all category");
 	$.post('/comicdiy/comicapi', {
 		'method'  : 'getAllCategory'
 	}, 
@@ -511,7 +509,7 @@ function deleteThis(id){
 	labelSpan.removeChild(document.getElementById(id));
 	
 
-	var labelIds = 	$('#label').val();
+	var labelIds = $('#label').val();
 	var strs= new Array(); //定义一数组
 	strs=labelIds.split(","); //字符分割      
 	for (var i=0 ; i<strs.length ; i++ )    
