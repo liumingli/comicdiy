@@ -1405,6 +1405,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		yonkoma.setFrame(Integer.parseInt(frame));
 		yonkoma.setType(type);
 		yonkoma.setParent(parent);
+		yonkoma.setEnable(1);
 		return yonkoma;
 	}
 
@@ -1423,9 +1424,19 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 
 	@Override
-	public List<Yonkoma> getEndingByPrimary(String primary) {
-		List<Yonkoma> list  = dbVisitor.getEndingByPrimary(primary);
+	public int getYonkomaCount(String primary) {
+		int rows = dbVisitor.getYonkomaCount(primary);
+		return rows;
+	}
+	
+	@Override
+	public List<Yonkoma> getYonkomaByPage(String primary, String pageSize,
+			String pageNum) {
+		int size = Integer.parseInt(pageSize);
+		int num = Integer.parseInt(pageNum);
+		List<Yonkoma> list  = dbVisitor.getYonkomaByPage(primary,size,num);
 		return list;
 	}
+
 
 }

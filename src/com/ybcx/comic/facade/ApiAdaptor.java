@@ -498,12 +498,18 @@ public class ApiAdaptor {
 		}
 	}
 	
-	public String getEndingByPrimary(String primary) {
-		List<Yonkoma> list = comicService.getEndingByPrimary(primary);
+	public String getYonkomaByPage(String primary, String pageSize, String pageNum) {
+		List<Yonkoma> list = comicService.getYonkomaByPage(primary,pageSize,pageNum);
 		JSONArray jsonArray = JSONArray.fromCollection(list);
 		processYonkoma(jsonArray);
 		return jsonArray.toString();
 	}
+	
+	public int getYonkomaCount(String primary) {
+		int res = comicService.getYonkomaCount(primary);
+		return res;
+	}
+	
 	
 
 } // end of class

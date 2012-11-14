@@ -14,7 +14,14 @@ public class Yonkoma {
 	private int frame;
 	private String type;
 	private String parent;
+	private int enable;
 	
+	public int getEnable() {
+		return enable;
+	}
+	public void setEnable(int enable) {
+		this.enable = enable;
+	}
 	public String getId() {
 		return id;
 	}

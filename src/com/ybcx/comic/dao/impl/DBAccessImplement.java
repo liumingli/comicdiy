@@ -1137,7 +1137,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public int createYonkoma(final Yonkoma yonkoma) {
 		String sql = "INSERT INTO t_yonkoma "
-				+ "(y_id, y_name, y_swf, y_thumbnail, y_createTime, y_frame, y_type, y_parent, y_memo) "
+				+ "(y_id, y_name, y_swf, y_thumbnail, y_createTime, y_frame, y_type, y_parent,y_enable, y_memo) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? )";
 		
 		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
@@ -1151,7 +1151,8 @@ public class DBAccessImplement  implements DBAccessInterface {
 					ps.setInt(6,yonkoma.getFrame());
 					ps.setString(7, yonkoma.getType());
 					ps.setString(8, yonkoma.getParent());
-					ps.setString(9, "");
+					ps.setInt(9, yonkoma.getEnable());
+					ps.setString(10, "");
 
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -1162,9 +1163,11 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 
 	@Override
-	public List<Yonkoma> getEndingByPrimary(String primary) {
+	public List<Yonkoma> getYonkomaByPage(String primary, int pageSize, int pageNum) {
 		List<Yonkoma> list = new ArrayList<Yonkoma>();
-		String sql = "select * from t_yonkoma where y_parent='"+primary+"'";
+		int startLine = (pageNum -1)*pageSize;
+		String sql = "select * from t_yonkoma where y_parent='"+primary+"' and y_enable=1" +
+				" order by y_createTime desc limit "+startLine+","+pageSize;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -1178,10 +1181,18 @@ public class DBAccessImplement  implements DBAccessInterface {
 				yonkoma.setParent(map.get("y_parent").toString());
 				yonkoma.setFrame(Integer.parseInt(map.get("y_frame").toString()));
 				yonkoma.setType(map.get("y_type").toString());
+				yonkoma.setEnable(Integer.parseInt(map.get("y_enable").toString()));
 				list.add(yonkoma);
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public int getYonkomaCount(String primary) {
+		String sql = "select count(y_id) from t_yonkoma where y_parent='"+primary+"' and y_enable=1";
+		int result = jdbcTemplate.queryForInt(sql);
+		return result;
 	}
 
 }

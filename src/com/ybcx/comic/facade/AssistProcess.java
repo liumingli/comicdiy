@@ -497,12 +497,42 @@ public class AssistProcess {
 			pw.print(result);
 			pw.close();
 			
+		}else if (action.equals(AppStarter.GETPRIMARYCOUNT)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+		    int result= apiAdaptor.getYonkomaCount("parent");
+			log.info(result);
+			pw.print(result);
+			pw.close();
 			
-		}else if (action.equals(AppStarter.GETENDINGBYPRIMARY)) {
+			
+		}else if (action.equals(AppStarter.GETPRIMARYBYPAGE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String pageSize = req.getParameter("pageSize");
+			String pageNum = req.getParameter("pageNum");
+		    String result= apiAdaptor.getYonkomaByPage("parent",pageSize,pageNum);
+			log.info(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.GETENDINGCOUNTBYPRIMARY)) {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
 			String primary = req.getParameter("primary");
-		    String result= apiAdaptor.getEndingByPrimary(primary);
+		    int result= apiAdaptor.getYonkomaCount(primary);
+			log.info(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.GETENDINGBYPRIMARYANDPAGE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			//主动画id--primary
+			String primary = req.getParameter("primary");
+			String pageSize = req.getParameter("pageSize");
+			String pageNum = req.getParameter("pageNum");
+		    String result= apiAdaptor.getYonkomaByPage(primary,pageSize,pageNum);
 			log.info(result);
 			pw.print(result);
 			pw.close();

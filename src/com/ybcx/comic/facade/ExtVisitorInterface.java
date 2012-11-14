@@ -184,6 +184,15 @@ public interface ExtVisitorInterface {
     //上传结局动画素材
     public static final String CREATEENDING = "createEnding";
     
-    //获取某一主动画的所有结局
-    public static final String GETENDINGBYPRIMARY = "getEndingByPrimary";
+    //获取所有主动画数量
+    public static final String GETPRIMARYCOUNT = "getPrimaryCount";
+    
+    //分页获取主动画
+    public static final String GETPRIMARYBYPAGE = "getPrimaryByPage";
+    
+    //获取某一主动画的所有结局数目
+    public static final String GETENDINGCOUNTBYPRIMARY = "getEndingCountByPrimary";
+    
+    //分页获取结局
+    public static final String GETENDINGBYPRIMARYANDPAGE = "getEndingByPrimaryAndPage";
 }

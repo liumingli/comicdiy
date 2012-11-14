@@ -157,7 +157,11 @@ public interface DBAccessInterface {
 
 		public int createYonkoma(Yonkoma yonkoma);
 		
-		public List<Yonkoma> getEndingByPrimary(String primary);
+		public int getYonkomaCount(String primary);
+		
+		public List<Yonkoma> getYonkomaByPage(String primary, int pageSize, int pageNum);
+
+		
 
 
 }

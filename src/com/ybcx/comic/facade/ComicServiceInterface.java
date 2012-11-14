@@ -132,8 +132,9 @@ public interface ComicServiceInterface {
 			String thumbnail);
 
 	public String createEnding(String name, String swf, String thumbnail, String parent);
+	
+	public int getYonkomaCount(String primary);
 
-	public List<Yonkoma> getEndingByPrimary(String primary);
-
+	public List<Yonkoma> getYonkomaByPage(String primary, String pageSize, String pageNum);
 
 }
