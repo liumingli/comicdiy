@@ -62,12 +62,12 @@ window.onload = function(){
 function checkNum(){
 	var val = $("#frame").val();
 	if(isNaN(val)){
-		 $('#frameInfo').show().html('<font color="red" size="2">请输入数字</font>');
+		 $('#frameInfo').show().html('<font color="red" size="2">*请输入数字</font>');
 	}
 }
 
 function cancelInfo(){
-	$("#frame").val("0");
+	$("#frame").val("");
 	$('#frameInfo').hide();
 }
 
@@ -87,8 +87,8 @@ function emptyForm(){
 	 $('#thumbnailInfo').hide();
 	 $('#prompt').hide();
 	 $('#parent').attr("value","");
+	 $('#primary').attr("value","");
 }
-
 
 function createYonkoma(){
 	var parent = $("#parent").val();
@@ -141,13 +141,12 @@ function createPrimary(){
 	}
 }
 
-
 function addEnding(nameParam,parentParam){
 	emptyForm();
 	$("#name").focus();
 	$('#primary').attr("value",nameParam);
 	$('#parent').attr("value",parentParam);
-	$("#caption").html("<b>新增结局</b>");
+	$("#caption").html("<b>新增结局</b> (主动画名称："+nameParam+")");
 	$("#frameLi").attr("style","display:none");
 	$("#cancel").attr("style","display:none");
 	$("#reback").removeAttr("style");
@@ -172,7 +171,7 @@ function createEnding(){
 				alert("提示：上传结局有误，请重试");
 			}else{
 				var primary = $("#primary").val();
-				var param ="('"+primary+"','"+result+"')";
+				var param ="('"+primary+"','"+parent+"')";
 				$('#prompt').show().html('<font color="red" size="2">提示：上传结局成功，点击<a href="javascript:addEnding'+param+';">继续添加</a></font>');
 			}
 		});

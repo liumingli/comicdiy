@@ -475,9 +475,34 @@ public class ApiAdaptor {
 		return result;
 	}
 	
+	
+	private void processYonkoma(JSONArray jsonArray) {
+		for (int i = 0; i < jsonArray.length(); i++) {
+			//缩略图
+			String thumbnailPath = jsonArray.getJSONObject(i).get("thumbnail").toString();
+			if(!"".equals(thumbnailPath)){
+				//先从字符串中找到文件夹uploadFile的位置，再加上uploadFile的长度10，即可截取到下属文件路径
+				int position = thumbnailPath.lastIndexOf("uploadFile");
+				String relativePath = thumbnailPath.substring(position+11);
+				jsonArray.getJSONObject(i).set("thumbnail", relativePath);
+			}
+			
+			//DIY成品的缩略图
+			String swfPath = jsonArray.getJSONObject(i).get("swf").toString();
+			if(!"".equals(swfPath)){
+				//先从字符串中找到文件夹uploadFile的位置，再加上uploadFile的长度10，即可截取到下属文件路径
+				int position = swfPath.lastIndexOf("uploadFile");
+				String relativePath = swfPath.substring(position+11);
+				jsonArray.getJSONObject(i).set("swf", relativePath);
+			}
+		}
+	}
+	
 	public String getEndingByPrimary(String primary) {
 		List<Yonkoma> list = comicService.getEndingByPrimary(primary);
-		return JSONArray.fromCollection(list).toString();
+		JSONArray jsonArray = JSONArray.fromCollection(list);
+		processYonkoma(jsonArray);
+		return jsonArray.toString();
 	}
 	
 

@@ -24,7 +24,7 @@
 		<li id="caption" ><b>新增主动画</b></li>
 		<li>
 			<label>名称</label>
-			<input type="text" id="name" onfocus="cancelPrompt();" autofocus>
+			<input type="text" id="name" onfocus="cancelPrompt();" maxlength="12" autofocus>
 		</li>
 		<li id="frameLi">
 			<label>帧数</label>
@@ -42,7 +42,7 @@
 			<label>缩略图</label>
 			<input type="file" id="thumbnailUpload" data-url="/comicdiy/fileupload" accept="image/jpeg,image/png,image/gif">
 			<span  style="display: none;" id="thumbnailInfo"></span>
-			<span class="help-block">支持jpg,png,gif</span>
+			<span class="help-block">注意尺寸：200*200</span>
 			<input type="hidden" id="thumbnailPath">
 		</li>
 		<li style="margin-left:30px">
@@ -52,6 +52,7 @@
 		</li>
 		<li>
 			<input type="hidden" id="parent">
+			<input type="hidden" id="primary">
 			<span  style="display: none;" id="prompt"></span>
 		</li>
 	</ul>
