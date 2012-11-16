@@ -1,5 +1,4 @@
 window.onload = function(){
-	
 	$('#assetUpload').fileupload({
 		add : function(e, data) {
 			//因为现在只传一个文件，所以可以用files[0]来取到
@@ -55,7 +54,6 @@ window.onload = function(){
 		    }
 		}
 	});
-	
 };
 
 
@@ -86,6 +84,7 @@ function emptyForm(){
 	 $('#assetInfo').hide();
 	 $('#thumbnailInfo').hide();
 	 $('#prompt').hide();
+	 $('#load').hide();
 	 $('#parent').attr("value","");
 	 $('#primary').attr("value","");
 }
@@ -113,7 +112,7 @@ function checkNull(){
 
 function createPrimary(){
 	if(checkNull()){
-		$('#prompt').show().html('<img src="imgs/load.gif">');
+		$('#load').show().html('<img src="imgs/load.gif">');
 		var name = 	$("#name").val();
 		var frame = $("#frame").val();
 		var swf = $("#assetPath").val();
@@ -126,6 +125,7 @@ function createPrimary(){
 			'thumbnail' : thubmnail
 		}, 
 		function (result) {
+			$('#load').attr("style","display:none");
 			if(result == 'false'){
 				alert("上传主动画有误，请重试");
 			}else{
@@ -154,7 +154,7 @@ function addEnding(nameParam,parentParam){
 
 function createEnding(){
 	if(checkNull()){
-		$('#prompt').show().html('<img src="imgs/load.gif">');
+		$('#load').show().html('<img src="imgs/load.gif">');
 		var name = 	$("#name").val();
 		var parent = $("#parent").val();
 		var swf = $("#assetPath").val();
@@ -167,6 +167,7 @@ function createEnding(){
 			'thumbnail' : thubmnail
 		}, 
 		function (result) {
+			$('#load').attr("style","display:none");
 			if(result == 'false'){
 				alert("提示：上传结局有误，请重试");
 			}else{
@@ -180,3 +181,4 @@ function createEnding(){
 		$('#prompt').show().html('<font color="red" size="2">提示：请正确填写内容</font>');
 	}
 }
+

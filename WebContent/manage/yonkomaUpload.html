@@ -40,13 +40,14 @@
 			<label>缩略图</label>
 			<input type="file" id="thumbnailUpload" data-url="/comicdiy/fileupload" accept="image/jpeg,image/png,image/gif">
 			<span  style="display: none;" id="thumbnailInfo"></span>
-			<span class="help-block">注意尺寸：200*200</span>
+			<span class="help-block">尺寸：200*200</span>
 			<input type="hidden" id="thumbnailPath">
 		</li>
-		<li style="margin-left:30px">
+		<li style="margin-left:80px">
 			<input type="button" id="submit" value="提交" onclick="createYonkoma();">
 			<input type="button" id="cancel" value="取消" onclick="emptyForm();">
 			<input type="button" id="reback" value="返回" onclick="window.location.reload();"  style="display: none;">
+			<span  style="display: none;" id="load"></span>
 		</li>
 		<li>
 			<input type="hidden" id="parent">

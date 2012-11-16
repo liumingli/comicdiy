@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>四格漫画素材管理</title>
-<link rel="stylesheet" type="text/css" charset="utf-8" href="css/style.css" />
+<link rel="stylesheet" type="text/css" charset="utf-8" href="css/yonkoma.css" />
 	
 <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/jquery.ui.widget.js"
@@ -13,12 +13,28 @@
 <script type="text/javascript" src="js/jquery.fileupload.js"
 	charset="utf-8"></script>
 
-<script type="text/javascript" src="js/yonkoma.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/view.js" charset="utf-8"></script>
 
 </head>
-<body>
 
-<b>四格漫画素材管理 comming soon...</b>
+<body onload="getPrimary();">
+<div id="caption"><b>主动画素材列表</b></div>
+	<input type="hidden" id="parent">
+	<table>
+		<tbody id="yonkomaList">
+<!-- 			<tr><td rowspan="4"></td><td colspan="4"></td><td rowspan="4"></tr> -->
+			<tr id="line1"><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+			<tr id="line2"><td>5</td><td>6</td><td>7</td><td>8</td></tr>
+			<tr id="line3"><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+		</tbody>
+	</table>
 
+	<div id="paging">
+		<span id="prevPage"><a href="javascript:getPrevpage()">上一页</a></span>
+		<span id="nextPage"><a href="javascript:getNextpage()">下一页</a></span>
+		<span id="currentPage">当前第<span id="current"></span>页</span>
+		<span id="totalPage">共<span id="total"></span>页</span>
+		<input type="button" id="reback" value="返回主动画" onclick="window.location.reload();"  style="display: none;">
+	</div>
 </body>
 </html>

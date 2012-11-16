@@ -1138,7 +1138,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	public int createYonkoma(final Yonkoma yonkoma) {
 		String sql = "INSERT INTO t_yonkoma "
 				+ "(y_id, y_name, y_swf, y_thumbnail, y_createTime, y_frame, y_type, y_parent,y_enable, y_memo) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? )";
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 		
 		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement ps) {
