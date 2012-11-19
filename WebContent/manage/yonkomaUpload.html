@@ -26,18 +26,18 @@
 		</li>
 		<li id="frameLi">
 			<label>帧数</label>
-			<input type="text" id="frame" style="width:30px" value="0" onblur="checkNum();" onfocus="cancelInfo();">
+			<input type="text" id="frame" style="width:30px" onblur="checkNum();" onfocus="cancelInfo();">
 			<span  style="display: none;" id="frameInfo"></span>
 		</li>
 		<li>
-			<label>原文件</label>
+			<label>swf文件</label>
 			<input type="file" id="assetUpload" data-url="/comicdiy/fileupload">
 			<span  style="display: none;" id="assetInfo"></span>
 			<span class="help-block">支持swf文件</span>
 			<input type="hidden" id="assetPath">
 		</li>
 		<li>
-			<label>缩略图</label>
+			<label>&nbsp;缩略图</label>
 			<input type="file" id="thumbnailUpload" data-url="/comicdiy/fileupload" accept="image/jpeg,image/png,image/gif">
 			<span  style="display: none;" id="thumbnailInfo"></span>
 			<span class="help-block">尺寸：200*200</span>
@@ -55,6 +55,26 @@
 			<span  style="display: none;" id="prompt"></span>
 		</li>
 	</ul>
+</div>
+
+<div style="text-align:left;padding-left:520px;">
+	简单说明：<br>
+	1、主动画上传<br>
+	
+		输入名称、帧数、选择swf文件上传、选择图片上传（这里要求200*200规格）;<br>
+		上传成功后，即显示提示信息，点击其中的添加结局，则可为刚刚上传的主动画上传结局;<br><br>
+		
+	2、结局上传<br>
+		
+		输入名称、选择swf文件上传、选择图片上传（这里要求200*200规格）;<br>
+		查看提示信息，可继续添加，若不添加也可点击返回按钮返回到主动画上传;<br><br>
+	
+	3、画题管理<br>
+	
+		打开后即显示主动画列表，可翻页查看，鼠标移动到某一缩略图上时显示其名称;<br>
+		点击某一主动画，则跳转至从属于它的结局列表;<br><br>
+		
+	4、注：当前实现上传和能查看功能，后续将继续完善，加入编辑、删除等操作，并且改掉翻页方式。
 </div>
 
 </body>

@@ -27,7 +27,6 @@ window.onload = function(){
 		}
 	});
 
-
 	$('#thumbnailUpload').fileupload({
 		add : function(e, data) {
 			var fileName = data.files[0].name;
@@ -61,6 +60,13 @@ function checkNum(){
 	var val = $("#frame").val();
 	if(isNaN(val)){
 		 $('#frameInfo').show().html('<font color="red" size="2">*请输入数字</font>');
+	}else{
+		var r = /^\+?[1-9][0-9]*$/;//正整数 
+		if(r.test(val)){
+			 $('#frameInfo').hide();
+		}else{
+			 $('#frameInfo').show().html('<font color="red" size="2">*帧数必须大于0</font>');
+		}
 	}
 }
 
@@ -99,13 +105,30 @@ function createYonkoma(){
 }
 
 function checkNull(){
+	 $('#prompt').show().html('');
 	var name = 	$("#name").val();
 	var swf = $("#assetPath").val();
 	var thubmnail = $("#thumbnailPath").val();
-	if(name != null && name != "" &&
-			swf !=null && swf !="" && thubmnail !=null && thubmnail!=""){
+	var val = $("#frame").val();
+	var r = /^\+?[1-9][0-9]*$/;//正整数 
+	
+	if(name != null && name != "" && swf !=null && swf !="" && 
+			thubmnail !=null && thubmnail!="" && r.test(val)){
 		return true;
 	}else{
+		$('#prompt').show().html('<font color="red" size="2">提示：</font>');
+		if(name == null || name == "" ){
+			$('#prompt').append('<font color="red" size="2">请输入名称</font><br>');
+		}
+		if(!r.test(val)){
+			 $('#prompt').append('<font color="red" size="2">帧数需为正整数</font><br>');
+		}
+		if(swf ==null || swf =="" ){
+			$('#prompt').append('<font color="red" size="2">请上传swf文件</font><br>');
+		}
+		if(thubmnail ==null || thubmnail =="" ){
+			$('#prompt').append('<font color="red" size="2">请上传缩略图文件</font><br>');
+		}
 		return false;
 	}
 }
@@ -136,8 +159,6 @@ function createPrimary(){
 			//emptyForm();
 		});
 		
-	}else{
-		$('#prompt').show().html('<font color="red" size="2">提示：请正确填写内容</font>');
 	}
 }
 
@@ -153,7 +174,7 @@ function addEnding(nameParam,parentParam){
 }
 
 function createEnding(){
-	if(checkNull()){
+	if(checkEnding()){
 		$('#load').show().html('<img src="imgs/load.gif">');
 		var name = 	$("#name").val();
 		var parent = $("#parent").val();
@@ -177,8 +198,32 @@ function createEnding(){
 			}
 		});
 		
+//	}else{
+//		$('#prompt').show().html('<font color="red" size="2">提示：请正确填写表单内容</font>');
+	}
+}
+
+function checkEnding(){
+	 $('#prompt').show().html('');
+	var name = 	$("#name").val();
+	var swf = $("#assetPath").val();
+	var thubmnail = $("#thumbnailPath").val();
+	
+	if(name != null && name != "" && swf !=null && swf !="" && 
+			thubmnail !=null && thubmnail!=""){
+		return true;
 	}else{
-		$('#prompt').show().html('<font color="red" size="2">提示：请正确填写内容</font>');
+		$('#prompt').show().html('<font color="red" size="2">提示：</font>');
+		if(name == null || name == "" ){
+			$('#prompt').append('<font color="red" size="2">请输入名称</font><br>');
+		}
+		if(swf ==null || swf =="" ){
+			$('#prompt').append('<font color="red" size="2">请上传swf文件</font><br>');
+		}
+		if(thubmnail ==null || thubmnail =="" ){
+			$('#prompt').append('<font color="red" size="2">请上传缩略图文件</font><br>');
+		}
+		return false;
 	}
 }
 
