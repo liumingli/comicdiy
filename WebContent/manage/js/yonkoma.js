@@ -53,7 +53,20 @@ window.onload = function(){
 		    }
 		}
 	});
+	
+	//检查是否有主动画id参数
+	var parentId = getQueryString("primaryId");
+	var parentName = getQueryString("primaryName");
+	if(parentId !=null && parentId !="" && parentName!="" && parentName !=null){
+		addEnding(parentName,parentId);
+	}
 };
+
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+ }
 
 
 function checkNum(){
@@ -77,7 +90,6 @@ function cancelInfo(){
 
 function cancelPrompt(){
 	 $('#prompt').hide();
-	 $('#parent').attr("value","");
 }
 
 function emptyForm(){

@@ -536,6 +536,35 @@ public class AssistProcess {
 			log.info(result);
 			pw.print(result);
 			pw.close();
+			
+		}else if (action.equals(AppStarter.UPDATEPRIMARY)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String id = req.getParameter("id");
+			String name = req.getParameter("name");
+			String frame = req.getParameter("frame");
+		    String result= apiAdaptor.updatePrimary(id,name,frame);
+			log.info(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.DELPRIMARY)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String primaryId = req.getParameter("primaryId");
+		    String result= apiAdaptor.delPrimary(primaryId);
+			log.info(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.DELENDING)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String endingId = req.getParameter("endingId");
+		    String result= apiAdaptor.delEnding(endingId);
+			log.info(result);
+			pw.print(result);
+			pw.close();
 		}
 		
 		

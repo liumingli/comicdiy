@@ -11,20 +11,22 @@ table{
 	font-size: 12px;
 	margin:20px auto; 
 	border-collapse: collapse;
-/* 	border: 1px solid #69c; */
+	border: 1px solid gray;
+	height:720px;
 }
 
 tr{
 	padding: 5px;
 	font-weight: normal;
 	color: #039;
-/* 	border-bottom: 1px dashed #69c; */
+	border-bottom: 1px dashed gray;
 }
 
 td{
+	width:200px;
 	padding: 5px;
 	color: #669;
-/* 	border: 1px solid #69c;  */
+	border: 1px solid gray; 
 }
 
 a {
@@ -41,4 +43,23 @@ a,a: link,a: visited {
 }
 a: hover {
 	color: #390;
+}
+
+img{
+	padding:3px;
+}
+
+#caption{
+	font-size: larger;
+}
+
+#conent{
+	width:900px;
+	height:750px;
+}
+#previous{
+
+}
+#next{
+	
 }

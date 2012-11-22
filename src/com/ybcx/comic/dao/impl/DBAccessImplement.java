@@ -1195,4 +1195,26 @@ public class DBAccessImplement  implements DBAccessInterface {
 		return result;
 	}
 
+	@Override
+	public int updatePrimary(String id, String name, String frame) {
+		int num = Integer.parseInt(frame);
+		String sql = "update t_yonkoma set y_name='"+name+"', y_frame="+num+" where y_id='"+id+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
+	@Override
+	public int deleteYonkoma(String id) {
+		String sql = "update t_yonkoma set y_enable=0 where y_id='"+id+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
+	@Override
+	public int deleteEndingByPrimary(String primaryId) {
+		String sql = "update t_yonkoma set y_enable=0 where y_parent='"+primaryId+"'";
+		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
 }

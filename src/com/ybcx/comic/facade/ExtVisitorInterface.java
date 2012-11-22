@@ -195,4 +195,14 @@ public interface ExtVisitorInterface {
     
     //分页获取结局
     public static final String GETENDINGBYPRIMARYANDPAGE = "getEndingByPrimaryAndPage";
+    
+    //删除一个主动画
+    public static final String DELPRIMARY = "delPrimary";
+    
+    //删除一个结局
+    public static final String DELENDING = "delEnding";
+    
+    //更新主动画（包括修改名称和帧数）
+    public static final String UPDATEPRIMARY = "updatePrimary";
+    
 }

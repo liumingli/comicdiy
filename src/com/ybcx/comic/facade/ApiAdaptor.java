@@ -510,6 +510,21 @@ public class ApiAdaptor {
 		return res;
 	}
 	
+	public String updatePrimary(String id, String name, String frame) {
+		String res = comicService.updatePrimary(id,name,frame);
+		return res;
+	}
+	
+	public String delPrimary(String primaryId) {
+		String res = comicService.deletePrimary(primaryId);
+		return res;
+	}
+	
+	public String delEnding(String endingId) {
+		String res = comicService.deleteEnding(endingId);
+		return res;
+	}
+	
 	
 
 } // end of class

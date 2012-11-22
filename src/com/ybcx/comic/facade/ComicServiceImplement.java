@@ -1438,5 +1438,37 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		return list;
 	}
 
+	@Override
+	public String updatePrimary(String id, String name, String frame) {
+		boolean flag = false;
+		int rows = dbVisitor.updatePrimary(id,name,frame);
+		if(rows>0){
+			flag = true;
+		}
+		return String.valueOf(flag);
+	}
+
+	@Override
+	public String deletePrimary(String primaryId) {
+		boolean flag = false;
+		int rows = dbVisitor.deleteYonkoma(primaryId);
+		//删除某一主动画的所有结局
+		dbVisitor.deleteEndingByPrimary(primaryId);
+		if(rows>0){
+			flag = true;
+		}
+		return String.valueOf(flag);
+	}
+
+	@Override
+	public String deleteEnding(String endingId) {
+		boolean flag = false;
+		int rows = dbVisitor.deleteYonkoma(endingId);
+		if(rows>0){
+			flag = true;
+		}
+		return String.valueOf(flag);
+	}
+
 
 }

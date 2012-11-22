@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Login Page</title>
+<title>登录（请使用chrome,firefox浏览器</title>
 <style type="text/css">
 	
 body {
@@ -27,6 +27,17 @@ body {
 </style>
 
 <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+window.onload = function(){
+	if(navigator.userAgent.indexOf("MSIE")>0){
+	    alert('系统检测出你使用了 ie 或 360 浏览器,请改用chrom（或firefox）等再行访问本站，谢谢合作！');
+	    document.execCommand("stop");
+	    //注:把location前面的//号去掉后,把后面的网址改成你的网站,弹出窗口后就会跳到你指定的网址.
+	    location.href="http://www.produ.cn";
+	}
+};
+</script>
 
 <script type="text/javascript">
 document.onkeydown=function(event){

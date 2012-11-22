@@ -161,6 +161,12 @@ public interface DBAccessInterface {
 		
 		public List<Yonkoma> getYonkomaByPage(String primary, int pageSize, int pageNum);
 
+		public int updatePrimary(String id, String name, String frame);
+
+		public int deleteYonkoma(String id);
+
+		public int deleteEndingByPrimary(String primaryId);
+
 		
 
 

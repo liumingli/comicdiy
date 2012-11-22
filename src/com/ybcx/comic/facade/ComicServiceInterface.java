@@ -137,4 +137,10 @@ public interface ComicServiceInterface {
 
 	public List<Yonkoma> getYonkomaByPage(String primary, String pageSize, String pageNum);
 
+	public String updatePrimary(String id, String name, String frame);
+
+	public String deletePrimary(String primaryId);
+
+	public String deleteEnding(String endingId);
+
 }

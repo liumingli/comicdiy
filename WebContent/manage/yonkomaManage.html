@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>四格漫画素材管理</title>
 <link rel="stylesheet" type="text/css" charset="utf-8" href="css/yonkoma.css" />
+<link rel="stylesheet" type="text/css"  charset="utf-8" href="css/popup.css" />
 	
 <script type="text/javascript" src="js/jquery.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/jquery.ui.widget.js"
@@ -14,27 +15,57 @@
 	charset="utf-8"></script>
 
 <script type="text/javascript" src="js/view.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/popup.js" charset="utf-8"></script>
 
 </head>
 
 <body onload="getPrimary();">
-<div id="caption"><b>主动画素材列表</b></div>
+<div id="caption">
+	<b>主动画素材列表</b>
+	<input type="button" id="upload" value="上传主动画" onclick="uploadYonkoma();">
+</div>
 	<input type="hidden" id="parent">
-	<table>
-		<tbody id="yonkomaList">
-<!-- 			<tr><td rowspan="4"></td><td colspan="4"></td><td rowspan="4"></tr> -->
-<!-- 			<tr id="line1"><td>1</td><td>2</td><td>3</td><td>4</td></tr> -->
-<!-- 			<tr id="line2"><td>5</td><td>6</td><td>7</td><td>8</td></tr> -->
-<!-- 			<tr id="line3"><td>9</td><td>10</td><td>11</td><td>12</td></tr> -->
-		</tbody>
-	</table>
-
-	<div id="paging">
-		<span id="prevPage"><a href="javascript:getPrevpage()">上一页</a></span>
-		<span id="nextPage"><a href="javascript:getNextpage()">下一页</a></span>
-		<span id="currentPage">当前第<span id="current"></span>页</span>
-		<span id="totalPage">共<span id="total"></span>页</span>
-		<input type="button" id="reback" value="返回主动画" onclick="window.location.reload();"  style="display: none;">
+	<input type="hidden" id="primary">
+	<div id="content">
+	
+		<table>
+			<tbody id="yonkomaList">
+<!-- 				<tr id="line1"> -->
+<!-- 					<td></td><td></td><td></td><td></td> -->
+<!-- 				</tr> -->
+<!-- 				<tr id="line2"> -->
+<!-- 					<td></td><td></td><td></td><td></td> -->
+<!-- 				</tr> -->
+<!-- 				<tr id="line3"> -->
+<!-- 					<td></td><td></td><td></td><td></td> -->
+<!-- 				</tr> -->
+			</tbody>
+		</table>
+		
+		<span id="previous"><a href="javascript:getPrevpage()"><img src="imgs/left.png" title="上一页"、></a></span>
+		<span id="next"><a href="javascript:getNextpage()"><img src="imgs/right.png"/></a></span>
+		
+<!-- 		<div id="pageInfo"> -->
+			<span id="currentPage">第<span id="current"></span>页</span>
+			<span id="totalPage">共<span id="total"></span>页</span>
+<!-- 		</div> -->
 	</div>
+	
+	<div id="popupContact" style="display:none">  
+	 	<h2>编辑主动画</h2>
+		<a id="popupContactClose" href="javascript:disablePopup();"><img src="imgs/close.png" alt="关闭"/></a>  
+		<div>
+			<input type="hidden" id="primary">
+			<label>名称</label>
+			<input type="text" id="name"  maxlength="12" ><br>
+			<label>帧数</label>
+			<input type="text" id="frame" style="width:30px" onblur="checkNum();" onfocus="cancelInfo();">
+			<span  style="display: none;" id="frameInfo"></span><br>
+			<input type="button" id="submit" value="提交" onclick="updatePrimary();"><br>
+			<span  style="display: none;" id="prompt"></span>
+		</div>
+	</div>
+	
+	<div id="backgroundPopup" onclick="disablePopup();"></div> 
 </body>
 </html>
