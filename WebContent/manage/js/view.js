@@ -3,7 +3,7 @@ function uploadYonkoma(){
 //	window.open("assetsUpload.html", 'new','');
     var parent = $("#parent").val();
     var primary = $("#primary").val();
-	window.location.href = "yonkomaUpload.html?primaryId="+parent+"&primaryName="+primary;
+	window.location.href = encodeURI("yonkomaUpload.html?primaryId="+parent+"&primaryName="+primary);
 }
 
 function getPrimary(){
@@ -222,7 +222,7 @@ function getEnding(id,name){
 	}, 
 	function (result) {
 		$("#caption").html('<b>结局动画列表</b> (主动画名称：'+name+')'+
-				'<input type="button" id="upload" value="上传结局" onclick="uploadYonkoma();">'+
+				'<input type="button" id="upload" value="添加结局" onclick="uploadYonkoma();">'+
 				'<input type="button" id="reback" value="返回主动画" onclick="window.location.reload();">');
 		//主动画的id
 		$('#parent').attr("value",id);
@@ -342,7 +342,6 @@ function getNextpage(){
 }
 
 function getYonkoma(pageNum){
-	alert(pageNum);
 	var parent = $("#parent").val();
 	if(parent != null && parent != ""){
 		getEndingByPrimaryAndPage(pageNum,parent);

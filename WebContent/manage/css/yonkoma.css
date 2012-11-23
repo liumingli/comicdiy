@@ -6,13 +6,16 @@ body{
   text-align: center;
 }
 
+#caption{
+	font-size: larger;
+}
+
 table{
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 12px;
 	margin:20px auto; 
 	border-collapse: collapse;
 	border: 1px solid gray;
-	height:720px;
 }
 
 tr{
@@ -49,17 +52,3 @@ img{
 	padding:3px;
 }
 
-#caption{
-	font-size: larger;
-}
-
-#conent{
-	width:900px;
-	height:750px;
-}
-#previous{
-
-}
-#next{
-	
-}
