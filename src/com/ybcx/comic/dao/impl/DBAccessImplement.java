@@ -1137,8 +1137,8 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public int createYonkoma(final Yonkoma yonkoma) {
 		String sql = "INSERT INTO t_yonkoma "
-				+ "(y_id, y_name, y_swf, y_thumbnail, y_createTime, y_frame, y_type, y_parent,y_enable, y_memo) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+				+ "(y_id, y_name, y_swf, y_thumbnail, y_longImg, y_createTime, y_frame, y_type, y_parent,y_enable, y_memo) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 		
 		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement ps) {
@@ -1147,12 +1147,13 @@ public class DBAccessImplement  implements DBAccessInterface {
 					ps.setString(2, yonkoma.getName());
 					ps.setString(3, yonkoma.getSwf());
 					ps.setString(4, yonkoma.getThumbnail());
-					ps.setString(5, yonkoma.getCreateTime());
-					ps.setInt(6,yonkoma.getFrame());
-					ps.setString(7, yonkoma.getType());
-					ps.setString(8, yonkoma.getParent());
-					ps.setInt(9, yonkoma.getEnable());
-					ps.setString(10, "");
+					ps.setString(5, yonkoma.getLongImg());
+					ps.setString(6, yonkoma.getCreateTime());
+					ps.setInt(7,yonkoma.getFrame());
+					ps.setString(8, yonkoma.getType());
+					ps.setString(9, yonkoma.getParent());
+					ps.setInt(10, yonkoma.getEnable());
+					ps.setString(11, "");
 
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -1177,6 +1178,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 				yonkoma.setName(map.get("y_name").toString());
 				yonkoma.setSwf(map.get("y_swf").toString());
 				yonkoma.setThumbnail(map.get("y_thumbnail").toString());
+				yonkoma.setLongImg(map.get("y_longImg").toString());
 				yonkoma.setCreateTime(map.get("y_createTime").toString());
 				yonkoma.setParent(map.get("y_parent").toString());
 				yonkoma.setFrame(Integer.parseInt(map.get("y_frame").toString()));
@@ -1214,6 +1216,13 @@ public class DBAccessImplement  implements DBAccessInterface {
 	public int deleteEndingByPrimary(String primaryId) {
 		String sql = "update t_yonkoma set y_enable=0 where y_parent='"+primaryId+"'";
 		int rows = jdbcTemplate.update(sql);
+		return rows;
+	}
+
+	@Override
+	public int checkYonkomaName(String name) {
+		String sql = "select count(y_id) from t_yonkoma where y_name='"+name+"'";
+		int rows = jdbcTemplate.queryForInt(sql);
 		return rows;
 	}
 

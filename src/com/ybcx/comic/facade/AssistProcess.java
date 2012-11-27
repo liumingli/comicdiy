@@ -480,7 +480,8 @@ public class AssistProcess {
 			String frame = req.getParameter("frame");
 			String swf = req.getParameter("swf");
 			String thumbnail = req.getParameter("thumbnail");
-		    String result= apiAdaptor.createPrimary(name,frame,swf,thumbnail);
+			String longImg = req.getParameter("longImg");
+		    String result= apiAdaptor.createPrimary(name,frame,swf,thumbnail,longImg);
 			log.info(result);
 			pw.print(result);
 			pw.close();
@@ -492,7 +493,8 @@ public class AssistProcess {
 			String swf = req.getParameter("swf");
 			String thumbnail = req.getParameter("thumbnail");
 			String parent = req.getParameter("parent");
-		    String result= apiAdaptor.createEnding(name,swf,thumbnail,parent);
+			String longImg = req.getParameter("longImg");
+		    String result= apiAdaptor.createEnding(name,swf,thumbnail,longImg,parent);
 			log.info(result);
 			pw.print(result);
 			pw.close();
@@ -565,9 +567,16 @@ public class AssistProcess {
 			log.info(result);
 			pw.print(result);
 			pw.close();
+			
+		}else if (action.equals(AppStarter.CHECKYONKOMANAME)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String name = req.getParameter("name");
+		    String result= apiAdaptor.checkYonkomaName(name);
+			log.info(result);
+			pw.print(result);
+			pw.close();
 		}
-		
-		
 
 	}
 

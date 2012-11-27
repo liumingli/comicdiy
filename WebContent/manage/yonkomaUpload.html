@@ -22,7 +22,8 @@
 		<li id="caption" ><b>新增主动画</b></li>
 		<li>
 			<label>名称</label>
-			<input type="text" id="name" onfocus="cancelPrompt();" maxlength="12" autofocus>
+			<input type="text" id="name" onfocus="cancelPrompt();" maxlength="12" autofocus onblur="checkName()">
+			<span  style="display: none;" id="nameInfo"></span>
 		</li>
 		<li id="frameLi">
 			<label>帧数</label>
@@ -42,6 +43,13 @@
 			<span  style="display: none;" id="thumbnailInfo"></span>
 			<span class="help-block">尺寸：200*200</span>
 			<input type="hidden" id="thumbnailPath">
+		</li>
+		<li>
+			<label>&nbsp;长图片</label>
+			<input type="file" id="longimgUpload" data-url="/comicdiy/fileupload" accept="image/jpeg,image/png,image/gif">
+			<span  style="display: none;" id="longimgInfo"></span>
+			<span class="help-block">宽：400px</span>
+			<input type="hidden" id="longimgPath">
 		</li>
 		<li style="margin-left:80px">
 			<input type="button" id="submit" value="提交" onclick="createYonkoma();">

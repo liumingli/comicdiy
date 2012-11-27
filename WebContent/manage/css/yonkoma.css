@@ -3,11 +3,16 @@ body{
   font-size: 13px;
   position: relative;
   height: 100%;
-  text-align: center;
 }
 
 #caption{
 	font-size: larger;
+	text-align: center;
+}
+
+
+#page{
+	text-align: center;
 }
 
 table{
@@ -15,18 +20,20 @@ table{
 	font-size: 12px;
 	margin:20px auto; 
 	border-collapse: collapse;
-	border: 1px solid gray;
+/* 	border: 1px solid gray; */
+	text-align: center;
 }
 
 tr{
 	padding: 5px;
 	font-weight: normal;
 	color: #039;
-	border-bottom: 1px dashed gray;
+/* 	border-bottom: 1px dashed gray; */
 }
 
 td{
-	width:200px;
+	width:220px;
+	height:240px;
 	padding: 5px;
 	color: #669;
 	border: 1px solid gray; 

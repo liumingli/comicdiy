@@ -54,6 +54,33 @@ window.onload = function(){
 		}
 	});
 	
+	$('#longimgUpload').fileupload({
+		add : function(e, data) {
+			var fileName = data.files[0].name;
+			var regexp = /\.(png)|(jpg)|(gif)$/i;
+		    if (!regexp.test(fileName)) {
+		    	  $('#longimgInfo').show().html('<img src="imgs/no.png">');
+		    }else{
+		    	 $('#longimgInfo').show().html('<img src="imgs/loading.gif">');
+				var jqXHR = data.submit().success(
+						function(result, textStatus, jqXHR) {
+							if(result == "reject"){
+							    $('#longimgInfo').show().html('<img src="imgs/no.png">');
+							}else{
+								$('#longimgPath').val(result);
+								$('#longimgInfo').show().html('<img src="imgs/ok.png">');
+								$('#longimgUpload').attr('disabled','disabled');
+							}
+						}).error(
+						function(jqXHR, textStatus, errorThrown) {
+							$('#longimgInfo').show().html('<img src="imgs/no.png">');
+						}).complete(
+						function(result, textStatus, jqXHR) {
+						});
+		    }
+		}
+	});
+	
 	//检查是否有主动画id参数
 	var parentId = getQueryString("primaryId");
 	var parentName = getQueryString("primaryName");
@@ -90,6 +117,7 @@ function cancelInfo(){
 }
 
 function cancelPrompt(){
+	 $('#nameInfo').hide();
 	 $('#prompt').hide();
 }
 
@@ -98,10 +126,14 @@ function emptyForm(){
 	 $("#frame").val("0");
 	 $("#assetPath").val("");
 	 $("#thumbnailPath").val("");
+	 $("longimgPath").val("");
 	 $('#assetUpload').removeAttr('disabled');
 	 $('#thumbnailUpload').removeAttr('disabled');
+	 $('#longimgUpload').removeAttr('disabled');
 	 $('#assetInfo').hide();
 	 $('#thumbnailInfo').hide();
+	 $('#longimgInfo').hide();
+	 $('#nameInfo').hide();
 	 $('#prompt').hide();
 	 $('#load').hide();
 	 $('#parent').attr("value","");
@@ -122,11 +154,12 @@ function checkNull(){
 	var name = 	$("#name").val();
 	var swf = $("#assetPath").val();
 	var thubmnail = $("#thumbnailPath").val();
+	var longimg = $("#longimgPath").val();
 	var val = $("#frame").val();
 	var r = /^\+?[1-9][0-9]*$/;//正整数 
 	
-	if(name != null && name != "" && swf !=null && swf !="" && 
-			thubmnail !=null && thubmnail!="" && r.test(val)){
+	if(name != null && name != "" && swf !=null && swf !="" && r.test(val) &&
+			thubmnail !=null && thubmnail!="" && longimg !=null && longimg !=""){
 		return true;
 	}else{
 		$('#prompt').show().html('<font color="red" size="2">提示：</font>');
@@ -142,6 +175,9 @@ function checkNull(){
 		if(thubmnail ==null || thubmnail =="" ){
 			$('#prompt').append('<font color="red" size="2">请上传缩略图文件</font><br>');
 		}
+		if(longimg ==null || longimg =="" ){
+			$('#prompt').append('<font color="red" size="2">请上传长图片</font><br>');
+		}
 		return false;
 	}
 }
@@ -153,12 +189,14 @@ function createPrimary(){
 		var frame = $("#frame").val();
 		var swf = $("#assetPath").val();
 		var thubmnail = $("#thumbnailPath").val();
+		var longImg = $("#longimgPath").val();
 		$.post('/comicdiy/comicapi', {
 			'method'  : 'createPrimary',
 			'name' : name,
 			'frame' : frame,
 			'swf' : swf,
-			'thumbnail' : thubmnail
+			'thumbnail' : thubmnail,
+			'longImg' : longImg
 		}, 
 		function (result) {
 			$('#load').attr("style","display:none");
@@ -193,12 +231,14 @@ function createEnding(){
 		var parent = $("#parent").val();
 		var swf = $("#assetPath").val();
 		var thubmnail = $("#thumbnailPath").val();
+		var longImg = $("#longimgPath").val();
 		$.post('/comicdiy/comicapi', {
 			'method'  : 'createEnding',
 			'name' : name,
 			'parent' : parent,
 			'swf' : swf,
-			'thumbnail' : thubmnail
+			'thumbnail' : thubmnail,
+			'longImg' : longImg
 		}, 
 		function (result) {
 			$('#load').attr("style","display:none");
@@ -221,9 +261,9 @@ function checkEnding(){
 	var name = 	$("#name").val();
 	var swf = $("#assetPath").val();
 	var thubmnail = $("#thumbnailPath").val();
-	
-	if(name != null && name != "" && swf !=null && swf !="" && 
-			thubmnail !=null && thubmnail!=""){
+	var longimg = $("#longimgPath").val();
+	if(name != null && name != "" && swf !=null && swf !="" &&
+			thubmnail !=null && thubmnail!="" && longimg !=null && longimg !=""){
 		return true;
 	}else{
 		$('#prompt').show().html('<font color="red" size="2">提示：</font>');
@@ -236,7 +276,29 @@ function checkEnding(){
 		if(thubmnail ==null || thubmnail =="" ){
 			$('#prompt').append('<font color="red" size="2">请上传缩略图文件</font><br>');
 		}
+		if(longimg ==null || longimg =="" ){
+			$('#prompt').append('<font color="red" size="2">请上传长图片</font><br>');
+		}
 		return false;
 	}
 }
 
+
+function checkName(){
+	var name = $('#name').val().trim();
+	if(name != null && name !=""){
+		$.post('/comicdiy/comicapi', {
+			'method'  : 'checkYonkomaName',
+			'name' : name
+		}, 
+		function (result) {
+			if(result=="true"){
+				  $('#nameInfo').show().html('<img src="imgs/ok.png">');
+			}else{
+				$("#name").focus();
+				$('#nameInfo').show().html('<img src="imgs/no.png">');
+				$('#prompt').show().html('<font color="red" size="2">提示：此名称已占用</font><br>');
+			}
+		});
+	}
+}

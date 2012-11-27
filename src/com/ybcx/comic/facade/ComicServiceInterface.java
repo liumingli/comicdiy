@@ -129,9 +129,9 @@ public interface ComicServiceInterface {
 	public String loginSystem(String account, String password);
 
 	public String createPrimary(String name, String frame, String swf,
-			String thumbnail);
+			String thumbnail, String longImg);
 
-	public String createEnding(String name, String swf, String thumbnail, String parent);
+	public String createEnding(String name, String swf, String thumbnail, String longImg, String parent);
 	
 	public int getYonkomaCount(String primary);
 
@@ -142,5 +142,7 @@ public interface ComicServiceInterface {
 	public String deletePrimary(String primaryId);
 
 	public String deleteEnding(String endingId);
+
+	public String checkYonkomaName(String name);
 
 }

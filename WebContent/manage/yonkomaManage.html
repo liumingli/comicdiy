@@ -26,29 +26,31 @@
 </div>
 	<input type="hidden" id="parent">
 	<input type="hidden" id="primary">
-	<div id="content">
 	
-		<table>
-			<tbody id="yonkomaList">
-<!-- 				<tr id="line1"> -->
-<!-- 					<td></td><td></td><td></td><td></td> -->
-<!-- 				</tr> -->
-<!-- 				<tr id="line2"> -->
-<!-- 					<td></td><td></td><td></td><td></td> -->
-<!-- 				</tr> -->
-<!-- 				<tr id="line3"> -->
-<!-- 					<td></td><td></td><td></td><td></td> -->
-<!-- 				</tr> -->
-			</tbody>
-		</table>
-		
-		<span id="previous"><a href="javascript:getPrevpage()"><img src="imgs/left.png" title="上一页"/></a></span>
-		<span id="next"><a href="javascript:getNextpage()"><img src="imgs/right.png"/></a></span>
-		
-<!-- 		<div id="pageInfo"> -->
-			<span id="currentPage">第<span id="current"></span>页</span>
-			<span id="totalPage">共<span id="total"></span>页</span>
-<!-- 		</div> -->
+	<table>
+		<tbody id="yonkomaList">
+			<tr id="line1">
+<!-- 			style="visibility:hidden" -->
+				<td rowspan="3"  style="border:0px">	
+					<span id="previous" ><a href="javascript:getPrevpage()"><img src="imgs/left.png" title="上一页"/></a></span>
+				</td>
+				<td id="ele10"></td><td id="ele11"></td><td id="ele12"></td><td id="ele13"></td>
+				<td rowspan="3" style="border:0px">
+					<span id="next" ><a href="javascript:getNextpage()"><img src="imgs/right.png" title="下一页"/></a></span>
+				</td>
+			</tr>
+			<tr id="line2">
+				<td id="ele24"></td><td id="ele25"></td><td id="ele26"></td><td id="ele27"></td>
+			</tr>
+			<tr id="line3">
+				<td id="ele38"></td><td id="ele39"></td><td id="ele310"></td><td id="ele311"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div id="page">
+		<span id="currentPage">第<span id="current">0</span>页</span>
+		<span id="totalPage">共<span id="total">0</span>页</span>
 	</div>
 	
 	<div id="popupContact" style="display:none">  
@@ -57,7 +59,8 @@
 		<div>
 			<input type="hidden" id="primary">
 			<label>名称</label>
-			<input type="text" id="name"  maxlength="12" ><br>
+			<input type="text" id="name"  maxlength="12"  onblur="checkName()">	
+			<span  style="display: none;" id="nameInfo"></span><br>
 			<label>帧数</label>
 			<input type="text" id="frame" style="width:30px" onblur="checkNum();" onfocus="cancelInfo();">
 			<span  style="display: none;" id="frameInfo"></span><br>

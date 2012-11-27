@@ -167,6 +167,8 @@ public interface DBAccessInterface {
 
 		public int deleteEndingByPrimary(String primaryId);
 
+		public int checkYonkomaName(String name);
+
 		
 
 

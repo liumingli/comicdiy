@@ -20,7 +20,6 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
  * 
  */
 
-@SuppressWarnings("restriction")
 public class ImageHelper {
 
 	public static BufferedImage handleImage(FileItem fileItem, int defWidth,

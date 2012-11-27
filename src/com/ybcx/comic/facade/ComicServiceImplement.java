@@ -873,7 +873,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		String fileName = imgData.getName();
 		String filePath = imagePath + File.separator + fileName;
 		try {
-			ImageHelper.handleImage(imgData, 100, 100, filePath);
+			ImageHelper.handleImage(imgData, 200, 200, filePath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -1382,11 +1382,11 @@ public class ComicServiceImplement implements ComicServiceInterface {
 
 	@Override
 	public String createPrimary(String name, String frame, String swf,
-			String thumbnail) {
+			String thumbnail, String longImg) {
 		boolean flag = false;
 		String type = "Primary";
 		String parent = "parent";
-		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, type, parent);
+		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, longImg, type, parent);
 		int rows = dbVisitor.createYonkoma(yonkoma);
 		if(rows > 0){
 			return yonkoma.getId();
@@ -1395,12 +1395,13 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}	
 	}
 	
-	private Yonkoma generateYonkoma(String name, String frame, String swf,String thumbnail,String type,String parent){
+	private Yonkoma generateYonkoma(String name, String frame, String swf,String thumbnail,String longImg, String type,String parent){
 		Yonkoma yonkoma = new Yonkoma();
 		yonkoma.setId(ComicUtils.generateUID());
 		yonkoma.setName(name);
 		yonkoma.setSwf(swf);
 		yonkoma.setThumbnail(thumbnail);
+		yonkoma.setLongImg(longImg);
 		yonkoma.setCreateTime(ComicUtils.getFormatNowTime());
 		yonkoma.setFrame(Integer.parseInt(frame));
 		yonkoma.setType(type);
@@ -1410,11 +1411,11 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 
 	@Override
-	public String createEnding(String name, String swf, String thumbnail, String parent) {
+	public String createEnding(String name, String swf, String thumbnail, String longImg, String parent) {
 		boolean flag = false;
 		String type = "Ending";
 		String frame = "0";
-		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, type, parent);
+		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, longImg, type, parent);
 		int rows = dbVisitor.createYonkoma(yonkoma);
 		if(rows > 0){
 			return yonkoma.getId();
@@ -1465,6 +1466,16 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		boolean flag = false;
 		int rows = dbVisitor.deleteYonkoma(endingId);
 		if(rows>0){
+			flag = true;
+		}
+		return String.valueOf(flag);
+	}
+
+	@Override
+	public String checkYonkomaName(String name) {
+		boolean flag = false;
+		int rows = dbVisitor.checkYonkomaName(name);
+		if(rows<1){
 			flag = true;
 		}
 		return String.valueOf(flag);

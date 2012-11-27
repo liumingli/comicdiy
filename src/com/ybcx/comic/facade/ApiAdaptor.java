@@ -465,13 +465,13 @@ public class ApiAdaptor {
 	}
 	
 	public String createPrimary(String name, String frame, String swf,
-			String thumbnail) {
-		String result = comicService.createPrimary(name,frame,swf,thumbnail);
+			String thumbnail, String longImg) {
+		String result = comicService.createPrimary(name,frame,swf,thumbnail,longImg);
 		return result;
 	}
 	
-	public String createEnding(String name, String swf, String thumbnail, String parent) {
-		String result = comicService.createEnding(name,swf,thumbnail,parent);
+	public String createEnding(String name, String swf, String thumbnail, String longImg, String parent) {
+		String result = comicService.createEnding(name,swf,thumbnail,longImg,parent);
 		return result;
 	}
 	
@@ -494,6 +494,15 @@ public class ApiAdaptor {
 				int position = swfPath.lastIndexOf("uploadFile");
 				String relativePath = swfPath.substring(position+11);
 				jsonArray.getJSONObject(i).set("swf", relativePath);
+			}
+			
+			//DIY成品的缩略图
+			String longImg = jsonArray.getJSONObject(i).get("longImg").toString();
+			if(!"".equals(longImg)){
+				//先从字符串中找到文件夹uploadFile的位置，再加上uploadFile的长度10，即可截取到下属文件路径
+				int position = longImg.lastIndexOf("uploadFile");
+				String relativePath = longImg.substring(position+11);
+				jsonArray.getJSONObject(i).set("longImg", relativePath);
 			}
 		}
 	}
@@ -522,6 +531,11 @@ public class ApiAdaptor {
 	
 	public String delEnding(String endingId) {
 		String res = comicService.deleteEnding(endingId);
+		return res;
+	}
+	
+	public String checkYonkomaName(String name) {
+		String res = comicService.checkYonkomaName(name);
 		return res;
 	}
 	

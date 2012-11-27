@@ -9,6 +9,7 @@ public class Yonkoma {
 	private String id;
 	private String name;
 	private String thumbnail;
+	private String longImg;
 	private String swf;
 	private String createTime;
 	private int frame;
@@ -39,6 +40,12 @@ public class Yonkoma {
 	}
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
+	}
+	public String getLongImg() {
+		return longImg;
+	}
+	public void setLongImg(String longImg) {
+		this.longImg = longImg;
 	}
 	public String getSwf() {
 		return swf;

@@ -205,4 +205,7 @@ public interface ExtVisitorInterface {
     //更新主动画（包括修改名称和帧数）
     public static final String UPDATEPRIMARY = "updatePrimary";
     
+    //检验四格漫画名称
+    public static final String CHECKYONKOMANAME = "checkYonkomaName";
+    
 }

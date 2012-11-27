@@ -46,9 +46,23 @@ function getPrimaryByPage(pageNum){
 	},"json");
 }
 
+function clearTable(){
+	for(var j=0;j<12;j++){
+		for(var i=1;i<4;i++){
+			var num = Math.ceil((j+1)/4);
+			if(num == i){
+				$('#ele'+String(i)+String(j)).children().remove();
+			}
+		}
+	}
+}
+
 
 function generatePrimary(result){
-	$('#yonkomaList').children().remove();
+	//清空列表内容
+	//$('#yonkomaList').children().remove();
+	clearTable();
+	
 	for(key in result){
 		var id= result[key].id;
 		var thumbnail = result[key].thumbnail;
@@ -57,22 +71,23 @@ function generatePrimary(result){
 		var frame = result[key].frame;
 		//行数 现在显示12个，3行4列
 		var num = Math.ceil((parseInt(key)+1)/4);
-		generateTr(num);
-		generatePrimaryTd(id,name,thumbnail,swf,frame,num);
+		//generateTr(num);
+		generatePrimaryTd(id,name,thumbnail,swf,frame,num,key);
 	}
 }
 
-function generateTr(num){
-	$('<tr></tr>').appendTo($('#yonkomaList'))
-	.attr("id","line"+num);
-}
+//function generateTr(num){
+//	$('<tr></tr>').appendTo($('#yonkomaList'))
+//	.attr("id","line"+num);
+//}
 
 //生成主动画
-function generatePrimaryTd(id,name,thumbnail,swf,frame,num){
-	var tr = document.getElementById("line"+num);
-	var para = document.createElement("td");
+function generatePrimaryTd(id,name,thumbnail,swf,frame,num,key){
+//	var tr = document.getElementById("line"+num);
+//	var td = document.createElement("td");
+	var td = document.getElementById("ele"+num+key);
 	var a = document.createElement("a");
-	para.appendChild(a);
+	td.appendChild(a);
 	var img = document.createElement("img");
 	var local = '/comicdiy/comicapi?method=getThumbnail&relativePath=';
 	img.setAttribute("src",local+thumbnail);
@@ -85,9 +100,9 @@ function generatePrimaryTd(id,name,thumbnail,swf,frame,num){
 	a.setAttribute("target", "_blank");
 	
 	//生成编辑、删除和查看结局三个按钮
-	generatePrimaryEditTd(id,name,frame,para);
+	generatePrimaryEditTd(id,name,frame,td);
 	
-	tr.appendChild(para);
+//	tr.appendChild(td);
 }
 
 
@@ -193,6 +208,7 @@ function checkNull(){
 
 function updatePrimary(){
 	if(checkNull()){
+		$('#nameInfo').hide();
 		var id = $("#primary").val();
 		var name = $("#name").val();
 		var frame= $("#frame").val();
@@ -227,7 +243,8 @@ function getEnding(id,name){
 		//主动画的id
 		$('#parent').attr("value",id);
 		$('#primary').attr("value",name);
-		$('#yonkomaList').children().remove();
+//		$('#yonkomaList').children().remove();
+		clearTable();
 		if(result > 0){
 			var total = 0;
 			if(parseInt(result%12) == 0){
@@ -260,24 +277,26 @@ function getEndingByPrimaryAndPage(pageNum,id){
 }
 
 function generateEnding(result){
-	$('#yonkomaList').children().remove();
+	//$('#yonkomaList').children().remove();
+	clearTable();
 	for(key in result){
 		var id= result[key].id;
 		var thumbnail = result[key].thumbnail;
 		var name = result[key].name;
 		var swf = result[key].swf;
 		var num = Math.ceil((parseInt(key)+1)/4);
-		generateTr(num);
-		generateEndingTd(id,name,thumbnail,swf,num);
+//		generateTr(num);
+		generateEndingTd(id,name,thumbnail,swf,num,key);
 	}
 }
 
 //生成结局动画
-function generateEndingTd(id,name,thumbnail,swf,num){
-	var tr = document.getElementById("line"+num);
-	var para = document.createElement("td");
+function generateEndingTd(id,name,thumbnail,swf,num,key){
+	//var tr = document.getElementById("line"+num);
+	//var td = document.createElement("td");
+	var td = document.getElementById("ele"+num+key)
 	var a = document.createElement("a");
-	para.appendChild(a);
+	td.appendChild(a);
 	var img = document.createElement("img");
 	var local = '/comicdiy/comicapi?method=getThumbnail&relativePath=';
 	img.setAttribute("src",local+thumbnail);
@@ -293,9 +312,9 @@ function generateEndingTd(id,name,thumbnail,swf,num){
 	imgDel.setAttribute("title", "删除");
 	aDel.appendChild(imgDel);
 	aDel.setAttribute("href", "javascript:delEnding('"+id+"')");
-	para.appendChild(aDel);
+	td.appendChild(aDel);
 	
-	tr.appendChild(para);
+//	tr.appendChild(para);
 }
 
 function delEnding(id){
@@ -347,5 +366,25 @@ function getYonkoma(pageNum){
 		getEndingByPrimaryAndPage(pageNum,parent);
 	}else{
 		getPrimaryByPage(pageNum);
+	}
+}
+
+function checkName(){
+	var name = $('#name').val().trim();
+	if(name != null && name !=""){
+		$.post('/comicdiy/comicapi', {
+			'method'  : 'checkYonkomaName',
+			'name' : name
+		}, 
+		function (result) {
+			if(result=="true"){
+				  $('#nameInfo').show().html('<img src="imgs/ok.png">');
+				  $('#prompt').hide();
+			}else{
+				$("#name").focus();
+				$('#nameInfo').show().html('<img src="imgs/no.png">');
+				$('#prompt').show().html('<font color="red" size="2">提示：此名称已占用</font><br>');
+			}
+		});
 	}
 }

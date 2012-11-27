@@ -1,10 +1,18 @@
 package com.ybcx.comic.tools;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
@@ -138,8 +146,11 @@ public class FileUploader extends HttpServlet {
 			}
 			
 			File uploadFile = null;
+			//FIXME 将文件重命名
+			Random r = new Random();
+			String num = String.valueOf(r.nextInt(10));
+			fileName = System.currentTimeMillis()+num+fileName.substring(dotPos).toLowerCase();
 			if(fileType.equals("swf")){
-				fileName = System.currentTimeMillis()+fileName.substring(dotPos).toLowerCase();
 				uploadFile = new File(assetPath + File.separator + fileName);
 				// 生成文件
 				item.write(uploadFile);

@@ -3,6 +3,7 @@ package com.ybcx.comic.utils;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 public class MD5Util {
 	
@@ -31,6 +32,6 @@ public class MD5Util {
     
     public static void main(String[] args) {
     	//ab56b4d92b40713acc5af89985d4b786
-        System.out.print(MD5Util.MD5("abcde"));
+       // System.out.print(MD5Util.MD5("abcde"));
     }
 }
