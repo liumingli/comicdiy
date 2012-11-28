@@ -10,6 +10,7 @@ import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.User;
+import com.ybcx.comic.beans.Weibostat;
 import com.ybcx.comic.beans.Yonkoma;
 
 
@@ -168,6 +169,10 @@ public interface DBAccessInterface {
 		public int deleteEndingByPrimary(String primaryId);
 
 		public int checkYonkomaName(String name);
+
+		public Yonkoma getYonkomaById(String primaryId);
+
+		public int createWeibostat(Weibostat stat);
 
 		
 

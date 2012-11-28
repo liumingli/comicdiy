@@ -54,9 +54,11 @@ import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.User;
 import com.ybcx.comic.beans.UserDetail;
+import com.ybcx.comic.beans.Weibostat;
 import com.ybcx.comic.beans.Yonkoma;
 import com.ybcx.comic.dao.DBAccessInterface;
 import com.ybcx.comic.tools.ImageHelper;
+import com.ybcx.comic.tools.SpliceImage;
 import com.ybcx.comic.utils.ComicUtils;
 import com.ybcx.comic.utils.IKAnalzyerUtil;
 import com.ybcx.comic.utils.MD5Util;
@@ -1481,5 +1483,111 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		return String.valueOf(flag);
 	}
 
+	@Override
+	public String yonkomaToWeibo(String type, String primaryId,
+			String endingId, String userId, String content) {
+		// TODO Auto-generated method stub
+		//根据type分两种方式：一种用系统定义的结局，则直接拼接图片;
+		//另一种是自定义的结局，则根据动画id找到图片再拼接
+		
+		boolean flag = false;
+		
+		String appUrl = "http://apps.weibo.com/wwwproducn";
+		
+		User user = dbVisitor.getUserById(userId);
+		String token = user.getAccessToken();
+		
+		//取主动画的长图片路径
+		Yonkoma primary = dbVisitor.getYonkomaById(primaryId);
+		String primaryLong = primary.getLongImg();
+		//结局动画的长图片路径
+		String endingLong = "";
+		if("system".equals(type)){
+			Yonkoma ending = dbVisitor.getYonkomaById(endingId);
+			endingLong = ending.getLongImg();
+			log.info("System ending image path : "+endingLong);
+			
+		}else if("custom".equals(type)){
+			//取出自定义结局的图片
+			Cartoon cartoon= dbVisitor.getAnimationById(endingId);
+			String thumbnailPath = cartoon.getThumbnail();
+			int position = thumbnailPath.lastIndexOf(".");
+			String extend = thumbnailPath.substring(position);
+			endingLong = thumbnailPath.substring(0,position)+"_Raw"+extend;	
+			log.info("Custom ending image path : "+endingLong);
+		}
+		
+		//拼图片，将主动画长图片和结局的图片拼接在一起，存在一个临时路径下，发微博成功后删除
+		SpliceImage splice = new SpliceImage();
+		String imgPath = splice.spliceImage(primaryLong,endingLong);
+		
+		//发微博
+		String weiboId = this.publishWeibo(token, imgPath,  content, appUrl);
+		
+		//发送微博成功，
+		if(!"".equals(weiboId)){
+			//向数据库中插入一条数据
+			Weibostat stat = this.generateWeibostat(weiboId,primaryId,endingId,type,userId);
+			int rows = dbVisitor.createWeibostat(stat);
+			//删除临时拼成的文件
+			File file = new File(imgPath);
+			boolean fileDel = false;
+			if(file.exists()){
+				fileDel=file.delete();
+			}
+			//返回
+			if(rows > 0 && fileDel){
+				flag = true;
+			}
+		}
+		
+		return String.valueOf(flag);
+	}
+
+	
+	private Weibostat generateWeibostat(String weiboId, String primaryId,
+			String endingId, String type, String userId) {
+		Weibostat stat = new Weibostat();
+		stat.setId(ComicUtils.generateUID());
+		stat.setWeibo(weiboId);
+		stat.setPrimary(primaryId);
+		stat.setEnding(endingId);
+		stat.setType(type);
+		stat.setUser(userId);
+		stat.setCreateTime(ComicUtils.getFormatNowTime());
+		return stat;
+	}
+
+	//转发内容到新浪微博
+	private String publishWeibo(String token, String imgPath,String content, String appUrl) {
+		String weiboId = "";
+		try{
+			try{
+				byte[] imgContent= readFileImage(imgPath);
+				ImageItem pic=new ImageItem("pic",imgContent);
+				
+				String resultText =content+"  应用地址："+appUrl;
+				
+				String s=java.net.URLEncoder.encode(resultText,"utf-8");
+				Timeline tl = new Timeline();
+				tl.client.setToken(token);
+				Status status=tl.UploadStatus(s, pic);
+				
+				//发送成功后返回微博id
+				weiboId = status.getId();
+				
+				log.info("Successfully upload the status to ["
+						+status.getText()+"].");
+			}catch(Exception e1){
+				e1.printStackTrace();
+				log.info("WeiboException: invalid_access_token.");
+			}
+		}catch(Exception ioe){
+			ioe.printStackTrace();
+			log.info("Failed to read the system input.");
+		}
+		
+		return weiboId;
+	}
 
 }

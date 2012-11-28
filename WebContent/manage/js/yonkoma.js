@@ -85,7 +85,6 @@ window.onload = function(){
 	var parentId = getQueryString("primaryId");
 	var parentName = getQueryString("primaryName");
 	if(parentId !=null && parentId !="" && parentName!="" && parentName !=null){
-		console.log(parentName);
 		addEnding(parentName,parentId);
 	}
 };

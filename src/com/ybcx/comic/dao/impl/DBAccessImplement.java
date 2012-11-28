@@ -19,6 +19,7 @@ import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.User;
+import com.ybcx.comic.beans.Weibostat;
 import com.ybcx.comic.beans.Yonkoma;
 import com.ybcx.comic.dao.DBAccessInterface;
 import com.ybcx.comic.utils.ComicUtils;
@@ -1224,6 +1225,54 @@ public class DBAccessImplement  implements DBAccessInterface {
 		String sql = "select count(y_id) from t_yonkoma where y_name='"+name+"'";
 		int rows = jdbcTemplate.queryForInt(sql);
 		return rows;
+	}
+
+	@Override
+	public Yonkoma getYonkomaById(String primaryId) {
+		Yonkoma yonkoma = new Yonkoma();
+		String sql = "select * from t_yonkoma where y_id='"+primaryId+"'";
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				yonkoma.setId(map.get("y_id").toString());
+				yonkoma.setName(map.get("y_name").toString());
+				yonkoma.setSwf(map.get("y_swf").toString());
+				yonkoma.setThumbnail(map.get("y_thumbnail").toString());
+				yonkoma.setLongImg(map.get("y_longImg").toString());
+				yonkoma.setCreateTime(map.get("y_createTime").toString());
+				yonkoma.setParent(map.get("y_parent").toString());
+				yonkoma.setFrame(Integer.parseInt(map.get("y_frame").toString()));
+				yonkoma.setType(map.get("y_type").toString());
+				yonkoma.setEnable(Integer.parseInt(map.get("y_enable").toString()));
+			}
+		}
+		return yonkoma;
+	}
+
+	@Override
+	public int createWeibostat(final Weibostat stat) {
+		String sql = "INSERT INTO t_weibostat "
+				+ "(w_id,w_weibo,w_primary,w_ending,w_type,w_createTime,w_memo) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+		
+		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) {
+				try {
+					ps.setString(1, stat.getId());
+					ps.setString(2, stat.getWeibo());
+					ps.setString(3, stat.getPrimary());
+					ps.setString(4, stat.getEnding());
+					ps.setString(5, stat.getType());
+					ps.setString(6, stat.getCreateTime());
+					ps.setString(7, "");
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		return res;
 	}
 
 }

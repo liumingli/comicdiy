@@ -107,13 +107,15 @@ function generatePrimaryTd(id,name,thumbnail,swf,frame,num,key){
 
 
 function generatePrimaryEditTd(id,name,frame,td){
+	var div = document.createElement("div");
+	td.appendChild(div);
 	var aCheck = document.createElement("a");
 	var imgCheck = document.createElement("img");
 	imgCheck.setAttribute("src","imgs/eye.png");
 	imgCheck.setAttribute("title","查看结局");
 	aCheck.appendChild(imgCheck);
 	aCheck.setAttribute("href","javascript:getEnding('"+id+"','"+name+"')");
-	td.appendChild(aCheck);
+	div.appendChild(aCheck);
 	
 	var aEdit = document.createElement("a");
 	var imgEdit = document.createElement("img");
@@ -121,7 +123,7 @@ function generatePrimaryEditTd(id,name,frame,td){
 	imgEdit.setAttribute("title", "编辑");
 	aEdit.appendChild(imgEdit);
 	aEdit.setAttribute("href","javascript:editPrimary('"+id+"','"+name+"','"+frame+"')");
-	td.appendChild(aEdit);
+	div.appendChild(aEdit);
 	
 	var aDel = document.createElement("a");
 	var imgDel = document.createElement("img");
@@ -129,7 +131,7 @@ function generatePrimaryEditTd(id,name,frame,td){
 	imgDel.setAttribute("title", "删除");
 	aDel.appendChild(imgDel);
 	aDel.setAttribute("href", "javascript:delPrimary('"+id+"')");
-	td.appendChild(aDel);
+	div.appendChild(aDel);
 }
 
 
@@ -306,13 +308,15 @@ function generateEndingTd(id,name,thumbnail,swf,num,key){
 	a.setAttribute("href", path+swf);
 	a.setAttribute("target", "_blank");
 	
+	var div = document.createElement("div");
+	td.appendChild(div);
 	var aDel = document.createElement("a");
 	var imgDel = document.createElement("img");
 	imgDel.setAttribute("src", "imgs/del.png");
 	imgDel.setAttribute("title", "删除");
 	aDel.appendChild(imgDel);
 	aDel.setAttribute("href", "javascript:delEnding('"+id+"')");
-	td.appendChild(aDel);
+	div.appendChild(aDel);
 	
 //	tr.appendChild(para);
 }

@@ -539,6 +539,12 @@ public class ApiAdaptor {
 		return res;
 	}
 	
+	public String yonkomaToWeibo(String type, String primaryId,
+			String endingId, String userId, String content) {
+		String res = comicService.yonkomaToWeibo(type,primaryId,endingId,userId,content);
+		return res;
+	}
+	
 	
 
 } // end of class

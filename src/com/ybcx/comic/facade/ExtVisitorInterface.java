@@ -208,4 +208,7 @@ public interface ExtVisitorInterface {
     //检验四格漫画名称
     public static final String CHECKYONKOMANAME = "checkYonkomaName";
     
+    //发四格漫画到微博，主要是文字及长图片
+    public static final String YONKOMATOWEIBO = "yonkomaToWeibo";
+    
 }
