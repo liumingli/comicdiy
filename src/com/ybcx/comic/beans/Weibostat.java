@@ -3,7 +3,6 @@ package com.ybcx.comic.beans;
 public class Weibostat {
 
 	private String id;
-	private String weibo;
 	private String primary;
 	private String ending;
 	private String type;
@@ -21,12 +20,6 @@ public class Weibostat {
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	public String getWeibo() {
-		return weibo;
-	}
-	public void setWeibo(String weibo) {
-		this.weibo = weibo;
 	}
 	public String getPrimary() {
 		return primary;

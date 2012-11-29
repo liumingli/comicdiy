@@ -15,7 +15,7 @@ public class SpliceImage {
 		//文件类型 jpg
 		String fileType = primaryLong.substring(position+1).toLowerCase();
 		Random r = new Random();
-		String num = String.valueOf(r.nextInt(10));
+		String num = String.valueOf(r.nextInt(100));
 	    String destImg = primaryLong.substring(0,position)+"_weibo"+num+extend;	
 	    
 	    File  outFile  =  new  File(destImg);  

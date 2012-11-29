@@ -1253,17 +1253,17 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public int createWeibostat(final Weibostat stat) {
 		String sql = "INSERT INTO t_weibostat "
-				+ "(w_id,w_weibo,w_primary,w_ending,w_type,w_createTime,w_memo) "
+				+ "(w_id,w_primary,w_ending,w_type,w_user,w_createTime,w_memo) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
 		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement ps) {
 				try {
 					ps.setString(1, stat.getId());
-					ps.setString(2, stat.getWeibo());
-					ps.setString(3, stat.getPrimary());
-					ps.setString(4, stat.getEnding());
-					ps.setString(5, stat.getType());
+					ps.setString(2, stat.getPrimary());
+					ps.setString(3, stat.getEnding());
+					ps.setString(4, stat.getType());
+					ps.setString(5, stat.getUser());
 					ps.setString(6, stat.getCreateTime());
 					ps.setString(7, "");
 

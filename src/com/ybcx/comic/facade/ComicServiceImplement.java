@@ -1524,21 +1524,28 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		//发微博
 		String weiboId = this.publishWeibo(token, imgPath,  content, appUrl);
 		
+		//删除临时拼成的文件
+		File file = new File(imgPath);
+		boolean fileDel = false;
+		if(file.exists()){
+			fileDel=file.delete();
+		}
+		if(fileDel){
+			log.info("Delete the weibo spliceImage :"+file.getName());
+		}
+		
 		//发送微博成功，
 		if(!"".equals(weiboId)){
 			//向数据库中插入一条数据
 			Weibostat stat = this.generateWeibostat(weiboId,primaryId,endingId,type,userId);
 			int rows = dbVisitor.createWeibostat(stat);
-			//删除临时拼成的文件
-			File file = new File(imgPath);
-			boolean fileDel = false;
-			if(file.exists()){
-				fileDel=file.delete();
-			}
 			//返回
+			fileDel = true;
 			if(rows > 0 && fileDel){
 				flag = true;
 			}
+		}else{
+			log.info("Weibo exception, return status is null");
 		}
 		
 		return String.valueOf(flag);
@@ -1548,8 +1555,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	private Weibostat generateWeibostat(String weiboId, String primaryId,
 			String endingId, String type, String userId) {
 		Weibostat stat = new Weibostat();
-		stat.setId(ComicUtils.generateUID());
-		stat.setWeibo(weiboId);
+		stat.setId(weiboId);
 		stat.setPrimary(primaryId);
 		stat.setEnding(endingId);
 		stat.setType(type);
