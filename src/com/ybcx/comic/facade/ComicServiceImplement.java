@@ -1498,12 +1498,12 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		String token = user.getAccessToken();
 		
 		//取主动画的长图片路径
-		Yonkoma primary = dbVisitor.getYonkomaById(primaryId);
+		Yonkoma primary = dbVisitor.getYonkomaById(primaryId,"Primary");
 		String primaryLong = primary.getLongImg();
 		//结局动画的长图片路径
 		String endingLong = "";
 		if("system".equals(type)){
-			Yonkoma ending = dbVisitor.getYonkomaById(endingId);
+			Yonkoma ending = dbVisitor.getYonkomaById(endingId,"Ending");
 			endingLong = ending.getLongImg();
 			log.info("System ending image path : "+endingLong);
 			

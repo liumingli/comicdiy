@@ -284,6 +284,8 @@ function checkEnding(){
 
 
 function checkName(){
+	 $('#prompt').hide();
+	 $('#nameInfo').hide();
 	var name = $('#name').val().trim();
 	if(name != null && name !=""){
 		$.post('/comicdiy/comicapi', {

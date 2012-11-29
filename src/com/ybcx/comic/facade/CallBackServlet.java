@@ -97,7 +97,8 @@ public class CallBackServlet extends HttpServlet {
 
 	private int getOrderStatus(String orderId, String accessToken, String appKey) {
 		int status = 0;
-		String url = "https://pay.api.weibo.com/test/pay/order_status.json";
+		//String url = "https://pay.api.weibo.com/test/pay/order_status.json";
+		String url = "https://pay.api.weibo.com/pay/order_status.json";
 		String appSecret = "67bb80d9db674165623de5ccf46305d0";
 		
 		//	sign = md5(order_id|app_secret)

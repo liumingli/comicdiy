@@ -10,6 +10,13 @@ body{
 	text-align: center;
 }
 
+#banner{
+	padding-left:600px;
+}
+
+#reback{
+	padding-left:12px;
+}
 
 #page{
 	text-align: center;
@@ -56,6 +63,6 @@ a: hover {
 }
 
 img{
-	padding:3px;
+	padding:5px;
 }
 

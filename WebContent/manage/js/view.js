@@ -164,10 +164,12 @@ function delPrimary(id){
 function editPrimary(id,name,frame){
 	centerPopup();
 	loadPopup();
-	$("#name").focus();
 	$("#primary").val(id);
 	$("#name").val(name);
 	$("#frame").val(frame);
+	$("#prompt").hide();
+	$("#nameInfo").hide();
+	
 }
 
 function checkNum(){
@@ -239,9 +241,9 @@ function getEnding(id,name){
 		'primary' : id
 	}, 
 	function (result) {
-		$("#caption").html('<b>结局动画列表</b> (主动画名称：'+name+')'+
-				'<input type="button" id="upload" value="添加结局" onclick="uploadYonkoma();">'+
-				'<input type="button" id="reback" value="返回主动画" onclick="window.location.reload();">');
+		$("#caption").html('<b>结局素材列表</b> (主动画名称：'+name+')'+
+				'<div id="banner"><input type="image" id="upload" src="imgs/addEnding.png" alt="添加结局" title="添加结局" onclick="uploadYonkoma();">'+
+				'<input type="image" id="reback" src="imgs/backPrimary.png" alt="返回主动画" title="返回主动画" onclick="window.location.reload();"></div>');
 		//主动画的id
 		$('#parent').attr("value",id);
 		$('#primary').attr("value",name);
@@ -374,7 +376,9 @@ function getYonkoma(pageNum){
 }
 
 function checkName(){
-	var name = $('#name').val().trim();
+	 $('#prompt').hide();
+	 $('#nameInfo').hide();
+	var name = $('#name').val();
 	if(name != null && name !=""){
 		$.post('/comicdiy/comicapi', {
 			'method'  : 'checkYonkomaName',
@@ -383,7 +387,6 @@ function checkName(){
 		function (result) {
 			if(result=="true"){
 				  $('#nameInfo').show().html('<img src="imgs/ok.png">');
-				  $('#prompt').hide();
 			}else{
 				$("#name").focus();
 				$('#nameInfo').show().html('<img src="imgs/no.png">');

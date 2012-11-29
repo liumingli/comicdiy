@@ -22,7 +22,7 @@
 <body onload="getPrimary();">
 <div id="caption">
 	<b>主动画素材列表</b>
-	<input type="button" id="upload" value="上传主动画" onclick="uploadYonkoma();">
+	<div id="banner"><input type="image" id="upload"  src="imgs/addPrimary.png" alt="上传主动画" title="上传主动画"  onclick="uploadYonkoma();"></div>
 </div>
 	<input type="hidden" id="parent">
 	<input type="hidden" id="primary">
@@ -59,7 +59,7 @@
 		<div>
 			<input type="hidden" id="primary">
 			<label>名称</label>
-			<input type="text" id="name"  maxlength="12"  onblur="checkName()">	
+			<input type="text" id="name"  maxlength="12"  onchange="checkName()">	
 			<span  style="display: none;" id="nameInfo"></span><br>
 			<label>帧数</label>
 			<input type="text" id="frame" style="width:30px" onblur="checkNum();" onfocus="cancelInfo();">

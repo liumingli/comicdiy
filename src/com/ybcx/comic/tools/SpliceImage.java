@@ -34,10 +34,10 @@ public class SpliceImage {
 	  
 	       //对第二张图片做相同的处理    
 	       File   fileTwo   =   new   File(endingLong);    
-	       BufferedImage   ImageTwo   =   ImageIO.read(fileTwo);        
-	       int[]   ImageArrayTwo   =   new   int[width*height];  
+	       BufferedImage   ImageTwo   =   ImageIO.read(fileTwo);      
 	       int   width2   =   ImageTwo.getWidth();//图片宽度    
-	       int   height2   =   ImageTwo.getHeight();//图片高度    
+	       int   height2   =   ImageTwo.getHeight();//图片高度   
+	       int[]   ImageArrayTwo   =   new   int[width2*height2];  
 	       ImageArrayTwo   =   ImageTwo.getRGB(0,0,width2,height2,ImageArrayTwo,0,width2);    
 	       
 	       //新的宽度以小的为准
@@ -54,7 +54,7 @@ public class SpliceImage {
 	       //生成新图片 
 	       BufferedImage   ImageNew   =   new   BufferedImage(newWidth,newHeight,BufferedImage.TYPE_INT_RGB);    
 	       ImageNew.setRGB(0,0,newWidth,height,ImageArrayOne,0,width);//设置上半部分的RGB    
-	       ImageNew.setRGB(0,height,width2,height2,ImageArrayTwo,0,width2);//设置下半部分的RGB   
+	       ImageNew.setRGB(0,height,newWidth,height2,ImageArrayTwo,0,width2);//设置下半部分的RGB   
 	       
 	       ImageIO.write(ImageNew, fileType, outFile);//写图片    
 	       

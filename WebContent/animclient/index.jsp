@@ -231,7 +231,8 @@ img{
 	</div>
 	
 	<!-- 提交订单支付 -->
-	<form action="http://open.weibo.com/paytest/payTestPay.php"
+<!-- 	<form action="http://open.weibo.com/paytest/payTestPay.php" -->
+	<form action="http://pay.weibo.com/wb/?c=pay"
 		method="post" target="_top" style="display: none;" id="fmPay">
 		<input type="hidden" id="return_url" name="return_url"/> 
 		<input type="text" id="order_id" name="order_id" readonly /> 

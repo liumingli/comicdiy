@@ -1222,15 +1222,15 @@ public class DBAccessImplement  implements DBAccessInterface {
 
 	@Override
 	public int checkYonkomaName(String name) {
-		String sql = "select count(y_id) from t_yonkoma where y_name='"+name+"'";
+		String sql = "select count(y_id) from t_yonkoma where y_name='"+name+"' and y_enable=1";
 		int rows = jdbcTemplate.queryForInt(sql);
 		return rows;
 	}
 
 	@Override
-	public Yonkoma getYonkomaById(String primaryId) {
+	public Yonkoma getYonkomaById(String id,String type) {
 		Yonkoma yonkoma = new Yonkoma();
-		String sql = "select * from t_yonkoma where y_id='"+primaryId+"'";
+		String sql = "select * from t_yonkoma where y_id='"+id+"' and y_type='"+type+"'";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
