@@ -794,7 +794,9 @@ public class DBAccessImplement  implements DBAccessInterface {
 	public List<Cartoon> getAmimByPage(int pageNum, int pageSize) {
 		List<Cartoon> list = new ArrayList<Cartoon>();
 		int startLine = (pageNum -1)*pageSize;
-		String sql = "select * from t_cartoon where  c_enable=1 order by c_createTime desc limit "+startLine+","+pageSize;
+		String sql = "select c.c_id,c.c_name,c.c_owner,c.c_content,c.c_createTime,c.c_thumbnail,c.c_enable,u.u_nickName" +
+				" from t_cartoon c, t_weibouser u where c.c_enable=1 and c.c_owner = u.u_id " +
+				"order by c.c_createTime desc limit "+startLine+","+pageSize;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -803,6 +805,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 				cartoon.setId(map.get("c_id").toString());
 				cartoon.setName(map.get("c_name").toString());
 				cartoon.setOwner(map.get("c_owner").toString());
+				cartoon.setAuthor(map.get("u_nickName").toString());
 				cartoon.setContent(map.get("c_content").toString());
 				cartoon.setCreateTime(map.get("c_createTime").toString());
 				cartoon.setThumbnail(map.get("c_thumbnail").toString());
@@ -981,15 +984,16 @@ public class DBAccessImplement  implements DBAccessInterface {
 
 	@Override
 	public int createNewUser(final User user) {
-		String sql = "insert into t_weibouser(u_id,u_accessToken,u_createTime,u_wealth,u_memo) values (?,?,?,?,?)";
+		String sql = "insert into t_weibouser(u_id,u_nickName,u_accessToken,u_createTime,u_wealth,u_memo) values (?,?,?,?,?,?)";
 		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement ps) {
 				try {
 					ps.setString(1, user.getId());
-					ps.setString(2, user.getAccessToken());
-					ps.setString(3, user.getCreateTime());
-					ps.setInt(4, user.getWealth());
-					ps.setString(5, "");
+					ps.setString(2, user.getNickName());
+					ps.setString(3, user.getAccessToken());
+					ps.setString(4, user.getCreateTime());
+					ps.setInt(5, user.getWealth());
+					ps.setString(6, "");
 
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -1002,8 +1006,8 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 
 	@Override
-	public int updateUserById(String userId, String accessToken) {
-		String sql = "update t_weibouser set u_accessToken='"+accessToken+"' where u_id='"+userId+"'";
+	public int updateUserById(String userId, String accessToken, String nickName) {
+		String sql = "update t_weibouser set u_accessToken='"+accessToken+"',u_nickName='"+nickName+"' where u_id='"+userId+"'";
 		int rows = jdbcTemplate.update(sql);
 		return rows;
 	}

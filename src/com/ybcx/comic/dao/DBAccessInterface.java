@@ -130,7 +130,7 @@ public interface DBAccessInterface {
 
 		public int createNewUser(User user);
 
-		public int updateUserById(String userId, String accessToken);
+		public int updateUserById(String userId, String accessToken,String nickName);
 
 		public User getUserById(String userId);
 

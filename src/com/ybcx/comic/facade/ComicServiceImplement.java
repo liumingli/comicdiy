@@ -978,16 +978,24 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	@Override
 	public String operateWeiboUser(String userId, String accessToken) {
 		boolean flag = false;
+		
+		weibo4j.model.User weiboUser = this.getUserByIdAndToken(userId, accessToken);
+		String nickName = "佚名";
+		if(weiboUser != null){
+			nickName = weiboUser.getScreenName();
+		}else{
+			log.warn("weibo user is null");
+		}
 		//先判断用户是否存在
 		int rows = dbVisitor.checkUserExist(userId);
 		//存在即更新数据，不存在就插入新记录
 		if(rows >0){
-			int udpRows = dbVisitor.updateUserById(userId,accessToken);
+			int udpRows = dbVisitor.updateUserById(userId,accessToken,nickName);
 			if(udpRows > 0){
 				flag = true;
 			}
 		}else{
-			User user = this.generateUser(userId, accessToken);
+			User user = this.generateUser(userId, accessToken, nickName);
 			int crtRows = dbVisitor.createNewUser(user);
 			if(crtRows > 0){
 				flag = true;
@@ -996,9 +1004,10 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		return String.valueOf(flag);
 	}
 
-	private User generateUser(String userId, String accessToken){
+	private User generateUser(String userId, String accessToken, String nickName){
 		User user = new User();
 		user.setId(userId);
+		user.setNickName(nickName);
 		user.setCreateTime(ComicUtils.getFormatNowTime());
 		user.setAccessToken(accessToken);
 		user.setWealth(100);
