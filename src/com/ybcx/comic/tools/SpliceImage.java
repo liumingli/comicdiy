@@ -1,19 +1,27 @@
 package com.ybcx.comic.tools;
-import   java.io.File;    
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Iterator;
 import java.util.Random;
-import   java.awt.image.BufferedImage;    
-import   javax.imageio.ImageIO;    
+
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
+import javax.imageio.stream.ImageOutputStream;
 
 public class SpliceImage {
 
 	     
-	  public String spliceImage(String primaryLong,String endingLong)     
+	  public static String spliceImage(String primaryLong,String endingLong)     
 	  {    
 		int position = primaryLong.lastIndexOf(".");
 		//后缀 .jpg
 		String extend = primaryLong.substring(position);
 		//文件类型 jpg
-		String fileType = primaryLong.substring(position+1).toLowerCase();
+		//String fileType = primaryLong.substring(position+1).toLowerCase();
 		Random r = new Random();
 		String num = String.valueOf(r.nextInt(100));
 	    String destImg = primaryLong.substring(0,position)+"_weibo"+num+extend;	
@@ -53,10 +61,35 @@ public class SpliceImage {
 	       
 	       //生成新图片 
 	       BufferedImage   ImageNew   =   new   BufferedImage(newWidth,newHeight,BufferedImage.TYPE_INT_RGB);    
+	       ImageNew.getGraphics().drawImage(
+					ImageNew.getScaledInstance(newWidth, newHeight,
+							Image.SCALE_SMOOTH), 0, 0, null);
+	       
 	       ImageNew.setRGB(0,0,newWidth,height,ImageArrayOne,0,width);//设置上半部分的RGB    
 	       ImageNew.setRGB(0,height,newWidth,height2,ImageArrayTwo,0,width2);//设置下半部分的RGB   
 	       
-	       ImageIO.write(ImageNew, fileType, outFile);//写图片    
+	       //保存画质
+	       ImageWriter writer = null;
+
+	       Iterator<ImageWriter> iter = ImageIO.getImageWritersByFormatName("jpg");
+
+	        if( iter.hasNext() ){
+	            writer = (ImageWriter)iter.next();
+	        }
+	        
+	       ImageOutputStream ios = ImageIO.createImageOutputStream( outFile );
+
+	        writer.setOutput(ios);
+
+	        ImageWriteParam param = new JPEGImageWriteParam( java.util.Locale.getDefault() );
+
+	        param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT) ;
+
+	        param.setCompressionQuality(0.90f);
+
+	        writer.write(null, new IIOImage( ImageNew, null, null ), param);
+
+	    //   ImageIO.write(ImageNew, fileType, outFile);//写图片    
 	       
 	     } catch(Exception   e)  {    
 	           e.printStackTrace();    
@@ -68,5 +101,4 @@ public class SpliceImage {
 	    	   return "";
 	     }
 	 }
-	  
 }
