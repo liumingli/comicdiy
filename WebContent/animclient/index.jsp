@@ -84,7 +84,7 @@ img{
 			}%>
   	     var userId = "<%=user_id%>";
   	     var accessToken = "<%=access_token%>";
-		if (accessToken == null || accessToken == "") {
+		if (accessToken == null || accessToken == "" || accessToken == "null") {
 			//弹出授权层
 			authLoad();
 		} else {

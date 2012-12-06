@@ -59,11 +59,11 @@
             params.allowscriptaccess = "sameDomain";
             params.allowfullscreen = "true";
             var attributes = {};
-            attributes.id = "Main";
-            attributes.name = "Main";
+            attributes.id = "Watui";
+            attributes.name = "Watui";
             attributes.align = "middle";
             swfobject.embedSWF(
-                "Main.swf", "flashContent", 
+                "Watui.swf", "flashContent", 
                 "760", "600", 
                 swfVersionStr, xiSwfUrlStr, 
                 flashvars, params, attributes);

@@ -72,7 +72,7 @@ public interface ComicServiceInterface {
 
 	public String createLocalImage(String userId, FileItem imgData);
 
-	public String createAnimation(FileItem shotData, String userId, String name, String content);
+	public String createAnimation(FileItem shotData, String userId, String name, String content, String app);
 
 	public String modifyAnimation(String animId, String content);
 

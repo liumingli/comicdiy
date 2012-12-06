@@ -269,6 +269,7 @@ public class ApiAdaptor {
 		String userId = "";
 		String name = "";
 		String content = "";
+		String app = "";
 		
 		for (int i = 0; i < fileItems.size(); i++) {
 			FileItem item = fileItems.get(i);
@@ -299,10 +300,18 @@ public class ApiAdaptor {
 					}
 				}
 				
+				if(item.getFieldName().equals("app")){
+					try {
+						app = item.getString("UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+				}
+				
 			}
 		}//取参数完成
 	
-		String result = comicService.createAnimation(shotData,userId,name,content);
+		String result = comicService.createAnimation(shotData,userId,name,content,app);
 		
 		return result;
 		

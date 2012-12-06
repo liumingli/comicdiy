@@ -7,5 +7,5 @@ package com.ybcx.comic.facade;
 public class GlobalController {
 
 	// FIXME debug测试某些代码(发布时修改为false)
-	 public static boolean isDebug = true;
+	 public static boolean isDebug = false;
 }

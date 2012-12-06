@@ -9,6 +9,7 @@ public class Cartoon {
 	private String owner;
 	private String author;
 	private String createTime;
+	private String app;
 	private int enable;
 	
 	public String getId() {
@@ -58,6 +59,12 @@ public class Cartoon {
 	}
 	public void setEnable(int enable) {
 		this.enable = enable;
+	}
+	public String getApp() {
+		return app;
+	}
+	public void setApp(String app) {
+		this.app = app;
 	}
 	
 	

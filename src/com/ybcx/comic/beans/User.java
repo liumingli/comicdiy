@@ -6,6 +6,7 @@ public class User {
 	private int wealth;
 	private String createTime;
 	private String accessToken;
+	
 	public String getId() {
 		return id;
 	}

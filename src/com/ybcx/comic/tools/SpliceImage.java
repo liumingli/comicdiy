@@ -15,7 +15,7 @@ import javax.imageio.stream.ImageOutputStream;
 public class SpliceImage {
 
 	     
-	  public static String spliceImage(String primaryLong,String endingLong)     
+	  public String spliceImage(String primaryLong,String endingLong)     
 	  {    
 		int position = primaryLong.lastIndexOf(".");
 		//后缀 .jpg

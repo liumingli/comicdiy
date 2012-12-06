@@ -823,14 +823,14 @@ public class ComicServiceImplement implements ComicServiceInterface {
 
 	@Override
 	public String createAnimation(FileItem shotData, String userId, String name,
-			String content) {
+			String content, String app) {
 		boolean flag = true;
 		String rawPath = this.saveAnimationRaw(shotData);
 		log.info("Animation raw imagePath  is : "+rawPath);
 		
 		String thumbnail = this.saveThumbnailOf(shotData);
 		
-		Cartoon cartoon = generateCartoon(userId,name,content,thumbnail);
+		Cartoon cartoon = generateCartoon(userId,name,content,thumbnail,app);
 		
 		int rows = dbVisitor.saveAnimation(cartoon);
 		if(rows < 1){
@@ -858,7 +858,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 
 	private Cartoon generateCartoon(String userId, String name, String content,
-			String thumbnail){
+			String thumbnail, String app){
 		Cartoon cartoon = new Cartoon();
 		cartoon.setId(ComicUtils.generateUID());
 		cartoon.setContent(content);
@@ -867,6 +867,12 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		cartoon.setThumbnail(thumbnail);
 		cartoon.setCreateTime( ComicUtils.getFormatNowTime());
 		cartoon.setEnable(1);
+		log.info("app----------"+app);
+		if(app.equals("watui")){
+			cartoon.setApp(app);
+		}else{
+			cartoon.setApp("produ");
+		}
 		return cartoon;
 	}
 

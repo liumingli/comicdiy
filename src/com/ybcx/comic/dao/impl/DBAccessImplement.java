@@ -530,7 +530,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public Cartoon getAnimationBy(String userId, String animId) {
 		Cartoon cartoon = new Cartoon();
-		String sql = "select * from t_cartoon where c_id='"+animId+"' and c_owner='"+userId+"' and c_enable=1";
+		String sql = "select * from t_cartoon where c_id='"+animId+"' and c_app='produ' and c_owner='"+userId+"' and c_enable=1";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -550,7 +550,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public Cartoon getAnimationById(String animId) {
 		Cartoon cartoon = new Cartoon();
-		String sql = "select * from t_cartoon where c_id='"+animId+"' and c_enable=1";
+		String sql = "select * from t_cartoon where c_id='"+animId+"' and c_app='produ' and c_enable=1";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -571,7 +571,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public List<Cartoon> getAnimationsOf(String userId) {
 		List<Cartoon> list = new ArrayList<Cartoon>();
-		String sql = "select * from t_cartoon where c_owner='"+userId+"' and c_enable=1 order by c_createTime desc";
+		String sql = "select * from t_cartoon where c_owner='"+userId+"' and c_app='produ' and c_enable=1 order by c_createTime desc";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -593,8 +593,8 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public int saveAnimation(final Cartoon cartoon) {
 		String sql = "INSERT INTO t_cartoon "
-				+ "(c_id, c_name, c_thumbnail, c_content, c_owner, c_createTime, c_enable, c_memo) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "(c_id, c_name, c_thumbnail, c_content, c_owner, c_createTime, c_enable, c_app, c_memo) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
 		
 		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement ps) {
@@ -606,7 +606,8 @@ public class DBAccessImplement  implements DBAccessInterface {
 					ps.setString(5, cartoon.getOwner());
 					ps.setString(6, cartoon.getCreateTime());
 					ps.setInt(7, cartoon.getEnable());
-					ps.setString(8,"");
+					ps.setString(8, cartoon.getApp());
+					ps.setString(9,"");
 
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -670,7 +671,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public List<Cartoon> getAllAnimation() {
 		List<Cartoon> list = new ArrayList<Cartoon>();
-		String sql = "select * from t_cartoon where c_enable=1 order by c_createTime desc";
+		String sql = "select * from t_cartoon where c_enable=1 and c_app='produ' order by c_createTime desc";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -736,7 +737,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public List<Cartoon> searchAnimationByPage(String keys,int pageNum,int pageSize) {
 		List<Cartoon> list = new ArrayList<Cartoon>();
-		String sql = "select * from t_cartoon where c_enable=1 and c_name like '%"+keys+"%' order by c_createTime desc";
+		String sql = "select * from t_cartoon where c_enable=1 and c_app='produ' and c_name like '%"+keys+"%' order by c_createTime desc";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
 			for (int i = 0; i < rows.size(); i++) {
@@ -795,7 +796,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 		List<Cartoon> list = new ArrayList<Cartoon>();
 		int startLine = (pageNum -1)*pageSize;
 		String sql = "select c.c_id,c.c_name,c.c_owner,c.c_content,c.c_createTime,c.c_thumbnail,c.c_enable,u.u_nickName" +
-				" from t_cartoon c, t_weibouser u where c.c_enable=1 and c.c_owner = u.u_id " +
+				" from t_cartoon c, t_weibouser u where c.c_enable=1 and c.c_owner = u.u_id and c.c_app='produ' " +
 				"order by c.c_createTime desc limit "+startLine+","+pageSize;
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 		if (rows != null && rows.size() > 0) {
