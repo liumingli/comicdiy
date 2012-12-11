@@ -19,7 +19,6 @@ import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.User;
-import com.ybcx.comic.beans.Weibostat;
 import com.ybcx.comic.beans.Yonkoma;
 import com.ybcx.comic.dao.DBAccessInterface;
 import com.ybcx.comic.utils.ComicUtils;
@@ -1255,45 +1254,5 @@ public class DBAccessImplement  implements DBAccessInterface {
 		return yonkoma;
 	}
 
-	@Override
-	public int createWeibostat(final Weibostat stat) {
-		String sql = "INSERT INTO t_weibostat "
-				+ "(w_id,w_primary,w_ending,w_type,w_user,w_createTime,w_memo) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
-		
-		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
-			public void setValues(PreparedStatement ps) {
-				try {
-					ps.setString(1, stat.getId());
-					ps.setString(2, stat.getPrimary());
-					ps.setString(3, stat.getEnding());
-					ps.setString(4, stat.getType());
-					ps.setString(5, stat.getUser());
-					ps.setString(6, stat.getCreateTime());
-					ps.setString(7, "");
 
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		return res;
-	}
-
-	@Override
-	public User getWatuiUserById(String userId) {
-		User user = new User();
-		String sql = "select * from t_watuiuser where wa_id='"+userId+"'";
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
-		if (rows != null && rows.size() > 0) {
-			for (int i = 0; i < rows.size(); i++) {
-				Map<String, Object> map = (Map<String, Object>) rows.get(i);
-				user.setId(map.get("wa_id").toString());
-				user.setAccessToken(map.get("wa_accessToken").toString());
-				user.setCreateTime(map.get("wa_createTime").toString());
-				user.setWealth(Integer.parseInt(map.get("wa_wealth").toString()));
-			}
-		}
-		return user;
-	}
 }

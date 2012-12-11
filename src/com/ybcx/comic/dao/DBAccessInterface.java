@@ -10,9 +10,7 @@ import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.User;
-import com.ybcx.comic.beans.Weibostat;
 import com.ybcx.comic.beans.Yonkoma;
-
 
 
 
@@ -171,12 +169,5 @@ public interface DBAccessInterface {
 		public int checkYonkomaName(String name);
 
 		public Yonkoma getYonkomaById(String id, String type);
-
-		public int createWeibostat(Weibostat stat);
-
-		public User getWatuiUserById(String userId);
-
-		
-
 
 }

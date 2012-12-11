@@ -145,7 +145,4 @@ public interface ComicServiceInterface {
 
 	public String checkYonkomaName(String name);
 
-	public String yonkomaToWeibo(String type, String primaryId,
-			String endingId, String userId, String content);
-
 }

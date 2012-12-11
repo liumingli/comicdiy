@@ -3,7 +3,6 @@ package com.ybcx.comic.utils;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Random;
 
 public class MD5Util {
 	

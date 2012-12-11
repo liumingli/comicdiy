@@ -576,22 +576,8 @@ public class AssistProcess {
 			log.info(result);
 			pw.print(result);
 			pw.close();
-			
-		}else if (action.equals(AppStarter.YONKOMATOWEIBO)) {
-			res.setContentType("text/plain;charset=UTF-8");
-			PrintWriter pw = res.getWriter();
-			//根据type来区分是系统结局还是用户自定义的结局
-			String type = req.getParameter("type");
-			String primaryId = req.getParameter("primaryId");
-			String endingId = req.getParameter("endingId");
-			String userId = req.getParameter("userId");
-			String content = req.getParameter("content");
-		    String result= apiAdaptor.yonkomaToWeibo(type,primaryId,endingId,userId,content);
-			log.info(result);
-			pw.print(result);
-			pw.close();
 		}
-
+		
 	}
 
 	public void setApiAdaptor(ApiAdaptor apiAdaptor) {
