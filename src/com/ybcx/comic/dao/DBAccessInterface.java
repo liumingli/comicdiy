@@ -174,6 +174,8 @@ public interface DBAccessInterface {
 
 		public int createWeibostat(Weibostat stat);
 
+		public User getWatuiUserById(String userId);
+
 		
 
 

@@ -1280,4 +1280,20 @@ public class DBAccessImplement  implements DBAccessInterface {
 		return res;
 	}
 
+	@Override
+	public User getWatuiUserById(String userId) {
+		User user = new User();
+		String sql = "select * from t_watuiuser where wa_id='"+userId+"'";
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				user.setId(map.get("wa_id").toString());
+				user.setAccessToken(map.get("wa_accessToken").toString());
+				user.setCreateTime(map.get("wa_createTime").toString());
+				user.setWealth(Integer.parseInt(map.get("wa_wealth").toString()));
+			}
+		}
+		return user;
+	}
 }

@@ -1507,9 +1507,9 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		
 		boolean flag = false;
 		
-		String appUrl = "http://apps.weibo.com/wwwproducn";
+		String appUrl = "http://apps.weibo.com/watuiup";
 		
-		User user = dbVisitor.getUserById(userId);
+		User user = dbVisitor.getWatuiUserById(userId);
 		String token = user.getAccessToken();
 		
 		//取主动画的长图片路径
