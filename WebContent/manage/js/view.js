@@ -69,10 +69,11 @@ function generatePrimary(result){
 		var name = result[key].name;
 		var swf = result[key].swf;
 		var frame = result[key].frame;
+		var time = result[key].createTime;
 		//行数 现在显示12个，3行4列
 		var num = Math.ceil((parseInt(key)+1)/4);
 		//generateTr(num);
-		generatePrimaryTd(id,name,thumbnail,swf,frame,num,key);
+		generatePrimaryTd(id,name,thumbnail,swf,frame,num,time,key);
 	}
 }
 
@@ -82,7 +83,7 @@ function generatePrimary(result){
 //}
 
 //生成主动画
-function generatePrimaryTd(id,name,thumbnail,swf,frame,num,key){
+function generatePrimaryTd(id,name,thumbnail,swf,frame,num,time,key){
 //	var tr = document.getElementById("line"+num);
 //	var td = document.createElement("td");
 	var td = document.getElementById("ele"+num+key);
@@ -100,15 +101,22 @@ function generatePrimaryTd(id,name,thumbnail,swf,frame,num,key){
 	a.setAttribute("target", "_blank");
 	
 	//生成编辑、删除和查看结局三个按钮
-	generatePrimaryEditTd(id,name,frame,td);
+	generatePrimaryEditTd(id,name,frame,time,td);
 	
 //	tr.appendChild(td);
 }
 
 
-function generatePrimaryEditTd(id,name,frame,td){
+function generatePrimaryEditTd(id,name,frame,time,td){
 	var div = document.createElement("div");
 	td.appendChild(div);
+	
+	//加上上传时间
+	var timeSpan = document.createElement("span");
+	timeSpan.setAttribute("style","padding-right:5px;");
+	timeSpan.innerHTML = time.substring(0,10);
+	div.appendChild(timeSpan);
+	
 	var aCheck = document.createElement("a");
 	var imgCheck = document.createElement("img");
 	imgCheck.setAttribute("src","imgs/eye.png");
