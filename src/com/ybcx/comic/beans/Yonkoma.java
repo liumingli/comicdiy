@@ -15,10 +15,17 @@ public class Yonkoma {
 	private int frame;
 	private String type;
 	private String parent;
+	private int ad;
 	private int enable;
 	
 	public int getEnable() {
 		return enable;
+	}
+	public int getAd() {
+		return ad;
+	}
+	public void setAd(int ad) {
+		this.ad = ad;
 	}
 	public void setEnable(int enable) {
 		this.enable = enable;

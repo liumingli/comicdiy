@@ -129,9 +129,9 @@ public interface ComicServiceInterface {
 	public String loginSystem(String account, String password);
 
 	public String createPrimary(String name, String frame, String swf,
-			String thumbnail, String longImg);
+			String thumbnail, String longImg, String ad);
 
-	public String createEnding(String name, String swf, String thumbnail, String longImg, String parent);
+	public String createEnding(String name, String swf, String thumbnail, String longImg, String parent, String ad);
 	
 	public int getYonkomaCount(String primary);
 

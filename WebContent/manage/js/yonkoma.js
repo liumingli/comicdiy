@@ -189,13 +189,25 @@ function createPrimary(){
 		var swf = $("#assetPath").val();
 		var thubmnail = $("#thumbnailPath").val();
 		var longImg = $("#longimgPath").val();
+		var ad=null;
+	    var radio=document.getElementsByName("radiobutton");
+		for(var i=0;i<radio.length;i++)
+		{
+		     if(radio.item(i).checked){
+		         ad=radio.item(i).getAttribute("value");  
+		         break;
+		     }else{
+		    	 continue;
+		     }
+		}
 		$.post('/comicdiy/comicapi', {
 			'method'  : 'createPrimary',
 			'name' : name,
 			'frame' : frame,
 			'swf' : swf,
 			'thumbnail' : thubmnail,
-			'longImg' : longImg
+			'longImg' : longImg,
+			'ad' :ad
 		}, 
 		function (result) {
 			$('#load').attr("style","display:none");
@@ -231,13 +243,25 @@ function createEnding(){
 		var swf = $("#assetPath").val();
 		var thubmnail = $("#thumbnailPath").val();
 		var longImg = $("#longimgPath").val();
+		var ad=null;
+	    var radio=document.getElementsByName("radiobutton");
+		for(var i=0;i<radio.length;i++)
+		{
+		     if(radio.item(i).checked){
+		         ad=radio.item(i).getAttribute("value");  
+		         break;
+		     }else{
+		    	 continue;
+		     }
+		}
 		$.post('/comicdiy/comicapi', {
 			'method'  : 'createEnding',
 			'name' : name,
 			'parent' : parent,
 			'swf' : swf,
 			'thumbnail' : thubmnail,
-			'longImg' : longImg
+			'longImg' : longImg,
+			'ad' : ad
 		}, 
 		function (result) {
 			$('#load').attr("style","display:none");

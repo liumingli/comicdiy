@@ -1397,11 +1397,11 @@ public class ComicServiceImplement implements ComicServiceInterface {
 
 	@Override
 	public String createPrimary(String name, String frame, String swf,
-			String thumbnail, String longImg) {
+			String thumbnail, String longImg, String ad) {
 		boolean flag = false;
 		String type = "Primary";
 		String parent = "parent";
-		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, longImg, type, parent);
+		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, longImg, type, parent,ad);
 		int rows = dbVisitor.createYonkoma(yonkoma);
 		if(rows > 0){
 			return yonkoma.getId();
@@ -1410,7 +1410,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}	
 	}
 	
-	private Yonkoma generateYonkoma(String name, String frame, String swf,String thumbnail,String longImg, String type,String parent){
+	private Yonkoma generateYonkoma(String name, String frame, String swf,String thumbnail,String longImg, String type,String parent,String ad){
 		Yonkoma yonkoma = new Yonkoma();
 		yonkoma.setId(ComicUtils.generateUID());
 		yonkoma.setName(name);
@@ -1422,15 +1422,16 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		yonkoma.setType(type);
 		yonkoma.setParent(parent);
 		yonkoma.setEnable(1);
+		yonkoma.setAd(Integer.parseInt(ad));
 		return yonkoma;
 	}
 
 	@Override
-	public String createEnding(String name, String swf, String thumbnail, String longImg, String parent) {
+	public String createEnding(String name, String swf, String thumbnail, String longImg, String parent, String ad) {
 		boolean flag = false;
 		String type = "Ending";
 		String frame = "0";
-		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, longImg, type, parent);
+		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, longImg, type, parent,ad);
 		int rows = dbVisitor.createYonkoma(yonkoma);
 		if(rows > 0){
 			return yonkoma.getId();

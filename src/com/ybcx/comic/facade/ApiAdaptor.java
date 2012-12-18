@@ -474,13 +474,13 @@ public class ApiAdaptor {
 	}
 	
 	public String createPrimary(String name, String frame, String swf,
-			String thumbnail, String longImg) {
-		String result = comicService.createPrimary(name,frame,swf,thumbnail,longImg);
+			String thumbnail, String longImg, String ad) {
+		String result = comicService.createPrimary(name,frame,swf,thumbnail,longImg,ad);
 		return result;
 	}
 	
-	public String createEnding(String name, String swf, String thumbnail, String longImg, String parent) {
-		String result = comicService.createEnding(name,swf,thumbnail,longImg,parent);
+	public String createEnding(String name, String swf, String thumbnail, String longImg, String parent, String ad) {
+		String result = comicService.createEnding(name,swf,thumbnail,longImg,parent,ad);
 		return result;
 	}
 	

@@ -481,7 +481,8 @@ public class AssistProcess {
 			String swf = req.getParameter("swf");
 			String thumbnail = req.getParameter("thumbnail");
 			String longImg = req.getParameter("longImg");
-		    String result= apiAdaptor.createPrimary(name,frame,swf,thumbnail,longImg);
+			String ad = req.getParameter("ad");
+		    String result= apiAdaptor.createPrimary(name,frame,swf,thumbnail,longImg,ad);
 			log.info(result);
 			pw.print(result);
 			pw.close();
@@ -494,7 +495,8 @@ public class AssistProcess {
 			String thumbnail = req.getParameter("thumbnail");
 			String parent = req.getParameter("parent");
 			String longImg = req.getParameter("longImg");
-		    String result= apiAdaptor.createEnding(name,swf,thumbnail,longImg,parent);
+			String ad = req.getParameter("ad");
+		    String result= apiAdaptor.createEnding(name,swf,thumbnail,longImg,parent,ad);
 			log.info(result);
 			pw.print(result);
 			pw.close();

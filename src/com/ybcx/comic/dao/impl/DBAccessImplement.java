@@ -1142,8 +1142,8 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public int createYonkoma(final Yonkoma yonkoma) {
 		String sql = "INSERT INTO t_yonkoma "
-				+ "(y_id, y_name, y_swf, y_thumbnail, y_longImg, y_createTime, y_frame, y_type, y_parent,y_enable, y_memo) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+				+ "(y_id, y_name, y_swf, y_thumbnail, y_longImg, y_createTime, y_frame, y_type, y_parent,y_enable,y_isad,y_memo) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,? )";
 		
 		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement ps) {
@@ -1158,7 +1158,8 @@ public class DBAccessImplement  implements DBAccessInterface {
 					ps.setString(8, yonkoma.getType());
 					ps.setString(9, yonkoma.getParent());
 					ps.setInt(10, yonkoma.getEnable());
-					ps.setString(11, "");
+					ps.setInt(11, yonkoma.getAd());
+					ps.setString(12, "");
 
 				} catch (SQLException e) {
 					e.printStackTrace();
