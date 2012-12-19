@@ -210,4 +210,7 @@ public interface ExtVisitorInterface {
     //发四格漫画到微博，主要是文字及长图片
     public static final String YONKOMATOWEIBO = "yonkomaToWeibo";
     
+    //自定义结局
+    public static final String CUSTOMENDING = "customEnding";
+    
 }

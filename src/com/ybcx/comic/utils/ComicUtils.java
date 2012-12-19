@@ -29,7 +29,6 @@ public class ComicUtils {
 		return simpledDateFormat.format(time);
 	}
 	
-	
 	public static String replace(String str){
 		String s=str.replace("\\","\\\\");
 		return s;

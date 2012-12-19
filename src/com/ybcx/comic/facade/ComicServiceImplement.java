@@ -823,8 +823,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	public String createAnimation(FileItem shotData, String userId, String name,
 			String content, String app) {
 		boolean flag = true;
-		String rawPath = this.saveAnimationRaw(shotData);
-		log.info("Animation raw imagePath  is : "+rawPath);
+//		String rawPath = this.saveAnimationRaw(shotData);
+//		log.info("Animation raw imagePath  is : "+rawPath);
 		
 		String thumbnail = this.saveThumbnailOf(shotData);
 		
@@ -1161,7 +1161,9 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			fship.client.setToken(token);
 			
 			Paging pageing = new Paging(Integer.parseInt(page));
+			// FIXME 获取好友列表
 			UserWapper friends = fship.getFriendsBilateral(userId,0,pageing);
+			//UserWapper friends = fship.getFollowersById(userId);
 			
 			int totalNum = (int)friends.getTotalNumber();
 			List<weibo4j.model.User> userList = friends.getUsers();
@@ -1401,7 +1403,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		boolean flag = false;
 		String type = "Primary";
 		String parent = "parent";
-		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, longImg, type, parent,ad);
+		String author = "admin";
+		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, longImg, type, parent,ad,author);
 		int rows = dbVisitor.createYonkoma(yonkoma);
 		if(rows > 0){
 			return yonkoma.getId();
@@ -1410,7 +1413,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}	
 	}
 	
-	private Yonkoma generateYonkoma(String name, String frame, String swf,String thumbnail,String longImg, String type,String parent,String ad){
+	private Yonkoma generateYonkoma(String name, String frame, String swf,String thumbnail,String longImg, String type,String parent,String ad, String userId){
 		Yonkoma yonkoma = new Yonkoma();
 		yonkoma.setId(ComicUtils.generateUID());
 		yonkoma.setName(name);
@@ -1420,6 +1423,7 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		yonkoma.setCreateTime(ComicUtils.getFormatNowTime());
 		yonkoma.setFrame(Integer.parseInt(frame));
 		yonkoma.setType(type);
+		yonkoma.setAuthor(userId);
 		yonkoma.setParent(parent);
 		yonkoma.setEnable(1);
 		yonkoma.setAd(Integer.parseInt(ad));
@@ -1431,7 +1435,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		boolean flag = false;
 		String type = "Ending";
 		String frame = "0";
-		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, longImg, type, parent,ad);
+		String author = "admin";
+		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, longImg, type, parent,ad,author);
 		int rows = dbVisitor.createYonkoma(yonkoma);
 		if(rows > 0){
 			return yonkoma.getId();
@@ -1497,4 +1502,38 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		return String.valueOf(flag);
 	}
 
+	@Override
+	public String createCustomEnding(FileItem shotData, String parent,
+			String name,String userId) {
+		boolean flag = false;
+		String longImg = this.saveLongImage(shotData);
+		String thumbnail = this.saveThumbnailOf(shotData);
+		String frame="0";
+		String type = "Ending";
+		String ad = "0";
+		String swf = longImg;
+		Yonkoma yonkoma = this.generateYonkoma(name, frame, swf, thumbnail, longImg, type, parent,ad,userId);
+		int rows = dbVisitor.createYonkoma(yonkoma);
+		if(rows > 0){
+			return yonkoma.getId();
+		}else{
+			return String.valueOf(flag);
+		}	
+	}
+	
+	//保存自定义结局上传的原图片 width = 400
+	private String saveLongImage(FileItem imgData) {
+		String fileName = imgData.getName();
+		int position = fileName.lastIndexOf(".");
+		String extend = fileName.substring(position);
+		String newName = fileName.substring(0,position)+"_custom"+extend;
+		String filePath = imagePath + File.separator + newName;
+		File file = new File(filePath);
+		try {
+			imgData.write(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return filePath;
+	}
 }

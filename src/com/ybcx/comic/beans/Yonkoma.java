@@ -15,6 +15,7 @@ public class Yonkoma {
 	private int frame;
 	private String type;
 	private String parent;
+	private String author;
 	private int ad;
 	private int enable;
 	
@@ -26,6 +27,12 @@ public class Yonkoma {
 	}
 	public void setAd(int ad) {
 		this.ad = ad;
+	}
+	public String getAuthor() {
+		return author;
+	}
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 	public void setEnable(int enable) {
 		this.enable = enable;

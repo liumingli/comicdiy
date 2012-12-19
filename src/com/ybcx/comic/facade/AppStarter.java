@@ -232,6 +232,10 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 			}else if(method.equals(AppStarter.SAVEANIM)){
 				String result = apiAdaptor.createAnimation(fileItems);
 				pw.write(result);
+			
+			}else if(method.equals(AppStarter.CUSTOMENDING)){
+				String result = apiAdaptor.createCustomEnding(fileItems);
+				pw.write(result);
 				
 			}else{
 				

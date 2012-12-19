@@ -317,6 +317,46 @@ public class ApiAdaptor {
 		
 	}
 	
+	
+	public String createCustomEnding(List<FileItem> fileItems) {
+		FileItem shotData = null;
+		String parent = "";
+		String name = "";
+		String userId = "";
+		
+		for (int i = 0; i < fileItems.size(); i++) {
+			FileItem item = fileItems.get(i);
+			if (!item.isFormField()) {
+				//图片数据
+				shotData = item;
+			}
+			
+			if (item.isFormField()) {
+				
+				if (item.getFieldName().equals("primaryId")) {
+					parent = item.getString();
+				}
+				
+				if (item.getFieldName().equals("userId")) {
+					userId = item.getString();
+				}
+				
+				if (item.getFieldName().equals("name")) {
+					try {
+						name = item.getString("UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}//取参数完成
+		
+		String result = comicService.createCustomEnding(shotData,parent,name,userId);
+		
+		return result;
+		
+	}
+	
 	public String modifyAnim(String animId, String content) {
 		String result = comicService.modifyAnimation(animId,content);
 		return result;

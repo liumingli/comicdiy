@@ -145,4 +145,7 @@ public interface ComicServiceInterface {
 
 	public String checkYonkomaName(String name);
 
+	public String createCustomEnding(FileItem shotData, String parent,
+			String name, String userId);
+
 }
