@@ -823,8 +823,8 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	public String createAnimation(FileItem shotData, String userId, String name,
 			String content, String app) {
 		boolean flag = true;
-//		String rawPath = this.saveAnimationRaw(shotData);
-//		log.info("Animation raw imagePath  is : "+rawPath);
+		String rawPath = this.saveAnimationRaw(shotData);
+		log.info("Animation raw imagePath  is : "+rawPath);
 		
 		String thumbnail = this.saveThumbnailOf(shotData);
 		
