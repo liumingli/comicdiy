@@ -1536,4 +1536,67 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}
 		return filePath;
 	}
+
+
+	@Override
+	public String yonkomaToWeibo(String userId,String type, String primaryId,
+			String endingId, String weibo, String animId) {
+		String result = "";
+		String url = "http://diy.produ.cn/watui/watuiapi?method=yonkomaToWeibo";
+		
+		HttpClient client = new HttpClient();
+		//这个没有用
+		client.setToken("123");
+		
+		PostParameter idparams = new PostParameter("userId",userId);
+		PostParameter typeparams = new PostParameter("type",type);
+		PostParameter primaryparams = new PostParameter("primaryId",primaryId);
+		PostParameter endingparams = new PostParameter("endingId",endingId);
+		PostParameter contentparams = new PostParameter("content",weibo);
+		PostParameter animparams = new PostParameter("animId",animId);
+		
+		PostParameter[] params = new PostParameter[]{idparams,typeparams,primaryparams,endingparams,contentparams,animparams};
+		try {
+			Response response = client.post(url, params);
+			result = response.getResponseAsString();
+			
+		} catch (WeiboException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public static String yonkomaToWeibo1(String userId,String type, String primaryId,
+			String endingId, String text) {
+		String result = "";
+		String url = "http://localhost:8080/watui/watuiapi?method=yonkomaToWeibo";
+		HttpClient client = new HttpClient();
+		String token = "123";
+		client.setToken(token);
+		PostParameter idparams = new PostParameter("userId",userId);
+		PostParameter typeparams = new PostParameter("type",type);
+		PostParameter primaryparams = new PostParameter("primaryId",primaryId);
+		PostParameter endingparams = new PostParameter("endingId",endingId);
+		PostParameter contentparams = new PostParameter("content",text);
+		
+		PostParameter[] params = new PostParameter[]{idparams,typeparams,primaryparams,endingparams,contentparams};
+		try {
+			Response response = client.post(url, params);
+			result = response.getResponseAsString();
+			
+		} catch (WeiboException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public static void main(String[] args) {
+		String type="system";
+		String primaryId="8e54c54a3036e2d1";
+		String endingId="a037a49e645353e5";
+		String userId="1964124547";
+		String content = "测试啦啦啦呀呀呀";
+		String result = yonkomaToWeibo1( userId,type, primaryId, endingId, content);
+		System.out.println(result);
+	}
 }

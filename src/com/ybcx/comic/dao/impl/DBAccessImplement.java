@@ -1266,5 +1266,4 @@ public class DBAccessImplement  implements DBAccessInterface {
 		return yonkoma;
 	}
 
-
 }

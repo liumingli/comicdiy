@@ -213,4 +213,7 @@ public interface ExtVisitorInterface {
     //自定义结局
     public static final String CUSTOMENDING = "customEnding";
     
+    //指尖动漫 合并保存和转发
+    public static final String SAVEANDPUBLISH = "saveAndPublish";
+    
 }

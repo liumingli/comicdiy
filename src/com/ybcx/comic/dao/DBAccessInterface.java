@@ -169,5 +169,6 @@ public interface DBAccessInterface {
 		public int checkYonkomaName(String name);
 
 		public Yonkoma getYonkomaById(String id, String type);
+		
 
 }

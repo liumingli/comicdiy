@@ -148,4 +148,7 @@ public interface ComicServiceInterface {
 	public String createCustomEnding(FileItem shotData, String parent,
 			String name, String userId);
 
+	public String yonkomaToWeibo(String userId, String type, String primaryId,
+			String endingId, String text, String animId);
+
 }

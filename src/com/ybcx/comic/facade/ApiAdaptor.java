@@ -460,7 +460,6 @@ public class ApiAdaptor {
 		return JSONArray.fromCollection(resList).toString();
 	}
 	
-	// TODO 开始购物车
 	public String addAssetToCart(String userId, String assetId) {
 		String result = comicService.addAssetToCart(userId,assetId);
 		return result;
@@ -586,6 +585,57 @@ public class ApiAdaptor {
 	public String checkYonkomaName(String name) {
 		String res = comicService.checkYonkomaName(name);
 		return res;
+	}
+	
+	public String saveAndPublish(List<FileItem> fileItems) {
+		String result = "";
+		String animId = this.createAnimation(fileItems);
+		if(!"false".equals(animId)){
+			result = this.publishWeibo(fileItems,animId);
+		}
+		return result;
+	}
+	
+	private String publishWeibo(List<FileItem> fileItems,String animId) {
+		String userId = "";
+		String type = "";
+		String primaryId = "";
+		String endingId = "";
+		String weibo = "";
+		
+		for (int i = 0; i < fileItems.size(); i++) {
+			FileItem item = fileItems.get(i);
+			if (item.isFormField()) {
+				
+				if (item.getFieldName().equals("type")) {
+					type = item.getString();
+				}
+				
+				if (item.getFieldName().equals("userId")) {
+					userId = item.getString();
+				}
+				
+				if (item.getFieldName().equals("primaryId")) {
+					primaryId = item.getString();
+				}
+				
+				if (item.getFieldName().equals("endingId")) {
+					endingId = item.getString();
+				}
+				
+				if (item.getFieldName().equals("weibo")) {
+					try {
+						weibo = item.getString("UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}//取参数完成
+	
+		String result = comicService.yonkomaToWeibo(userId,type,primaryId,endingId,weibo,animId);
+		
+		return result;
 	}
 	
 
