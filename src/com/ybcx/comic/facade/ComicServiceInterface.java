@@ -151,4 +151,9 @@ public interface ComicServiceInterface {
 	public String yonkomaToWeibo(String userId, String type, String primaryId,
 			String endingId, String text, String animId);
 
+	public String createElement(String name, String swf, String thumbnail,
+			String classify);
+
+	public String checkEleName(String name);
+
 }

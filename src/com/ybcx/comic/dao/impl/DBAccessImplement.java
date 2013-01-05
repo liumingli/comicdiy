@@ -16,6 +16,7 @@ import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cart;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
+import com.ybcx.comic.beans.Element;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.User;
@@ -1264,6 +1265,40 @@ public class DBAccessImplement  implements DBAccessInterface {
 			}
 		}
 		return yonkoma;
+	}
+
+	@Override
+	public int createElement(final Element ele) {
+		String sql = "INSERT INTO t_element "
+				+ "(e_id, e_name, e_swf, e_thumbnail, e_createTime, e_classify, e_enable ,e_memo) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) {
+				try {
+					ps.setString(1, ele.getId());
+					ps.setString(2, ele.getName());
+					ps.setString(3, ele.getSwf());
+					ps.setString(4, ele.getThumbnail());
+					ps.setString(5, ele.getCreateTime());
+					ps.setString(6, ele.getClassify());
+					ps.setInt(7, ele.getEnable());
+					ps.setString(8, "");
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+		return res;
+	}
+
+	@Override
+	public int checkEleName(String name) {
+		String sql = "select count(e_id) from t_element where e_name ='"+name+"'";
+		int res = jdbcTemplate.queryForInt(sql);
+		return res;
 	}
 
 }

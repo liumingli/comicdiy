@@ -578,6 +578,27 @@ public class AssistProcess {
 			log.info(result);
 			pw.print(result);
 			pw.close();
+			
+		}else if (action.equals(AppStarter.CREATEELEMENT)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String name = req.getParameter("name");
+			String swf = req.getParameter("swf");
+			String thumbnail = req.getParameter("thumbnail");
+			String classify = req.getParameter("classify");
+		    String result= apiAdaptor.createElement(name,swf,thumbnail,classify);
+			log.info(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.CHECKELENAME)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String name = req.getParameter("name");
+		    String result= apiAdaptor.checkEleName(name);
+			log.info(result);
+			pw.print(result);
+			pw.close();
 		}
 		
 	}

@@ -638,5 +638,18 @@ public class ApiAdaptor {
 		return result;
 	}
 	
+	public String createElement(String name, String swf, String thumbnail,
+			String classify) {
+		// TODO Auto-generated method stub
+		String result = comicService.createElement(name,swf,thumbnail,classify);
+		return result;
+	}
+	
+	public String checkEleName(String name) {
+		// TODO Auto-generated method stub
+		String result = comicService.checkEleName(name);
+		return result;
+	}
+	
 
 } // end of class

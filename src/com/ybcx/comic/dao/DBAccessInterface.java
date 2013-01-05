@@ -7,6 +7,7 @@ import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cart;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
+import com.ybcx.comic.beans.Element;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.User;
@@ -169,6 +170,10 @@ public interface DBAccessInterface {
 		public int checkYonkomaName(String name);
 
 		public Yonkoma getYonkomaById(String id, String type);
+
+		public int createElement(Element ele);
+
+		public int checkEleName(String name);
 		
 
 }

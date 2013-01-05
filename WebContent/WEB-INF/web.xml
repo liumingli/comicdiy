@@ -87,6 +87,25 @@
     	<url-pattern>/fileupload</url-pattern>
     </servlet-mapping>
     
+      <servlet>
+    	<description>上传并保存</description>
+    	<display-name>ElementUploader</display-name>
+    	<servlet-name>ElementUploader</servlet-name>
+    	<servlet-class>com.ybcx.comic.tools.ElementUploader</servlet-class>
+    	<init-param> 
+            <param-name>elementpath</param-name> 
+            <param-value>/WEB-INF/uploadFile/element</param-value> 
+        </init-param> 
+        <init-param> 
+            <param-name>temppath</param-name> 
+            <param-value>/WEB-INF/temp</param-value> 
+        </init-param> 
+    </servlet>  
+    <servlet-mapping>
+    	<servlet-name>ElementUploader</servlet-name>
+    	<url-pattern>/elementupload</url-pattern>
+    </servlet-mapping>
+    
     <!-- 微博支付回调接口 -->
 	<servlet>  
 	    <servlet-name>callbackServer</servlet-name>  

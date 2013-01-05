@@ -216,4 +216,10 @@ public interface ExtVisitorInterface {
     //指尖动漫 合并保存和转发
     public static final String SAVEANDPUBLISH = "saveAndPublish";
     
+    
+    //上传分类里的素材
+    public static final String CREATEELEMENT = "createElement";
+    
+    public static final String CHECKELENAME = "checkEleName";
+    
 }

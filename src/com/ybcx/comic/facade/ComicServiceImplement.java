@@ -49,6 +49,7 @@ import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cart;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
+import com.ybcx.comic.beans.Element;
 import com.ybcx.comic.beans.Friend;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
@@ -1566,37 +1567,38 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		return result;
 	}
 	
-	public static String yonkomaToWeibo1(String userId,String type, String primaryId,
-			String endingId, String text) {
-		String result = "";
-		String url = "http://localhost:8080/watui/watuiapi?method=yonkomaToWeibo";
-		HttpClient client = new HttpClient();
-		String token = "123";
-		client.setToken(token);
-		PostParameter idparams = new PostParameter("userId",userId);
-		PostParameter typeparams = new PostParameter("type",type);
-		PostParameter primaryparams = new PostParameter("primaryId",primaryId);
-		PostParameter endingparams = new PostParameter("endingId",endingId);
-		PostParameter contentparams = new PostParameter("content",text);
-		
-		PostParameter[] params = new PostParameter[]{idparams,typeparams,primaryparams,endingparams,contentparams};
-		try {
-			Response response = client.post(url, params);
-			result = response.getResponseAsString();
-			
-		} catch (WeiboException e) {
-			e.printStackTrace();
+	@Override
+	public String createElement(String name, String swf, String thumbnail,
+			String classify) {
+		// TODO Auto-generated method stub
+		boolean flag = false;
+		Element ele = this.generateElement(name, swf, thumbnail, classify);
+		int rows = dbVisitor.createElement(ele);
+		if(rows > 0){
+			flag = true;
 		}
-		return result;
+		return String.valueOf(flag);
 	}
 	
-	public static void main(String[] args) {
-		String type="system";
-		String primaryId="8e54c54a3036e2d1";
-		String endingId="a037a49e645353e5";
-		String userId="1964124547";
-		String content = "测试啦啦啦呀呀呀";
-		String result = yonkomaToWeibo1( userId,type, primaryId, endingId, content);
-		System.out.println(result);
+	private Element generateElement(String name, String swf, String thumbnail,String classify){
+		Element ele = new Element();
+		ele.setId(ComicUtils.generateUID());
+		ele.setName(name);
+		ele.setSwf(swf);
+		ele.setThumbnail(thumbnail);
+		ele.setClassify(classify);
+		ele.setEnable(1);
+		ele.setCreateTime(ComicUtils.getFormatNowTime());
+		return ele;
+	}
+
+	@Override
+	public String checkEleName(String name) {
+		boolean flag = false;
+		int count = dbVisitor.checkEleName(name);
+		if(count < 1){
+			flag = true;
+		}
+		return String.valueOf(flag);
 	}
 }
