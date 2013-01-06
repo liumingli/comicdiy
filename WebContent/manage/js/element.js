@@ -87,25 +87,30 @@ function uploadElement(){
 function checkName(){
 	$('#nameInfo').show().html('<img src="imgs/loading.gif">');
 	var name = 	$("#name").val();
-	$.post('/comicdiy/comicapi',{
-		"method" : "checkEleName",
-		'name' : name
-	},
-	function(result){
-		$('#nameInfo').hide();
-		if(result == "true"){
-			$('#nameInfo').show().html('<img src="imgs/ok.png">');
-		}else{
-			$('#nameInfo').show().html('<img src="imgs/no.png">');
-			$("#name").focus();
-		}
-	});
+	if(name != null && name !=""){
+		$.post('/comicdiy/comicapi',{
+			"method" : "checkEleName",
+			'name' : name
+		},
+		function(result){
+			$('#nameInfo').hide();
+			if(result == "true"){
+				$('#nameInfo').show().html('<img src="imgs/ok.png">');
+			}else{
+				$('#nameInfo').show().html('<img src="imgs/no.png">');
+				$("#name").focus();
+			}
+		});
+	}else{
+		$('#nameInfo').show().html('<img src="imgs/no.png">');
+		$("#name").focus();
+	}
 }
 
 
 function cancelPrompt(){
 	$('#prompt').hide();
-//	 $('#nameInfo').hide();
+	$('#nameInfo').hide();
 }
 
 
