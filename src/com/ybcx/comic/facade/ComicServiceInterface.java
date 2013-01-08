@@ -14,6 +14,7 @@ import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Friend;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
+import com.ybcx.comic.beans.Movieclip;
 import com.ybcx.comic.beans.UserDetail;
 import com.ybcx.comic.beans.Yonkoma;
 
@@ -151,9 +152,20 @@ public interface ComicServiceInterface {
 	public String yonkomaToWeibo(String userId, String type, String primaryId,
 			String endingId, String text, String animId);
 
-	public String createElement(String name, String swf, String thumbnail,
+	public String createMovieClip(String name, String swf, String thumbnail,
 			String classify);
 
-	public String checkEleName(String name);
+	public String checkClipName(String name);
+
+	public int getMovieClipCount();
+
+	public List<Movieclip> getMovieClipByPage(String pageNum);
+	
+	public String delMovieClip(String id);
+
+	public List<Movieclip> getMovieClip(String pageNum, String pageSize,
+			String type);
+
+	public boolean updateMovieclipBrowsecount(String id);
 
 }

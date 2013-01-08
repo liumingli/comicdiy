@@ -35,6 +35,8 @@ window.onload = function(){
 	    document.execCommand("stop");
 	    //注:把location前面的//号去掉后,把后面的网址改成你的网站,弹出窗口后就会跳到你指定的网址.
 	    location.href="http://www.produ.cn";
+	    
+	    if (window != top) top.location.href = location.href;
 	}
 };
 </script>

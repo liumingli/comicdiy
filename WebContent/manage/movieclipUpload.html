@@ -13,7 +13,7 @@
 <script type="text/javascript" src="js/jquery.fileupload.js"
 	charset="utf-8"></script>
 
-<script type="text/javascript" src="js/element.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/movieclip.js" charset="utf-8"></script>
 
 </head>
 <body>
@@ -21,16 +21,18 @@
 	<ul>
 		<li>
 			<label>名称</label>
-			<input type="text" id="name" onfocus="cancelPrompt();" maxlength="12" autofocus onblur="checkName()">
+			<input type="text" id="name"  maxlength="12" autofocus onblur="checkName()">
 			<span  style="display: none;" id="nameInfo"></span>
 		</li>
 		<li>
 			<label>分类</label>
-				<select id="classify">
+				<select id="type">
 					<option value="精选" selected="selected">精选</option>
 					<option value="祝福" >祝福</option>
 					<option value="搞笑" >搞笑</option>
 					<option value="情趣" >情趣</option>
+					<option value="生活" >生活</option>
+					<option value="另类" >另类</option> 
 				</select>
 		</li>
 		<li>
@@ -48,7 +50,7 @@
 			<input type="hidden" id="thumbnailPath">
 		</li>
 		<li style="margin-left:80px">
-			<input type="button" id="submit" value="提交" onclick="uploadElement();">
+			<input type="button" id="submit" value="提交" onclick="uploadClip();">
 			<input type="button" id="cancel" value="取消" onclick="emptyForm();">
 			<span  style="display: none;" id="load"></span>
 		</li>

@@ -218,8 +218,21 @@ public interface ExtVisitorInterface {
     
     
     //上传分类里的素材
-    public static final String CREATEELEMENT = "createElement";
+    public static final String CREATMOVIECLIP = "createMovieClip";
     
-    public static final String CHECKELENAME = "checkEleName";
+    //校验名字
+    public static final String CHECKCLIPNAME = "checkClipName";
+    
+    //获取分类素材数目
+    public static final String GETMOVIECLIPCOUNT = "getMovieClipCount";
+    
+    //分页获取分类素材 pageNum
+    public static final String GETMOVIECLIPBYPAGE = "getMovieClipByPage";
+    
+    //删除一个分类素材 id / swf / thumbnail
+    public static final String DELMOVIECLIP = "delMovieClip";
+    
+    //按类型，页数，页码取分类素材
+    public static final String GETMOVIECLIP = "getMovieClip";
     
 }

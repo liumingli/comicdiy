@@ -7,7 +7,7 @@ import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cart;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
-import com.ybcx.comic.beans.Element;
+import com.ybcx.comic.beans.Movieclip;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.User;
@@ -171,9 +171,20 @@ public interface DBAccessInterface {
 
 		public Yonkoma getYonkomaById(String id, String type);
 
-		public int createElement(Element ele);
+		public int createMovieClip(Movieclip ele);
 
-		public int checkEleName(String name);
+		public int checkClipName(String name);
+
+		public int getMovieClipCount();
+
+		public List<Movieclip> getMovieClipByPage(int pageNum, int pageSize);
+
+		public int delMovieClip(String id);
+
+		public List<Movieclip> getMovieClip(int pageNum, int pageSize,
+				String type);
+
+		public int updateMovieclipBrowsecount(String id);
 		
 
 }

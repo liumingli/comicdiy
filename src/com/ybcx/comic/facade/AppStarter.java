@@ -211,7 +211,24 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 		}else if(action.equals(AppStarter.GETASSETFILE)){
 			// 根据相对路径得到相应图片/asset/123.swf
 			String relativePath = req.getParameter("relativePath");
+			String ip = req.getParameter("ip");
+			String pf = req.getParameter("pf");
+			String id = req.getParameter("id");
+			String type = req.getParameter("type");
+			
+			//取素材
 			apiAdaptor.getAssetFile(relativePath, res);
+			
+			//更新短片的浏览次数
+			if(id != null && type != null && type.equals("movieclip")){
+				boolean flag  = apiAdaptor.updateMovieclipBrowsecount(id); 
+				if(flag){
+					log.info("Update movieClip browseCount success...");
+				}
+			}
+			
+			//TODO 调分析端的servelet
+			
 		}
 	}
 

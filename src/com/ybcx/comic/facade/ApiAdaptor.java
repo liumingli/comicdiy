@@ -21,6 +21,7 @@ import com.ybcx.comic.beans.Category;
 import com.ybcx.comic.beans.Friend;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
+import com.ybcx.comic.beans.Movieclip;
 import com.ybcx.comic.beans.UserDetail;
 import com.ybcx.comic.beans.Yonkoma;
 
@@ -638,18 +639,42 @@ public class ApiAdaptor {
 		return result;
 	}
 	
-	public String createElement(String name, String swf, String thumbnail,
-			String classify) {
-		// TODO Auto-generated method stub
-		String result = comicService.createElement(name,swf,thumbnail,classify);
+	public String createMovieClip(String name, String swf, String thumbnail,
+			String type) {
+		String result = comicService.createMovieClip(name,swf,thumbnail,type);
 		return result;
 	}
 	
-	public String checkEleName(String name) {
-		// TODO Auto-generated method stub
-		String result = comicService.checkEleName(name);
+	public String checkClipName(String name) {
+		String result = comicService.checkClipName(name);
 		return result;
 	}
+	
+	public int getMovieClipCount() {
+		int result = comicService.getMovieClipCount();
+		return result;
+	}
+	
+	public String getMovieClipByPage(String pageNum) {
+		List<Movieclip> list = comicService.getMovieClipByPage(pageNum);
+		return JSONArray.fromCollection(list).toString();
+	}
+	
+	public String delMovieClip(String id) {
+		String result = comicService.delMovieClip(id);
+		return result;
+	}
+	
+	public String getMovieClip(String pageNum, String pageSize, String type) {
+		List<Movieclip> list = comicService.getMovieClip(pageNum,pageSize,type);
+		return JSONArray.fromCollection(list).toString();
+	}
+	
+	public boolean updateMovieclipBrowsecount(String id) {
+		boolean res = comicService.updateMovieclipBrowsecount(id);
+		return res;
+	}
+
 	
 
 } // end of class

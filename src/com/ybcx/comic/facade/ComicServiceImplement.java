@@ -49,7 +49,7 @@ import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cart;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
-import com.ybcx.comic.beans.Element;
+import com.ybcx.comic.beans.Movieclip;
 import com.ybcx.comic.beans.Friend;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
@@ -1568,37 +1568,77 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 	
 	@Override
-	public String createElement(String name, String swf, String thumbnail,
-			String classify) {
-		// TODO Auto-generated method stub
+	public String createMovieClip(String name, String swf, String thumbnail,
+			String type) {
 		boolean flag = false;
-		Element ele = this.generateElement(name, swf, thumbnail, classify);
-		int rows = dbVisitor.createElement(ele);
+		Movieclip ele = this.generateMovieClip(name, swf, thumbnail, type);
+		int rows = dbVisitor.createMovieClip(ele);
 		if(rows > 0){
 			flag = true;
 		}
 		return String.valueOf(flag);
 	}
 	
-	private Element generateElement(String name, String swf, String thumbnail,String classify){
-		Element ele = new Element();
+	private Movieclip generateMovieClip(String name, String swf, String thumbnail,String type){
+		Movieclip ele = new Movieclip();
 		ele.setId(ComicUtils.generateUID());
 		ele.setName(name);
 		ele.setSwf(swf);
 		ele.setThumbnail(thumbnail);
-		ele.setClassify(classify);
+		ele.setType(type);
 		ele.setEnable(1);
 		ele.setCreateTime(ComicUtils.getFormatNowTime());
+		ele.setBrowseCount(0);
 		return ele;
 	}
 
 	@Override
-	public String checkEleName(String name) {
+	public String checkClipName(String name) {
 		boolean flag = false;
-		int count = dbVisitor.checkEleName(name);
+		int count = dbVisitor.checkClipName(name);
 		if(count < 1){
 			flag = true;
 		}
 		return String.valueOf(flag);
+	}
+
+	@Override
+	public int getMovieClipCount() {
+		int count = dbVisitor.getMovieClipCount();
+		return count;
+	}
+
+	@Override
+	public List<Movieclip> getMovieClipByPage(String pageNum) {
+		String pageSize = systemConfigurer.getProperty("pageSize");
+		List<Movieclip> list = dbVisitor.getMovieClipByPage(Integer.parseInt(pageNum),Integer.parseInt(pageSize));
+		return list;
+	}
+
+	@Override
+	public String delMovieClip(String id) {
+		boolean flag = false;
+		int count = dbVisitor.delMovieClip(id);
+		if(count > 0){
+			flag = true;
+		}
+		return String.valueOf(flag);
+	}
+
+	@Override
+	public List<Movieclip> getMovieClip(String pageNum, String pageSize,
+			String type) {
+		List<Movieclip> list = dbVisitor.getMovieClip(Integer.parseInt(pageNum),Integer.parseInt(pageSize),type);
+		return list;
+	}
+
+	@Override
+	public boolean updateMovieclipBrowsecount(String id) {
+		boolean flag = false;
+		int count = dbVisitor.updateMovieclipBrowsecount(id);
+		if(count > 0){
+			flag = true;
+		}
+		return flag;
 	}
 }

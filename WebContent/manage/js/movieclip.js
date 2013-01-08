@@ -56,19 +56,19 @@ window.onload = function(){
 };
 
 
-function uploadElement(){
+function uploadClip(){
 	if(checkNull()){
 		$('#load').show().html('<img src="imgs/loading.gif">');
 		var name = 	$("#name").val();
 		var swf = $("#swfPath").val();
 		var thumbnail = $("#thumbnailPath").val();
-		var classify =  $("#classify").val();
+		var type =  $("#type").val();
 		$.post('/comicdiy/comicapi', {
-			'method'  : 'createElement',
+			'method'  : 'createMovieClip',
 			'name' : name,
 			'swf' : swf,
 			'thumbnail' : thumbnail,
-			'classify' : classify
+			'type' : type
 		}, 
 		function (result) {
 			$('#load').hide();
@@ -89,7 +89,7 @@ function checkName(){
 	var name = 	$("#name").val();
 	if(name != null && name !=""){
 		$.post('/comicdiy/comicapi',{
-			"method" : "checkEleName",
+			"method" : "checkClipName",
 			'name' : name
 		},
 		function(result){
@@ -107,20 +107,13 @@ function checkName(){
 	}
 }
 
-
-function cancelPrompt(){
-	$('#prompt').hide();
-	$('#nameInfo').hide();
-}
-
-
 function checkNull(){
 	var name = 	$("#name").val();
 	var swf = $("#swfPath").val();
 	var thumbnail = $("#thumbnailPath").val();
-	var classify =  $("#classify").val();
+	var type =  $("#type").val();
 	if(name != null && name != "" && swf != null && swf != "" 
-		&& thumbnail != null && thumbnail != "" && classify != null && classify != ""){
+		&& thumbnail != null && thumbnail != "" && type != null && type != ""){
 		return true;
 	}else{
 		return false;

@@ -579,23 +579,60 @@ public class AssistProcess {
 			pw.print(result);
 			pw.close();
 			
-		}else if (action.equals(AppStarter.CREATEELEMENT)) {
+		}else if (action.equals(AppStarter.CREATMOVIECLIP)) {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
 			String name = req.getParameter("name");
 			String swf = req.getParameter("swf");
 			String thumbnail = req.getParameter("thumbnail");
-			String classify = req.getParameter("classify");
-		    String result= apiAdaptor.createElement(name,swf,thumbnail,classify);
+			String type = req.getParameter("type");
+		    String result= apiAdaptor.createMovieClip(name,swf,thumbnail,type);
 			log.info(result);
 			pw.print(result);
 			pw.close();
 			
-		}else if (action.equals(AppStarter.CHECKELENAME)) {
+		}else if (action.equals(AppStarter.CHECKCLIPNAME)) {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
 			String name = req.getParameter("name");
-		    String result= apiAdaptor.checkEleName(name);
+		    String result= apiAdaptor.checkClipName(name);
+			log.info(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.GETMOVIECLIPCOUNT)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+		    int result= apiAdaptor.getMovieClipCount();
+			log.info(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.GETMOVIECLIPBYPAGE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String pageNum = req.getParameter("pageNum");
+		    String result= apiAdaptor.getMovieClipByPage(pageNum);
+			log.info(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.DELMOVIECLIP)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String id = req.getParameter("id");
+		    String result= apiAdaptor.delMovieClip(id);
+			log.info(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.GETMOVIECLIP)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String pageNum = req.getParameter("pageNum");
+			String pageSize = req.getParameter("pageSize");
+			String type = req.getParameter("type");
+		    String result= apiAdaptor.getMovieClip(pageNum,pageSize,type);
 			log.info(result);
 			pw.print(result);
 			pw.close();

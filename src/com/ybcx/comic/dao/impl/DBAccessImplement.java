@@ -16,7 +16,7 @@ import com.ybcx.comic.beans.Assets;
 import com.ybcx.comic.beans.Cart;
 import com.ybcx.comic.beans.Cartoon;
 import com.ybcx.comic.beans.Category;
-import com.ybcx.comic.beans.Element;
+import com.ybcx.comic.beans.Movieclip;
 import com.ybcx.comic.beans.Images;
 import com.ybcx.comic.beans.Label;
 import com.ybcx.comic.beans.User;
@@ -1268,9 +1268,9 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 
 	@Override
-	public int createElement(final Element ele) {
-		String sql = "INSERT INTO t_element "
-				+ "(e_id, e_name, e_swf, e_thumbnail, e_createTime, e_classify, e_enable ,e_memo) "
+	public int createMovieClip(final Movieclip ele) {
+		String sql = "INSERT INTO t_movieclip "
+				+ "(m_id, m_name, m_swf, m_thumbnail, m_createTime, m_type, m_enable, m_browseCount ,m_memo) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
@@ -1281,9 +1281,10 @@ public class DBAccessImplement  implements DBAccessInterface {
 					ps.setString(3, ele.getSwf());
 					ps.setString(4, ele.getThumbnail());
 					ps.setString(5, ele.getCreateTime());
-					ps.setString(6, ele.getClassify());
+					ps.setString(6, ele.getType());
 					ps.setInt(7, ele.getEnable());
-					ps.setString(8, "");
+					ps.setInt(8, ele.getBrowseCount());
+					ps.setString(9, "");
 
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -1295,10 +1296,81 @@ public class DBAccessImplement  implements DBAccessInterface {
 	}
 
 	@Override
-	public int checkEleName(String name) {
-		String sql = "select count(e_id) from t_element where e_name ='"+name+"'";
+	public int checkClipName(String name) {
+		String sql = "select count(m_id) from t_movieclip where m_name ='"+name+"'";
 		int res = jdbcTemplate.queryForInt(sql);
 		return res;
+	}
+
+	@Override
+	public int getMovieClipCount() {
+		String sql = "select count(m_id) from t_movieclip where m_enable =1";
+		int count = jdbcTemplate.queryForInt(sql);
+		return count;
+	}
+
+	@Override
+	public List<Movieclip> getMovieClipByPage(int pageNum, int pageSize) {
+		List<Movieclip> list = new ArrayList<Movieclip>();
+		int startLine = (pageNum -1)*pageSize;
+		String sql = "select * from t_movieclip where m_enable = 1"+
+				" order by m_browseCount desc, m_createTime desc limit "+startLine+","+pageSize;
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				Movieclip clip = new Movieclip();
+				clip.setId(map.get("m_id").toString());
+				clip.setName(map.get("m_name").toString());
+				clip.setSwf(map.get("m_swf").toString());
+				clip.setThumbnail(map.get("m_thumbnail").toString());
+				clip.setType(map.get("m_type").toString());
+				clip.setCreateTime(map.get("m_createTime").toString());
+				clip.setEnable(Integer.parseInt(map.get("m_enable").toString()));
+				clip.setBrowseCount(Integer.parseInt(map.get("m_browseCount").toString()));
+				list.add(clip);
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public int delMovieClip(String id) {
+		String sql = "update t_movieclip set m_enable = 0 where m_id='"+id+"'";
+		int count = jdbcTemplate.update(sql);
+		return count;
+	}
+
+	@Override
+	public List<Movieclip> getMovieClip(int pageNum, int pageSize, String type) {
+		List<Movieclip> list = new ArrayList<Movieclip>();
+		int startLine = (pageNum -1)*pageSize;
+		String sql = "select * from t_movieclip where m_enable = 1 and m_type='"+type+"'"+
+				" order by m_browseCount desc,m_createTime desc limit "+startLine+","+pageSize;
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+		if (rows != null && rows.size() > 0) {
+			for (int i = 0; i < rows.size(); i++) {
+				Map<String, Object> map = (Map<String, Object>) rows.get(i);
+				Movieclip clip = new Movieclip();
+				clip.setId(map.get("m_id").toString());
+				clip.setName(map.get("m_name").toString());
+				clip.setSwf(map.get("m_swf").toString());
+				clip.setThumbnail(map.get("m_thumbnail").toString());
+				clip.setType(map.get("m_type").toString());
+				clip.setCreateTime(map.get("m_createTime").toString());
+				clip.setEnable(Integer.parseInt(map.get("m_enable").toString()));
+				clip.setBrowseCount(Integer.parseInt(map.get("m_browseCount").toString()));
+				list.add(clip);
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public int updateMovieclipBrowsecount(String id) {
+		String sql = "update t_movieclip set m_browseCount = m_browseCount+1 where m_id='"+id+"'";
+		int count = jdbcTemplate.update(sql);
+		return count;
 	}
 
 }
