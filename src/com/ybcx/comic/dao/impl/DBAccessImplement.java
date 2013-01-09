@@ -1271,7 +1271,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 	public int createMovieClip(final Movieclip ele) {
 		String sql = "INSERT INTO t_movieclip "
 				+ "(m_id, m_name, m_swf, m_thumbnail, m_createTime, m_type, m_enable, m_browseCount ,m_memo) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement ps) {
