@@ -228,7 +228,10 @@ public class AppStarter extends HttpServlet implements ApplicationListener,
 			}
 			
 			//TODO 调分析端的servelet
-			
+			//http://192.168.1.101:8080/ad/records/addRecords
+			if(type != null && (type.equals("movieclip") || type.equals("yonkoma"))){
+				apiAdaptor.newClientToGraphical(ip,pf,id,type);
+			}
 		}
 	}
 

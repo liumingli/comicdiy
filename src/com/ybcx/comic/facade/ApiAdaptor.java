@@ -674,6 +674,11 @@ public class ApiAdaptor {
 		boolean res = comicService.updateMovieclipBrowsecount(id);
 		return res;
 	}
+	
+	public void newClientToGraphical(String ip, String pf, String id, String type) {
+		// TODO Auto-generated method stub
+		comicService.newClientToGraphical(ip,pf,id,type);
+	}
 
 	
 

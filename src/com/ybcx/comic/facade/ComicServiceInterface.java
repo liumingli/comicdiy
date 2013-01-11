@@ -168,4 +168,6 @@ public interface ComicServiceInterface {
 
 	public boolean updateMovieclipBrowsecount(String id);
 
+	public void newClientToGraphical(String ip, String pf, String id, String type);
+
 }
