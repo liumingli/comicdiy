@@ -125,7 +125,7 @@ function getFirstpage(){
 	if(parseInt(num) == 1){
 		return;
 	}else{
-		getEleByPage(1);
+		getClipByPage(1);
 	}
 }
 
@@ -137,7 +137,7 @@ function getPrevpage(){
 	if(parseInt(num) == 1){
 		return;
 	}else{
-		getEleByPage(pageNum);
+		getClipByPage(pageNum);
 	}
 }
 
@@ -150,7 +150,7 @@ function getNextpage(){
 	if(sum == num){
 		return;
 	}else{
-		getEleByPage(pageNum);
+		getClipByPage(pageNum);
 	}
 
 }
@@ -162,7 +162,7 @@ function getLastpage(){
 	if( sum == num){
 		return;
 	}else{
-		getEleByPage(sum);
+		getClipByPage(sum);
 	}
 }
 
