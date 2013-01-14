@@ -70,6 +70,8 @@ function getSearchAnimByPage(pageNum){
 				
 				generateTd(result[key].createTime,key);
 				
+				generateTd(result[key].author,key);
+				
 				generateAnimOperate(result[key].id,key);
 			}
 		}
@@ -197,6 +199,8 @@ function getAnimByPage(pageNum){
 				generateAnimTd(result[key].thumbnail,result[key].id,result[key].owner,key);
 				
 				generateTd(result[key].createTime,key);
+				
+				generateTd(result[key].author,key);
 				
 				generateAnimOperate(result[key].id,key);
 			}

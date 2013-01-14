@@ -1664,34 +1664,5 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			e.printStackTrace();
 		}
 	}
-	
-	public static String newClientToGraphical1(String ip, String pf, String id,
-			String type) {
-		String result = "";
-		//String url = "http://192.168.1.101:8080/ad/records/addRecords";
-		String url = "http://www.produ.cn/CusAdMnager/records/addRecords";
-		
-		HttpClient client = new HttpClient();
-		//这个没有用
-		client.setToken("123");
-		
-		PostParameter idparams = new PostParameter("id",id);
-		PostParameter typeparams = new PostParameter("type",type);
-		PostParameter ipparams = new PostParameter("ip",ip);
-		PostParameter pfparams = new PostParameter("pf",pf);
-		
-		PostParameter[] params = new PostParameter[]{idparams,typeparams,ipparams,pfparams};
-		try {
-			Response response = client.post(url, params);
-			result = response.getResponseAsString();
-		} catch (WeiboException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(newClientToGraphical1("127.0.0.1","tapp","12345","yonkoma"));
-	}
 
 }
