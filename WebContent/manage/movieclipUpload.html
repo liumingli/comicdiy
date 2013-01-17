@@ -25,6 +25,11 @@
 			<span  style="display: none;" id="nameInfo"></span>
 		</li>
 		<li>
+			<label>URL</label>
+			<input type="text" id="url" onblur="checkUrl()">
+			<span  style="display: none;" id="urlInfo"></span>
+		</li>
+		<li>
 			<label>分类</label>
 				<select id="type">
 					<option value="精选" selected="selected">精选</option>
@@ -49,6 +54,7 @@
 			<span class="help-block">尺寸：200*200</span>
 			<input type="hidden" id="thumbnailPath">
 		</li>
+		
 		<li style="margin-left:80px">
 			<input type="button" id="submit" value="提交" onclick="uploadClip();">
 			<input type="button" id="cancel" value="取消" onclick="emptyForm();">

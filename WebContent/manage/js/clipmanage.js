@@ -44,6 +44,8 @@ function getClipByPage(pageNum){
 				generateImgTd(result[key].thumbnail,result[key].swf,result[key].id,key);
 				
 				generateTd(result[key].type,key);
+				
+				generateUrlTd(result[key].url,key);
 		
 				generateTd(result[key].createTime,key);
 				
@@ -58,7 +60,11 @@ function generateTr(key){
 	.attr("id","line"+key);
 }
 
-
+function generateUrlTd(txt,key){
+	//生成各td
+	$('<td></td>').appendTo($('#line'+key))
+	.html('<a href = "'+txt+'" target="_blank" >'+txt.substring(0,30)+'...</a>');
+}
 
 //生成缩略图
 function generateImgTd(path,swf,id,key){

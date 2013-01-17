@@ -1270,21 +1270,22 @@ public class DBAccessImplement  implements DBAccessInterface {
 	@Override
 	public int createMovieClip(final Movieclip ele) {
 		String sql = "INSERT INTO t_movieclip "
-				+ "(m_id, m_name, m_swf, m_thumbnail, m_createTime, m_type, m_enable, m_browseCount ,m_memo) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "(m_id, m_name, m_url,m_swf, m_thumbnail, m_createTime, m_type, m_enable, m_browseCount ,m_memo) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		int res =jdbcTemplate.update(sql, new PreparedStatementSetter() {
 			public void setValues(PreparedStatement ps) {
 				try {
 					ps.setString(1, ele.getId());
 					ps.setString(2, ele.getName());
-					ps.setString(3, ele.getSwf());
-					ps.setString(4, ele.getThumbnail());
-					ps.setString(5, ele.getCreateTime());
-					ps.setString(6, ele.getType());
-					ps.setInt(7, ele.getEnable());
-					ps.setInt(8, ele.getBrowseCount());
-					ps.setString(9, "");
+					ps.setString(3, ele.getUrl());
+					ps.setString(4, ele.getSwf());
+					ps.setString(5, ele.getThumbnail());
+					ps.setString(6, ele.getCreateTime());
+					ps.setString(7, ele.getType());
+					ps.setInt(8, ele.getEnable());
+					ps.setInt(9, ele.getBrowseCount());
+					ps.setString(10, "");
 
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -1321,6 +1322,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 				Map<String, Object> map = (Map<String, Object>) rows.get(i);
 				Movieclip clip = new Movieclip();
 				clip.setId(map.get("m_id").toString());
+				clip.setUrl(map.get("m_url").toString());
 				clip.setName(map.get("m_name").toString());
 				clip.setSwf(map.get("m_swf").toString());
 				clip.setThumbnail(map.get("m_thumbnail").toString());
@@ -1354,6 +1356,7 @@ public class DBAccessImplement  implements DBAccessInterface {
 				Movieclip clip = new Movieclip();
 				clip.setId(map.get("m_id").toString());
 				clip.setName(map.get("m_name").toString());
+				clip.setUrl(map.get("m_url").toString());
 				clip.setSwf(map.get("m_swf").toString());
 				clip.setThumbnail(map.get("m_thumbnail").toString());
 				clip.setType(map.get("m_type").toString());
@@ -1365,6 +1368,14 @@ public class DBAccessImplement  implements DBAccessInterface {
 		}
 		return list;
 	}
+	
+	@Override
+	public int countMovieClipByType(String type) {
+		int count = 0;
+		String sql = "select count(m_id) from t_movieclip where m_type='"+type+"' and m_enable =1";
+		count = jdbcTemplate.queryForInt(sql);
+		return count;
+	}
 
 	@Override
 	public int updateMovieclipBrowsecount(String id) {
@@ -1372,5 +1383,6 @@ public class DBAccessImplement  implements DBAccessInterface {
 		int count = jdbcTemplate.update(sql);
 		return count;
 	}
+
 
 }

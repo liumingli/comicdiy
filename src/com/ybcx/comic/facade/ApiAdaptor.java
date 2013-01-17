@@ -639,9 +639,9 @@ public class ApiAdaptor {
 		return result;
 	}
 	
-	public String createMovieClip(String name, String swf, String thumbnail,
+	public String createMovieClip(String name, String url, String swf, String thumbnail,
 			String type) {
-		String result = comicService.createMovieClip(name,swf,thumbnail,type);
+		String result = comicService.createMovieClip(name,url,swf,thumbnail,type);
 		return result;
 	}
 	
@@ -675,10 +675,15 @@ public class ApiAdaptor {
 		return res;
 	}
 	
+	public int countMovieClipByType(String type) {
+		int result = comicService.countMovieClipByType(type);
+		return result;
+	}
+	
 	public void newClientToGraphical(String ip, String pf, String id, String type) {
-		// TODO Auto-generated method stub
 		comicService.newClientToGraphical(ip,pf,id,type);
 	}
+	
 
 	
 

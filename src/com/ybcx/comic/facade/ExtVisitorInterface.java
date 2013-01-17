@@ -223,10 +223,10 @@ public interface ExtVisitorInterface {
     //校验名字
     public static final String CHECKCLIPNAME = "checkClipName";
     
-    //获取分类素材数目
+    //获取总数目
     public static final String GETMOVIECLIPCOUNT = "getMovieClipCount";
     
-    //分页获取分类素材 pageNum
+    //分页获取影片素材 pageNum
     public static final String GETMOVIECLIPBYPAGE = "getMovieClipByPage";
     
     //删除一个分类素材 id / swf / thumbnail
@@ -234,5 +234,8 @@ public interface ExtVisitorInterface {
     
     //按类型，页数，页码取分类素材
     public static final String GETMOVIECLIP = "getMovieClip";
+    
+    //按类型统计素材数目
+    public static final String COUNTMOVIECLIPBYTYPE = "countMovieClipByType";
     
 }

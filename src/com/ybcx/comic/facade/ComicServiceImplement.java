@@ -1568,10 +1568,10 @@ public class ComicServiceImplement implements ComicServiceInterface {
 	}
 	
 	@Override
-	public String createMovieClip(String name, String swf, String thumbnail,
+	public String createMovieClip(String name, String url, String swf, String thumbnail,
 			String type) {
 		boolean flag = false;
-		Movieclip ele = this.generateMovieClip(name, swf, thumbnail, type);
+		Movieclip ele = this.generateMovieClip(name, url, swf, thumbnail, type);
 		int rows = dbVisitor.createMovieClip(ele);
 		if(rows > 0){
 			flag = true;
@@ -1579,10 +1579,11 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		return String.valueOf(flag);
 	}
 	
-	private Movieclip generateMovieClip(String name, String swf, String thumbnail,String type){
+	private Movieclip generateMovieClip(String name, String url, String swf, String thumbnail,String type){
 		Movieclip ele = new Movieclip();
 		ele.setId(ComicUtils.generateUID());
 		ele.setName(name);
+		ele.setUrl(url);
 		ele.setSwf(swf);
 		ele.setThumbnail(thumbnail);
 		ele.setType(type);
@@ -1641,6 +1642,14 @@ public class ComicServiceImplement implements ComicServiceInterface {
 		}
 		return flag;
 	}
+	
+
+	@Override
+	public int countMovieClipByType(String type) {
+		int count = dbVisitor.countMovieClipByType(type);
+		return count;
+	}
+
 
 	@Override
 	public void newClientToGraphical(String ip, String pf, String id,
@@ -1664,5 +1673,4 @@ public class ComicServiceImplement implements ComicServiceInterface {
 			e.printStackTrace();
 		}
 	}
-
 }

@@ -583,10 +583,11 @@ public class AssistProcess {
 			res.setContentType("text/plain;charset=UTF-8");
 			PrintWriter pw = res.getWriter();
 			String name = req.getParameter("name");
+			String url = req.getParameter("url");
 			String swf = req.getParameter("swf");
 			String thumbnail = req.getParameter("thumbnail");
 			String type = req.getParameter("type");
-		    String result= apiAdaptor.createMovieClip(name,swf,thumbnail,type);
+		    String result= apiAdaptor.createMovieClip(name,url,swf,thumbnail,type);
 			log.info(result);
 			pw.print(result);
 			pw.close();
@@ -633,6 +634,15 @@ public class AssistProcess {
 			String pageSize = req.getParameter("pageSize");
 			String type = req.getParameter("type");
 		    String result= apiAdaptor.getMovieClip(pageNum,pageSize,type);
+			log.info(result);
+			pw.print(result);
+			pw.close();
+			
+		}else if (action.equals(AppStarter.COUNTMOVIECLIPBYTYPE)) {
+			res.setContentType("text/plain;charset=UTF-8");
+			PrintWriter pw = res.getWriter();
+			String type = req.getParameter("type");
+		    int result= apiAdaptor.countMovieClipByType(type);
 			log.info(result);
 			pw.print(result);
 			pw.close();

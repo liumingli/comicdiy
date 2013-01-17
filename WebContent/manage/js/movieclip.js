@@ -60,12 +60,14 @@ function uploadClip(){
 	if(checkNull()){
 		$('#load').show().html('<img src="imgs/loading.gif">');
 		var name = 	$("#name").val();
+		var url = $("#url").val();
 		var swf = $("#swfPath").val();
 		var thumbnail = $("#thumbnailPath").val();
 		var type =  $("#type").val();
 		$.post('/comicdiy/comicapi', {
 			'method'  : 'createMovieClip',
 			'name' : name,
+			'url' : url,
 			'swf' : swf,
 			'thumbnail' : thumbnail,
 			'type' : type
@@ -85,9 +87,9 @@ function uploadClip(){
 
 
 function checkName(){
-	$('#nameInfo').show().html('<img src="imgs/loading.gif">');
 	var name = 	$("#name").val();
 	if(name != null && name !=""){
+		$('#nameInfo').show().html('<img src="imgs/loading.gif">');
 		$.post('/comicdiy/comicapi',{
 			"method" : "checkClipName",
 			'name' : name
@@ -102,17 +104,17 @@ function checkName(){
 			}
 		});
 	}else{
-		$('#nameInfo').show().html('<img src="imgs/no.png">');
 		$("#name").focus();
 	}
 }
 
 function checkNull(){
 	var name = 	$("#name").val();
+	var url = $("#url").val();
 	var swf = $("#swfPath").val();
 	var thumbnail = $("#thumbnailPath").val();
 	var type =  $("#type").val();
-	if(name != null && name != "" && swf != null && swf != "" 
+	if(name != null && name != "" && swf != null && swf != "" && url != null && url != "" 
 		&& thumbnail != null && thumbnail != "" && type != null && type != ""){
 		return true;
 	}else{
@@ -124,6 +126,7 @@ function checkNull(){
 function emptyForm(){
 	 $("#name").val("");
 	 $("#name").focus();
+	 $("#url").val("");
 	 $("#swfPath").val("");
 	 $("#thumbnailPath").val("");
 	 $('#swfUpload').removeAttr('disabled');
@@ -131,6 +134,23 @@ function emptyForm(){
 	 $('#swfInfo').hide();
 	 $('#thumbnailInfo').hide();
 	 $('#nameInfo').hide();
+	 $('#urlInfo').hide();
 	 $('#prompt').hide();
 	 $('#load').hide();
+}
+
+
+function checkUrl(){
+	var url = $("#url").val();
+	if( url != null && url !==""){
+		var str = url.match(/http:\/\/.+/); 
+		if (str == null){
+			$('#urlInfo').show().html('<img src="imgs/no.png">');
+			$("#url").focus();
+		}else{
+			$('#urlInfo').show().html('<img src="imgs/ok.png">');
+		}
+	}else{
+		$("#url").focus();
+	}
 }

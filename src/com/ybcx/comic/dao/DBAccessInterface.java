@@ -183,8 +183,11 @@ public interface DBAccessInterface {
 
 		public List<Movieclip> getMovieClip(int pageNum, int pageSize,
 				String type);
+		
+		public int countMovieClipByType(String type);
 
 		public int updateMovieclipBrowsecount(String id);
+
 		
 
 }

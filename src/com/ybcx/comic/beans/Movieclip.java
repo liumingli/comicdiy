@@ -4,6 +4,7 @@ public class Movieclip {
 	
 	private String id;
 	private String name;
+	private String url;
 	private String type;
 	private String swf;
 	private String thumbnail;
@@ -22,6 +23,12 @@ public class Movieclip {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
 	}
 	public String getType() {
 		return type;

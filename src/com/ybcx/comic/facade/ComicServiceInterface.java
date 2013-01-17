@@ -152,7 +152,7 @@ public interface ComicServiceInterface {
 	public String yonkomaToWeibo(String userId, String type, String primaryId,
 			String endingId, String text, String animId);
 
-	public String createMovieClip(String name, String swf, String thumbnail,
+	public String createMovieClip(String name, String url, String swf, String thumbnail,
 			String classify);
 
 	public String checkClipName(String name);
@@ -167,6 +167,8 @@ public interface ComicServiceInterface {
 			String type);
 
 	public boolean updateMovieclipBrowsecount(String id);
+	
+	public int countMovieClipByType(String type);
 
 	public void newClientToGraphical(String ip, String pf, String id, String type);
 
