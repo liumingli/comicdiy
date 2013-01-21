@@ -94,7 +94,7 @@
     	<servlet-class>com.ybcx.comic.tools.ElementUploader</servlet-class>
     	<init-param> 
             <param-name>elementpath</param-name> 
-            <param-value>/WEB-INF/uploadFile/element</param-value> 
+            <param-value>/WEB-INF/uploadFile/movieclip</param-value> 
         </init-param> 
         <init-param> 
             <param-name>temppath</param-name> 

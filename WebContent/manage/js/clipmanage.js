@@ -41,6 +41,8 @@ function getClipByPage(pageNum){
 				
 				generateTd(parseInt(key)+1,key);
 				
+				generateTd(result[key].name,key);
+				
 				generateImgTd(result[key].thumbnail,result[key].swf,result[key].id,key);
 				
 				generateTd(result[key].type,key);
@@ -63,7 +65,7 @@ function generateTr(key){
 function generateUrlTd(txt,key){
 	//生成各td
 	$('<td></td>').appendTo($('#line'+key))
-	.html('<a href = "'+txt+'" target="_blank" >'+txt.substring(0,30)+'...</a>');
+	.html('<a href = "'+txt+'" target="_blank" >'+txt+'</a>');
 }
 
 //生成缩略图
